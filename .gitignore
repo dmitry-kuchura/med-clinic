@@ -1,0 +1,14 @@
+# IntelliJ IDEA
+.idea
+.idea/
+.idea/*
+.idea/php.xml
+
+# ENVIRONMENT
+.env
+
+# OTHER
+www/node_modules
+
+# DB
+.docker/postgres/data/*
