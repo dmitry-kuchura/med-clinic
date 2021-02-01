@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\ProfileController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
+    Route::post('/login', [LoginController::class, 'login'])->name('api.login');
+
+    Route::middleware(['bearer'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'profile'])->name('api.profile');
+    });
 });

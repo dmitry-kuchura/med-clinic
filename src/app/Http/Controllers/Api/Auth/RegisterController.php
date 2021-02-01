@@ -6,10 +6,19 @@ use App\Models\User;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Services\AuthService;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    public AuthService $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function register(RegisterRequest $registerRequest)
     {
         User::create([
@@ -18,7 +27,7 @@ class RegisterController extends Controller
             'password' => bcrypt($registerRequest->get('password')),
         ]);
 
-        $token = auth()->attempt($registerRequest->only(['email', 'password']));
+        $token = Auth::attempt($registerRequest->only(['email', 'password']));
 
         if (!$token) {
             return $this->returnResponse([
@@ -28,7 +37,7 @@ class RegisterController extends Controller
         }
 
         return (new UserResource($registerRequest->user()))->additional([
-            'meta' => ['token' => $token]
+            'meta' => ['token' => $this->authService->generate(Auth::id())]
         ]);
     }
 }
