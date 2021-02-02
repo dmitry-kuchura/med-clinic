@@ -1,98 +1,114 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-import {forgotPassword} from '../../api/auth';
-import useInputValue from '../../components/input-value';
+import React from 'react';
+import {Link, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {login} from '../../services/auth-service';
 
-function ForgotPassword() {
-    let [resetFeedback, setResetFeedback] = useState('');
-    let email = useInputValue('email');
+class ForgotPassword extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const handleSubmit = e => {
-        e.preventDefault();
+        this.state = {
+            credentials: {
+                email: null,
+                password: null,
+            },
+            error: null
+        };
 
-        forgotPassword({email: email.value})
-            .then(status => setResetFeedback(status))
-            .catch(error => {
-                error.json().then(({errors}) => {
-                    email.parseServerError(errors);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        const {credentials} = this.state;
+        credentials[name] = value;
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const {credentials} = this.state;
+
+        this.props.dispatch(login(credentials))
+            .catch(({error, statusCode}) => {
+                const responseError = {
+                    isError: true,
+                    code: statusCode,
+                    text: error
+                };
+                this.setState({responseError});
+                this.setState({
+                    isLoading: false
                 });
-            });
-    };
+            })
+    }
 
-    return (
-        <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen bg-gray-200">
-            {
-                resetFeedback && (
-                    <div
-                        className="bg-white border-l-4 border-blue text-sm text-grey-darker p-4 mb-4 w-3/4 sm:w-1/2 lg:w-2/5 xl:w-1/3"
-                        role="alert">
-                        <p> {resetFeedback}</p>
-                    </div>)
-            }
+    render() {
+        const {from} = this.props.location.state || {from: {pathname: '/'}};
+        const {isAuthenticated} = this.props;
 
-            <div className="p-4 flex flex-col items-center">
-                <div>
-                    <Link to="/">
-                        <img width="48"
-                             className="align-middle mx-2"
-                             alt="laravel"
-                             title="laravel"
-                             src="/images/icons/laravel.svg"/>
-                    </Link>
-                </div>
-                <div className="text-2xl leading-loose">
-                    Can&#39;t log in?
-                </div>
-            </div>
-            <div
-                className="border rounded shadow bg-white border-grey-light w-3/4 sm:w-1/2 lg:w-2/5 xl:w-1/3 px-8 py-4">
-                <form
-                    onSubmit={handleSubmit}
-                    method="POST"
-                >
-                    <div className="mb-4 mt-3">
-                        <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="email">
-                            Enter your email address
-                        </label>
-                        <input
+        if (isAuthenticated) {
+            return (
+                <Redirect to={from}/>
+            )
+        }
 
-                            id="email"
-                            type="email"
-                            name="email"
-                            className={`appearance-none border rounded w-full py-1 px-3 bg-gray-100 ${email.error ? 'border-red-500' : ''}`}
-                            placeholder="e.g.jane@example.com"
-                            required
-                            autoFocus
-                            {...email.bind}
-                        />
-                        {email.error && <p className="text-red-500 text-xs pt-2">{email.error}</p>}
+        return (
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-5">
+                                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div className="card-header">
+                                            <h3 className="text-center font-weight-light my-4">МедСервіс | Відновлення
+                                                паролю</h3>
+                                        </div>
+                                        <div className="card-body">
+                                            <form onSubmit={this.handleSubmit} method="POST">
+                                                <div className="form-group">
+                                                    <label className="small mb-1"
+                                                           htmlFor="inputEmailAddress">Email</label>
+                                                    <input
+                                                        className="form-control py-4"
+                                                        id="email"
+                                                        type="email"
+                                                        name="email"
+                                                        onChange={this.handleChange}
+                                                        placeholder="Введіть Email адресу"/>
 
-                        <div className="mt-6 mb-2">
-                            <button type="submit"
-                                    className="border rounded p-2 text-white bg-indigo-500 w-full font-bold hover:bg-indigo-500-dark">
-                                Email me reset instructions
-                            </button>
-                        </div>
-
-                        <div className="mt-6 pt-6 border-t border-grey-light">
-                            <strong className="text-gray-700">If you don’t see your reset email…</strong>
-                            <div className="text-gray-600 text-sm pt-2">
-                                Be sure to check your spam filter for an email from support@lmyapp.com
+                                                    {this.state.error &&
+                                                    <p style={{color: 'red'}}>{this.state.error}</p>}
+                                                </div>
+                                                <div
+                                                    className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <button type="submit" className="btn btn-primary">Відновити пароль
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div className="card-footer text-center">
+                                            <div className="small">
+                                                <Link to="/login">Авторизація</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </main>
+                </div>
             </div>
-
-            <div className="py-4 font-bold text-sm text-gray-700">
-                <span className="text-gray-600">Never mind,</span>&nbsp;
-                <Link
-                    to="/login"
-                    className="underline text-grey-darkest text-indigo">go back to the login screen
-                </Link>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
-export default ForgotPassword;
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.Auth.isAuthenticated,
+    }
+};
+
+export default connect(mapStateToProps)(ForgotPassword)

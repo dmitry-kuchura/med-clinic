@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
-class UserRepository implements Repository
-{
+use App\Models\PasswordResets;
 
+class PasswordResetsRepository implements Repository
+{
     public function get(int $id)
     {
         // TODO: Implement get() method.
@@ -17,7 +18,12 @@ class UserRepository implements Repository
 
     public function store(array $data)
     {
-        // TODO: Implement store() method.
+        $model = new PasswordResets();
+
+        $model->token = $data['token'];
+        $model->email = $data['email'];
+
+        $model->save();
     }
 
     public function update(array $data)

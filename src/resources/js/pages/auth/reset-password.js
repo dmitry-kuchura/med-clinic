@@ -1,109 +1,129 @@
-import React, {useState} from 'react';
-import {Link, useRouteMatch} from 'react-router-dom';
-import {resetPassword} from '../../api/auth';
-import useInputValue from '../../components/input-value';
+import React from 'react';
+import {Link, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {login} from '../../services/auth-service';
 
-function ResetPassword() {
-    const token = useRouteMatch().params.token;
-    let [passwordResetFeedback, setPasswordResetFeedback] = useState('');
-    let email = useInputValue('email');
-    let password = useInputValue('password');
-    let passwordConfirmation = useInputValue('password_confirmation');
+class ResetPassword extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        [email, password, passwordConfirmation].forEach(({setError}) => setError(''));
+        this.state = {
+            credentials: {
+                email: null,
+                password: null,
+            },
+            error: null
+        };
 
-        resetPassword({
-            email: email.value,
-            password: password.value,
-            password_confirmation: passwordConfirmation.value,
-            token
-        })
-            .then(status => {
-                [email, password, passwordConfirmation].forEach(({setValue}) => setValue(''));
-                setPasswordResetFeedback(status);
-            }).catch(error => {
-            error.json().then(({errors}) => {
-                setPasswordResetFeedback('');
-                [email, password, passwordConfirmation].forEach(({parseServerError}) => parseServerError(errors));
-            });
-        });
-    };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-    return (
-        <div className="flex justify-center items-center w-full py-4 flex-col min-h-screen bg-gray-200">
-            {passwordResetFeedback !== '' && (
-                <div
-                    className="bg-white border-l-4 border-blue text-sm text-grey-darker p-4 mb-4 w-3/4 sm:w-1/2 lg:w-2/5 xl:w-1/3"
-                    role="alert">
-                    <p> {passwordResetFeedback}
-                        <span className="pl-2"> Please
-              <Link to="/login" className="no-underline text-grey-darker font-bold"> login </Link>
-              with your new password
-            </span>
-                    </p>
+    handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        const {credentials} = this.state;
+        credentials[name] = value;
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const {credentials} = this.state;
+
+        this.props.dispatch(login(credentials))
+            .catch(({error, statusCode}) => {
+                const responseError = {
+                    isError: true,
+                    code: statusCode,
+                    text: error
+                };
+                this.setState({responseError});
+                this.setState({
+                    isLoading: false
+                });
+            })
+    }
+
+    render() {
+        const {from} = this.props.location.state || {from: {pathname: '/'}};
+        const {isAuthenticated} = this.props;
+
+        if (isAuthenticated) {
+            return (
+                <Redirect to={from}/>
+            )
+        }
+
+        return (
+            <div id="layoutAuthentication">
+                <div id="layoutAuthentication_content">
+                    <main>
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-5">
+                                    <div className="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div className="card-header">
+                                            <h3 className="text-center font-weight-light my-4">МедСервіс | Відновлення
+                                                паролю</h3>
+                                        </div>
+                                        <div className="card-body">
+                                            <form onSubmit={this.handleSubmit} method="POST">
+                                                <div className="form-group">
+                                                    <label className="small mb-1"
+                                                           htmlFor="password">Введіть новий пароль</label>
+                                                    <input
+                                                        className="form-control py-4"
+                                                        id="password"
+                                                        type="password"
+                                                        name="password"
+                                                        onChange={this.handleChange}
+                                                        placeholder="Введіть новий пароль"/>
+
+                                                    {this.state.error &&
+                                                    <p style={{color: 'red'}}>{this.state.error}</p>}
+                                                </div>
+
+                                                <div className="form-group">
+                                                    <label className="small mb-1"
+                                                           htmlFor="password_confirm">Підтвердіть паролю</label>
+                                                    <input
+                                                        className="form-control py-4"
+                                                        id="password_confirm"
+                                                        type="password"
+                                                        name="password_confirm"
+                                                        onChange={this.handleChange}
+                                                        placeholder="Підтвердіть новий пароль"/>
+
+                                                    {this.state.error &&
+                                                    <p style={{color: 'red'}}>{this.state.error}</p>}
+                                                </div>
+
+                                                <div
+                                                    className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <button type="submit" className="btn btn-primary">Встановити пароль</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div className="card-footer text-center">
+                                            <div className="small">
+                                                <Link to="/login">Авторизація</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
                 </div>
-            )}
-
-            <form
-                onSubmit={handleSubmit}
-                method="POST"
-                className="border rounded bg-white border-grey-light w-3/4 sm:w-1/2 lg:w-2/5 xl:w-1/3 px-8 py-4">
-                <h2 className="text-center mb-4 text-grey-darker">Reset Your Password</h2>
-                <div className="mb-4">
-                    <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email"> Enter your email
-                        address </label>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        className={`appearance-none border rounded w-full py-2 px-3 text-grey-darker ${email.error ? 'border-red-500' : ''}`}
-                        placeholder="e.g.jane@example.com"
-                        required
-                        autoFocus
-                        {...email.bind}
-                    />
-
-                    {email.error && <p className="text-red-500 text-xs pt-2">{email.error}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label className="block text-grey-darker text-sm font-bold mb-2"
-                           htmlFor="password"> Password </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        className={`appearance-none border rounded w-full py-2 px-3 text-grey-darker  ${password.error ? 'border-red-500' : ''}`}
-                        minLength={8}
-                        required
-                        {...password.bind}/>
-
-                    {password.error && <p className="text-red-500 text-xs pt-2">{password.error}</p>}
-                </div>
-
-                <div className="mb-4">
-                    <label className="block text-grey-darker text-sm font-bold mb-2"
-                           htmlFor="password-confirmation"> Password confirmation </label>
-                    <input
-                        type="password"
-                        id="password-confirmation"
-                        name="password_confirmation"
-                        className={`appearance-none border rounded w-full py-2 px-3 text-grey-darker  ${password.error ? 'border-red' : ''}`}
-                        required
-                        {...passwordConfirmation.bind}/>
-                </div>
-
-                <div className="mt-6 mb-2">
-                    <button type="submit"
-                            className="border rounded-full p-3 text-white bg-indigo-500 w-full font-bold hover:bg-indigo-500-dark">
-                        Reset
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
+            </div>
+        );
+    }
 }
 
-export default ResetPassword;
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.Auth.isAuthenticated,
+    }
+};
+
+export default connect(mapStateToProps)(ResetPassword)

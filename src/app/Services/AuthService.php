@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\PasswordResetsRepository;
+use App\Repositories\UsersRepository;
 use App\Repositories\UsersTokenRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +14,19 @@ class AuthService
 {
     private UsersTokenRepository $usersTokenRepository;
 
-    public function __construct(UsersTokenRepository $usersTokenRepository)
+    private UsersRepository $usersRepository;
+
+    private PasswordResetsRepository $passwordResetsRepository;
+
+    public function __construct(
+        UsersTokenRepository $usersTokenRepository,
+        UsersRepository $usersRepository,
+        PasswordResetsRepository $passwordResetsRepository
+    )
     {
         $this->usersTokenRepository = $usersTokenRepository;
+        $this->usersRepository = $usersRepository;
+        $this->passwordResetsRepository = $passwordResetsRepository;
     }
 
     public function authorization(string $token)
@@ -36,6 +48,25 @@ class AuthService
         return $token;
     }
 
+    public function reset(string $email): ?string
+    {
+        $user = $this->findUserByEmail($email);
+
+        if ($user) {
+            $token = Str::random(40);
+
+            $this->passwordResetsRepository->store([
+                'token' => $token,
+                'email' => $email,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+
+            return $token;
+        }
+
+        return null;
+    }
+
     public function isExpired(string $token): bool
     {
         $usersToken = $this->usersTokenRepository->find($token);
@@ -53,6 +84,11 @@ class AuthService
         $usersToken = $this->usersTokenRepository->find($token);
 
         return $usersToken->user;
+    }
+
+    public function findUserByEmail(string $email): ?User
+    {
+        return $this->usersRepository->findByEmail($email);
     }
 
     public function findTokenByUser(int $user_id): string

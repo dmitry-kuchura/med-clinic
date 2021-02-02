@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class LoginRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,6 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'string|email|required|required',
-            'password' => 'string|required',
         ];
     }
 
@@ -36,7 +35,6 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'Введите email',
-            'password' => 'Введите пароль',
         ];
     }
 
