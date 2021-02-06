@@ -1,19 +1,25 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {login} from '../../services/auth-service';
+import {login, updatePassword} from '../../services/auth-service';
+import {getParamFromUrl} from "../../helpers/url-params";
 
 class ResetPassword extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            credentials: {
-                email: null,
+            data: {
+                token: null,
                 password: null,
+                password_confirmation: null,
             },
             error: null
         };
+
+        if (getParamFromUrl(props, 'token')) {
+            this.state.data.token = getParamFromUrl(props, 'token');
+        }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,15 +28,15 @@ class ResetPassword extends React.Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        const {credentials} = this.state;
-        credentials[name] = value;
+        const {data} = this.state;
+        data[name] = value;
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        const {credentials} = this.state;
+        const {data} = this.state;
 
-        this.props.dispatch(login(credentials))
+        this.props.dispatch(updatePassword(data))
             .catch(({error, statusCode}) => {
                 const responseError = {
                     isError: true,
@@ -88,9 +94,9 @@ class ResetPassword extends React.Component {
                                                            htmlFor="password_confirm">Підтвердіть паролю</label>
                                                     <input
                                                         className="form-control py-4"
-                                                        id="password_confirm"
+                                                        id="password_confirmation"
                                                         type="password"
-                                                        name="password_confirm"
+                                                        name="password_confirmation"
                                                         onChange={this.handleChange}
                                                         placeholder="Підтвердіть новий пароль"/>
 

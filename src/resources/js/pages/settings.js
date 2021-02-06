@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Profile extends React.Component {
+class Settings extends React.Component {
     constructor(props) {
         super(props);
 
@@ -9,13 +9,13 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <main>>
+            <main>
                 <div className="container p-2 mx-auto flex flex-col">
-                    <h1>This is Profile page</h1>
+                    <h1>This is Settings page</h1>
                 </div>
             </main>
         );
     }
 }
 
-export default Profile;
+export default Settings;

@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id
  *
  * @property int $user_id
+ * @property string $email
  * @property string $token
  * @property string $expired_at
  *

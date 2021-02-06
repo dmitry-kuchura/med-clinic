@@ -26,10 +26,10 @@ export function login(credentials) {
     );
 }
 
-export function resetPassword(credentials) {
+export function resetPassword(data) {
     return dispatch => (
         new Promise((resolve, reject) => {
-            Http.post('/api/password/email', credentials)
+            Http.post('/api/v1/reset-password', data)
                 .then(res => {
                     return resolve(res.data);
                 })
@@ -50,10 +50,10 @@ export function resetPassword(credentials) {
     )
 }
 
-export function updatePassword(credentials) {
+export function updatePassword(data) {
     return dispatch => (
         new Promise((resolve, reject) => {
-            Http.post('/api/password/reset', credentials)
+            Http.post('/api/v1/update-password', data)
                 .then(res => {
                     const statusCode = res.data.status;
                     if (statusCode === 202) {

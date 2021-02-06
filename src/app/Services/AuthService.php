@@ -67,6 +67,25 @@ class AuthService
         return null;
     }
 
+    public function update(array $data): ?User
+    {
+        $passwordResets = $this->passwordResetsRepository->find($data['token']);
+
+        if ($passwordResets) {
+            $user = $this->findUserByEmail($passwordResets->email);
+
+            $this->usersRepository->update([
+                'password' => bcrypt($data['password']),
+            ], $user->id);
+
+            $this->passwordResetsRepository->delete($passwordResets->email);
+
+            return $user;
+        }
+
+        return null;
+    }
+
     public function isExpired(string $token): bool
     {
         $usersToken = $this->usersTokenRepository->find($token);

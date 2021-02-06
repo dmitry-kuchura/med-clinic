@@ -1,9 +1,14 @@
 import React from 'react';
-import Footer from '../components/footer';
-import {Link} from 'react-router-dom';
 
-function NotFound() {
-    return (
+class NotFound extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+
+    render() {
+        return (
         <div id="layoutError">
             <div id="layoutError_content">
                 <main>
@@ -24,7 +29,8 @@ function NotFound() {
                 <Footer/>
             </div>
         </div>
-    );
+        );
+    }
 }
 
 export default NotFound;

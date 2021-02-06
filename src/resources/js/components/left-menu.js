@@ -11,7 +11,7 @@ class LeftMenu extends React.Component {
 
         this.state = {
             authUser: null,
-            dropdownRecords: false
+            dropdownTests: false
         };
 
         this.handleDropdown = this.handleDropdown.bind(this);
@@ -27,8 +27,8 @@ class LeftMenu extends React.Component {
         event.preventDefault();
 
         switch (event.target.id) {
-            case "records":
-                this.setState({dropdownRecords: !this.state.dropdownRecords});
+            case "tests":
+                this.setState({dropdownTests: !this.state.dropdownTests});
                 break;
         }
     }
@@ -39,41 +39,41 @@ class LeftMenu extends React.Component {
                 <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div className="sb-sidenav-menu">
                         <div className="nav">
-                            <div className="sb-sidenav-menu-heading">Основное</div>
+                            <div className="sb-sidenav-menu-heading">Основне</div>
 
-                            <Link className="nav-link" to="/admin">
+                            <Link className="nav-link" to="/">
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-tachometer-alt"/>
                                 </div>
                                 Главная
                             </Link>
 
-                            <div className="sb-sidenav-menu-heading">Контент</div>
+                            <div className="sb-sidenav-menu-heading">Аналізи</div>
 
-                            <Link to="#" className="nav-link collapsed" id="records" onClick={this.handleDropdown}>
+                            <Link to="#" className="nav-link collapsed" id="tests" onClick={this.handleDropdown}>
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-book-open"/>
                                 </div>
-                                Статьи
+                                Аналізи
                                 <div className="sb-sidenav-collapse-arrow">
-                                    {this.state.dropdownRecords ? <i className="fas fa-angle-right"/> : <i className="fas fa-angle-down"/>}
+                                    {this.state.dropdownTests ? <i className="fas fa-angle-right"/> : <i className="fas fa-angle-down"/>}
                                 </div>
                             </Link>
-                            <div className="collapse" style={this.state.dropdownRecords ? closed : opened}>
+                            <div className="collapse" style={this.state.dropdownTests ? closed : opened}>
                                 <nav className="sb-sidenav-menu-nested nav">
-                                    <Link className="nav-link" to="/admin/records">Список статей</Link>
-                                    <Link className="nav-link" to="/admin/records/create">Добавить статью</Link>
+                                    <Link className="nav-link" to="/tests">Список аналізів</Link>
+                                    <Link className="nav-link" to="/tests/create">Додати результат</Link>
                                 </nav>
                             </div>
 
-                            <div className="sb-sidenav-menu-heading">Дополнительно</div>
+                            <div className="sb-sidenav-menu-heading">Додатково</div>
 
-                            <Link to="/admin/charts" className="nav-link">
+                            <Link to="/charts" className="nav-link">
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-chart-area"/>
                                 </div>
                                 Статистика</Link>
-                            <a className="nav-link" href="tables.html">
+                            <a className="nav-link" href="/settings">
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-cogs"/>
                                 </div>
@@ -82,7 +82,7 @@ class LeftMenu extends React.Component {
                     </div>
 
                     {this.state.authUser ? <div className="sb-sidenav-footer">
-                        <div className="small">Авторизирован как:</div>
+                        <div className="small">Авторизирован як:</div>
                         {this.state.authUser.name}
                     </div> : null}
                 </nav>

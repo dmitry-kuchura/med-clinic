@@ -33,14 +33,14 @@ class Navigation extends React.Component {
     render() {
         return (
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <Link to="/admin" className="navbar-brand">Dronepilot | Admin</Link>
+                <Link to="/admin" className="navbar-brand">МедСервіс</Link>
                 <button className="btn btn-link btn-sm order-1 order-lg-0">
                     <i className="fas fa-bars"/>
                 </button>
 
                 <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                     <div className="input-group">
-                        <input className="form-control" type="text" placeholder="Поиск.."/>
+                        <input className="form-control" type="text" placeholder="Пошук.."/>
                         <div className="input-group-append">
                             <button className="btn btn-primary" type="button"><i className="fas fa-search"/></button>
                         </div>
@@ -54,10 +54,10 @@ class Navigation extends React.Component {
                         </Link>
 
                         <div className="dropdown-menu dropdown-menu-right" style={this.state.dropdownMenu ? closed : opened }>
-                            <Link className="dropdown-item" to="/admin/settings">Настройки</Link>
-                            <Link className="dropdown-item" to="/admin/logs">Логи</Link>
+                            <Link className="dropdown-item" to="/settings">Налаштування</Link>
+                            <Link className="dropdown-item" to="/logs">Логі</Link>
                             <div className="dropdown-divider"/>
-                            <Link className="dropdown-item" to="/admin/logout">Выход</Link>
+                            <Link className="dropdown-item" to="/logout">Вихід</Link>
                         </div>
                     </li>
                 </ul>

@@ -26,9 +26,9 @@ class UsersRepository implements Repository
         // TODO: Implement store() method.
     }
 
-    public function update(array $data)
+    public function update(array $data, int $id): void
     {
-        // TODO: Implement update() method.
+        User::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

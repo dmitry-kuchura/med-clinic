@@ -1,16 +1,15 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {login} from '../../services/auth-service';
+import {resetPassword} from "../../services/auth-service";
 
 class ForgotPassword extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            credentials: {
+            data: {
                 email: null,
-                password: null,
             },
             error: null
         };
@@ -22,15 +21,15 @@ class ForgotPassword extends React.Component {
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
-        const {credentials} = this.state;
-        credentials[name] = value;
+        const {data} = this.state;
+        data[name] = value;
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        const {credentials} = this.state;
+        const {data} = this.state;
 
-        this.props.dispatch(login(credentials))
+        this.props.dispatch(resetPassword(data))
             .catch(({error, statusCode}) => {
                 const responseError = {
                     isError: true,

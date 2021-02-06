@@ -1967,18 +1967,12 @@ function Footer() {
     className: "py-4 bg-light mt-auto",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
       className: "container-fluid",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        className: "d-flex align-items-center justify-content-between small",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "d-flex align-items-center small",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "text-muted",
           children: ["Copyright \xA9 Dmytro Kuchura ", new Date().getFullYear()]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
-            href: "/",
-            target: "_blank",
-            children: "WEB"
-          })
-        })]
+        })
       })
     })
   });
@@ -2051,7 +2045,7 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       authUser: null,
-      dropdownRecords: false
+      dropdownTests: false
     };
     _this.handleDropdown = _this.handleDropdown.bind(_assertThisInitialized(_this));
     return _this;
@@ -2072,9 +2066,9 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
       event.preventDefault();
 
       switch (event.target.id) {
-        case "records":
+        case "tests":
           this.setState({
-            dropdownRecords: !this.state.dropdownRecords
+            dropdownTests: !this.state.dropdownTests
           });
           break;
       }
@@ -2093,10 +2087,10 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
               className: "nav",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "sb-sidenav-menu-heading",
-                children: "\u041E\u0441\u043D\u043E\u0432\u043D\u043E\u0435"
+                children: "\u041E\u0441\u043D\u043E\u0432\u043D\u0435"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 className: "nav-link",
-                to: "/admin",
+                to: "/",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "sb-nav-link-icon",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
@@ -2105,20 +2099,20 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                 }), "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "sb-sidenav-menu-heading",
-                children: "\u041A\u043E\u043D\u0442\u0435\u043D\u0442"
+                children: "\u0410\u043D\u0430\u043B\u0456\u0437\u0438"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 to: "#",
                 className: "nav-link collapsed",
-                id: "records",
+                id: "tests",
                 onClick: this.handleDropdown,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "sb-nav-link-icon",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                     className: "fas fa-book-open"
                   })
-                }), "\u0421\u0442\u0430\u0442\u044C\u0438", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                }), "\u0410\u043D\u0430\u043B\u0456\u0437\u0438", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "sb-sidenav-collapse-arrow",
-                  children: this.state.dropdownRecords ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  children: this.state.dropdownTests ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                     className: "fas fa-angle-right"
                   }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                     className: "fas fa-angle-down"
@@ -2126,24 +2120,24 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "collapse",
-                style: this.state.dropdownRecords ? closed : opened,
+                style: this.state.dropdownTests ? closed : opened,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("nav", {
                   className: "sb-sidenav-menu-nested nav",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                     className: "nav-link",
-                    to: "/admin/records",
-                    children: "\u0421\u043F\u0438\u0441\u043E\u043A \u0441\u0442\u0430\u0442\u0435\u0439"
+                    to: "/tests",
+                    children: "\u0421\u043F\u0438\u0441\u043E\u043A \u0430\u043D\u0430\u043B\u0456\u0437\u0456\u0432"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                     className: "nav-link",
-                    to: "/admin/records/create",
-                    children: "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u0442\u0430\u0442\u044C\u044E"
+                    to: "/tests/create",
+                    children: "\u0414\u043E\u0434\u0430\u0442\u0438 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442"
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "sb-sidenav-menu-heading",
-                children: "\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u043E"
+                children: "\u0414\u043E\u0434\u0430\u0442\u043A\u043E\u0432\u043E"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                to: "/admin/charts",
+                to: "/charts",
                 className: "nav-link",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "sb-nav-link-icon",
@@ -2153,7 +2147,7 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                 }), "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430"]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("a", {
                 className: "nav-link",
-                href: "tables.html",
+                href: "/settings",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "sb-nav-link-icon",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
@@ -2166,7 +2160,7 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
             className: "sb-sidenav-footer",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "small",
-              children: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D \u043A\u0430\u043A:"
+              children: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D \u044F\u043A:"
             }), this.state.authUser.name]
           }) : null]
         })
@@ -2281,7 +2275,7 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
           to: "/admin",
           className: "navbar-brand",
-          children: "Dronepilot | Admin"
+          children: "\u041C\u0435\u0434\u0421\u0435\u0440\u0432\u0456\u0441"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
           className: "btn btn-link btn-sm order-1 order-lg-0",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
@@ -2294,7 +2288,7 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               className: "form-control",
               type: "text",
-              placeholder: "\u041F\u043E\u0438\u0441\u043A.."
+              placeholder: "\u041F\u043E\u0448\u0443\u043A.."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "input-group-append",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -2322,18 +2316,18 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
               style: this.state.dropdownMenu ? closed : opened,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 className: "dropdown-item",
-                to: "/admin/settings",
-                children: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+                to: "/settings",
+                children: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 className: "dropdown-item",
-                to: "/admin/logs",
-                children: "\u041B\u043E\u0433\u0438"
+                to: "/logs",
+                children: "\u041B\u043E\u0433\u0456"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "dropdown-divider"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 className: "dropdown-item",
-                to: "/admin/logout",
-                children: "\u0412\u044B\u0445\u043E\u0434"
+                to: "/logout",
+                children: "\u0412\u0438\u0445\u0456\u0434"
               })]
             })]
           })
@@ -2352,6 +2346,31 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps)(Navigation));
+
+/***/ }),
+
+/***/ "./resources/js/helpers/url-params.js":
+/*!********************************************!*\
+  !*** ./resources/js/helpers/url-params.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getParamFromUrl": () => (/* binding */ getParamFromUrl)
+/* harmony export */ });
+function getParamFromUrl(props, param) {
+  if (props.hasOwnProperty('match')) {
+    if (props.match.hasOwnProperty('params')) {
+      return props.match.params[param];
+    }
+
+    return null;
+  }
+
+  return null;
+}
 
 /***/ }),
 
@@ -2489,49 +2508,89 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _components_footer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/footer */ "./resources/js/components/footer.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
 
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-function NotFound() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    id: "layoutError",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      id: "layoutError_content",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-          className: "container",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-            className: "row justify-content-center",
+
+var NotFound = /*#__PURE__*/function (_React$Component) {
+  _inherits(NotFound, _React$Component);
+
+  var _super = _createSuper(NotFound);
+
+  function NotFound(props) {
+    var _this;
+
+    _classCallCheck(this, NotFound);
+
+    _this = _super.call(this, props);
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(NotFound, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        id: "layoutError",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          id: "layoutError_content",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "col-lg-6",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: "text-center mt-4",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-                  className: "mb-4 img-error",
-                  src: "assets/img/error-404-monochrome.svg"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                  className: "lead",
-                  children: "This requested URL was not found on this server."
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                  to: "/",
-                  children: "Return to Dashboard"
-                })]
+              className: "container",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "row justify-content-center",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "col-lg-6",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "text-center mt-4",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
+                      className: "mb-4 img-error",
+                      src: "assets/img/error-404-monochrome.svg"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                      className: "lead",
+                      children: "This requested URL was not found on this server."
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Link, {
+                      to: "/",
+                      children: "Return to Dashboard"
+                    })]
+                  })
+                })
               })
             })
           })
-        })
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      id: "layoutError_footer",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_components_footer__WEBPACK_IMPORTED_MODULE_2__.default, {})
-    })]
-  });
-}
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          id: "layoutError_footer",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Footer, {})
+        })]
+      });
+    }
+  }]);
+
+  return NotFound;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NotFound);
 
@@ -2596,9 +2655,8 @@ var ForgotPassword = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      credentials: {
-        email: null,
-        password: null
+      data: {
+        email: null
       },
       error: null
     };
@@ -2612,8 +2670,8 @@ var ForgotPassword = /*#__PURE__*/function (_React$Component) {
     value: function handleChange(event) {
       var name = event.target.name;
       var value = event.target.value;
-      var credentials = this.state.credentials;
-      credentials[name] = value;
+      var data = this.state.data;
+      data[name] = value;
     }
   }, {
     key: "handleSubmit",
@@ -2621,8 +2679,8 @@ var ForgotPassword = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       event.preventDefault();
-      var credentials = this.state.credentials;
-      this.props.dispatch((0,_services_auth_service__WEBPACK_IMPORTED_MODULE_3__.login)(credentials))["catch"](function (_ref) {
+      var data = this.state.data;
+      this.props.dispatch((0,_services_auth_service__WEBPACK_IMPORTED_MODULE_3__.resetPassword)(data))["catch"](function (_ref) {
         var error = _ref.error,
             statusCode = _ref.statusCode;
         var responseError = {
@@ -3249,10 +3307,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/auth-service */ "./resources/js/services/auth-service.js");
+/* harmony import */ var _helpers_url_params__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/url-params */ "./resources/js/helpers/url-params.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -3283,6 +3342,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ResetPassword = /*#__PURE__*/function (_React$Component) {
   _inherits(ResetPassword, _React$Component);
 
@@ -3295,12 +3355,18 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      credentials: {
-        email: null,
-        password: null
+      data: {
+        token: null,
+        password: null,
+        password_confirmation: null
       },
       error: null
     };
+
+    if ((0,_helpers_url_params__WEBPACK_IMPORTED_MODULE_4__.getParamFromUrl)(props, 'token')) {
+      _this.state.data.token = (0,_helpers_url_params__WEBPACK_IMPORTED_MODULE_4__.getParamFromUrl)(props, 'token');
+    }
+
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -3311,8 +3377,8 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
     value: function handleChange(event) {
       var name = event.target.name;
       var value = event.target.value;
-      var credentials = this.state.credentials;
-      credentials[name] = value;
+      var data = this.state.data;
+      data[name] = value;
     }
   }, {
     key: "handleSubmit",
@@ -3320,8 +3386,8 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       event.preventDefault();
-      var credentials = this.state.credentials;
-      this.props.dispatch((0,_services_auth_service__WEBPACK_IMPORTED_MODULE_3__.login)(credentials))["catch"](function (_ref) {
+      var data = this.state.data;
+      this.props.dispatch((0,_services_auth_service__WEBPACK_IMPORTED_MODULE_3__.updatePassword)(data))["catch"](function (_ref) {
         var error = _ref.error,
             statusCode = _ref.statusCode;
         var responseError = {
@@ -3352,7 +3418,7 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
       var isAuthenticated = this.props.isAuthenticated;
 
       if (isAuthenticated) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Redirect, {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Redirect, {
           to: from
         });
       }
@@ -3408,9 +3474,9 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
                             children: "\u041F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0456\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044E"
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                             className: "form-control py-4",
-                            id: "password_confirm",
+                            id: "password_confirmation",
                             type: "password",
-                            name: "password_confirm",
+                            name: "password_confirmation",
                             onChange: this.handleChange,
                             placeholder: "\u041F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0456\u0442\u044C \u043D\u043E\u0432\u0438\u0439 \u043F\u0430\u0440\u043E\u043B\u044C"
                           }), this.state.error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
@@ -3432,7 +3498,7 @@ var ResetPassword = /*#__PURE__*/function (_React$Component) {
                       className: "card-footer text-center",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                         className: "small",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
                           to: "/login",
                           children: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0456\u044F"
                         })
@@ -3612,256 +3678,6 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
                 })]
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "card mb-4",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "card-header",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                className: "fas fa-table mr-1"
-              }), "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 \u0441\u0442\u0430\u0442\u044C\u0438"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "card-body",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                className: "table-responsive",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
-                  className: "table table-bordered",
-                  id: "dataTable",
-                  width: "100%",
-                  cellSpacing: "0",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Name"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Position"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Office"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Age"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Start date"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Salary"
-                      })]
-                    })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tfoot", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Name"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Position"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Office"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Age"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Start date"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "Salary"
-                      })]
-                    })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Tiger Nixon"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "System Architect"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Edinburgh"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "61"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2011/04/25"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$320,800"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Garrett Winters"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Accountant"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Tokyo"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "63"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2011/07/25"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$170,750"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Ashton Cox"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Junior Technical Author"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "San Francisco"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "66"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2009/01/12"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$86,000"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Cedric Kelly"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Senior Javascript Developer"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Edinburgh"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "22"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2012/03/29"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$433,060"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Airi Satou"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Accountant"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Tokyo"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "33"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2008/11/28"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$162,700"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Brielle Williamson"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Integration Specialist"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "New York"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "61"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2012/12/02"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$372,000"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Herrod Chandler"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Sales Assistant"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "San Francisco"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "59"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2012/08/06"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$137,500"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Rhona Davidson"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Integration Specialist"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Tokyo"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "55"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2010/10/14"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$327,900"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Colleen Hurst"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Javascript Developer"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "San Francisco"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "39"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2009/09/15"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$205,500"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Sonya Frost"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Software Engineer"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Edinburgh"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "23"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2008/12/13"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$103,600"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Jena Gaines"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Office Manager"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "London"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "30"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2008/12/19"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$90,560"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Quinn Flynn"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Support Lead"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Edinburgh"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "22"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2013/03/03"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$342,000"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Charde Marshall"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Regional Director"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "San Francisco"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "36"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2008/10/16"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$470,600"
-                      })]
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Haley Kennedy"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "Senior Marketing Designer"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "London"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "43"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "2012/12/18"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: "$313,500"
-                      })]
-                    })]
-                  })]
-                })
-              })
-            })]
           })]
         })
       });
@@ -3961,6 +3777,81 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps)(Logout));
+
+/***/ }),
+
+/***/ "./resources/js/pages/settings.js":
+/*!****************************************!*\
+  !*** ./resources/js/pages/settings.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var Settings = /*#__PURE__*/function (_React$Component) {
+  _inherits(Settings, _React$Component);
+
+  var _super = _createSuper(Settings);
+
+  function Settings(props) {
+    var _this;
+
+    _classCallCheck(this, Settings);
+
+    _this = _super.call(this, props);
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(Settings, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: "container p-2 mx-auto flex flex-col",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+            children: "This is Settings page"
+          })
+        })
+      });
+    }
+  }]);
+
+  return Settings;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Settings);
 
 /***/ }),
 
@@ -4140,6 +4031,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_auth_reset_password__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/auth/reset-password */ "./resources/js/pages/auth/reset-password.js");
 /* harmony import */ var _pages_dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/dashboard */ "./resources/js/pages/dashboard.js");
 /* harmony import */ var _pages_404__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/404 */ "./resources/js/pages/404.js");
+/* harmony import */ var _pages_settings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/settings */ "./resources/js/pages/settings.js");
+
 
 
 
@@ -4177,6 +4070,11 @@ var routes = [{
   exact: true,
   auth: false,
   component: _pages_auth_reset_password__WEBPACK_IMPORTED_MODULE_4__.default
+}, {
+  path: '/settings',
+  exact: true,
+  auth: true,
+  component: _pages_settings__WEBPACK_IMPORTED_MODULE_7__.default
 }, // {
 //     path: '/admin/password/reset/:token',
 //     exact: true,
@@ -4235,10 +4133,10 @@ function login(credentials) {
     });
   };
 }
-function resetPassword(credentials) {
+function resetPassword(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
-      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/password/email', credentials).then(function (res) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/reset-password', data).then(function (res) {
         return resolve(res.data);
       })["catch"](function (err) {
         var statusCode = err.response.status;
@@ -4258,18 +4156,18 @@ function resetPassword(credentials) {
     });
   };
 }
-function updatePassword(credentials) {
+function updatePassword(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
-      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/password/reset', credentials).then(function (res) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/update-password', data).then(function (res) {
         var statusCode = res.data.status;
 
         if (statusCode === 202) {
-          var data = {
+          var _data = {
             error: res.data.message,
             statusCode: statusCode
           };
-          return reject(data);
+          return reject(_data);
         }
 
         return resolve(res);
@@ -4518,78 +4416,6 @@ var logout = function logout(state) {
 
 /***/ }),
 
-/***/ "./resources/js/store/reducers/categories-reducer.js":
-/*!***********************************************************!*\
-  !*** ./resources/js/store/reducers/categories-reducer.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
-
-var category = {
-  id: null,
-  name: null,
-  status: null,
-  createdAt: null
-};
-var initialState = {
-  list: [],
-  item: category
-};
-
-var Records = function Records() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-
-  var _ref = arguments.length > 1 ? arguments[1] : undefined,
-      type = _ref.type,
-      _ref$payload = _ref.payload,
-      payload = _ref$payload === void 0 ? null : _ref$payload;
-
-  switch (type) {
-    case _action_types__WEBPACK_IMPORTED_MODULE_0__.CATEGORIES_LIST:
-      return applyCategories(state, payload);
-
-    case _action_types__WEBPACK_IMPORTED_MODULE_0__.CATEGORIES_SHORT_LIST:
-      return applyShortCategories(state, payload);
-
-    case _action_types__WEBPACK_IMPORTED_MODULE_0__.CATEGORIES_INNER:
-      return applyRecord(state, payload);
-
-    default:
-      return state;
-  }
-};
-
-var applyCategories = function applyCategories(state, payload) {
-  state = Object.assign({}, state, {
-    list: payload.data
-  });
-  return state;
-};
-
-var applyShortCategories = function applyShortCategories(state, payload) {
-  state = Object.assign({}, state, {
-    list: payload
-  });
-  return state;
-};
-
-var applyRecord = function applyRecord(state, payload) {
-  state = Object.assign({}, state, {
-    item: payload
-  });
-  return state;
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Records);
-
-/***/ }),
-
 /***/ "./resources/js/store/reducers/index.js":
 /*!**********************************************!*\
   !*** ./resources/js/store/reducers/index.js ***!
@@ -4601,21 +4427,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth-reducer */ "./resources/js/store/reducers/auth-reducer.js");
 /* harmony import */ var _records_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./records-reducer */ "./resources/js/store/reducers/records-reducer.js");
-/* harmony import */ var _categories_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./categories-reducer */ "./resources/js/store/reducers/categories-reducer.js");
-/* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
+/* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
 
 
 
 
-
-var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_4__.combineReducers)({
+var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
   Auth: _auth_reducer__WEBPACK_IMPORTED_MODULE_0__.default,
   Records: _records_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
-  Categories: _categories_reducer__WEBPACK_IMPORTED_MODULE_2__.default,
-  persistStore: _persist_store__WEBPACK_IMPORTED_MODULE_3__.default
+  persistStore: _persist_store__WEBPACK_IMPORTED_MODULE_2__.default
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RootReducer);
 

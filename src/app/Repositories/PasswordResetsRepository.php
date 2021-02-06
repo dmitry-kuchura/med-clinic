@@ -6,6 +6,11 @@ use App\Models\PasswordResets;
 
 class PasswordResetsRepository implements Repository
 {
+    public function find(string $token): ?PasswordResets
+    {
+        return PasswordResets::where('token', $token)->first();
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.
@@ -26,9 +31,14 @@ class PasswordResetsRepository implements Repository
         $model->save();
     }
 
-    public function update(array $data)
+    public function update(array $data, int $id)
     {
         // TODO: Implement update() method.
+    }
+
+    public function delete(string $email): void
+    {
+        PasswordResets::where('email', $email)->delete();
     }
 
     public function destroy(int $id)

@@ -35,7 +35,7 @@ class UsersTokenRepository implements Repository
         return $usersTokens;
     }
 
-    public function update(array $data)
+    public function update(array $data, int $id)
     {
         // TODO: Implement update() method.
     }
