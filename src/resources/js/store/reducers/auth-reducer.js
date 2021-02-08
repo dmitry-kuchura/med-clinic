@@ -1,5 +1,6 @@
-import * as ActionTypes from "../action-types";
+import * as ActionTypes from '../action-types';
 import Http from '../../http'
+import {deleteCookie, getCookie, setCookie} from '../../utils/cookie';
 
 const user = {
     id: null,
@@ -27,43 +28,46 @@ const Auth = (state = initialState, {type, payload = null}) => {
 };
 
 const authLogin = (state, payload) => {
-    const jwtToken = payload.token;
+    const jwtToken = payload.access_token;
     const user = payload.user;
-    if (!!payload.is_admin) {
-        localStorage.setItem('is_admin', true);
-    } else {
-        localStorage.setItem('is_admin', false);
-    }
-    localStorage.setItem('jwt_token', jwtToken);
+    const isAdmin = payload.is_admin;
+
+    setCookie('is_admin', isAdmin);
+    setCookie('jwt_token', jwtToken)
+
     Http.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+
     state = Object.assign({}, state, {
         isAuthenticated: true,
-        isAdmin: localStorage.getItem('is_admin') === 'true',
+        isAdmin: getCookie('is_admin') === 'true',
         user
     });
-    return state;
 
+    return state;
 };
 
 const checkAuth = (state) => {
     state = Object.assign({}, state, {
-        isAuthenticated: !!localStorage.getItem('jwt_token'),
-        isAdmin: localStorage.getItem('is_admin'),
+        isAuthenticated: getCookie('jwt_token'),
+        isAdmin: getCookie('is_admin')
     });
+
     if (state.isAuthenticated) {
-        Http.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt_token')}`;
+        Http.defaults.headers.common['Authorization'] = `Bearer ${getCookie('jwt_token')}`;
     }
+
     return state;
 };
 
 const logout = (state) => {
-    localStorage.removeItem('jwt_token');
-    localStorage.setItem('is_admin', false);
+    deleteCookie('jwt_token');
+
     state = Object.assign({}, state, {
         isAuthenticated: false,
         isAdmin: false,
         user
     });
+
     return state;
 };
 

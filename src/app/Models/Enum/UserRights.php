@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models\Enum;
+
 class UserRights
 {
     const ACTIVE = 'active';

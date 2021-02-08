@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Enum\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,11 +13,13 @@ use Illuminate\Notifications\Notifiable;
  * @property int $user_id
  * @property string $email
  * @property string $token
+ * @property string $role
  * @property string $expired_at
  *
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property bool $isAdmin
  * @property UsersTokens $tokens
  */
 class User extends Authenticatable
@@ -53,8 +56,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function user()
+    public function tokens()
     {
         return $this->hasMany('App\Models\UsersTokens', 'id', 'user_id');
+    }
+
+    public function isAdmin()
+    {
+        return in_array($this->role, [UserRole::ADMIN, UserRole::SUPER_ADMIN], true);
     }
 }

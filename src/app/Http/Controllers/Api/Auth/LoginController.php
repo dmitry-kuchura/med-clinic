@@ -31,6 +31,7 @@ class LoginController extends Controller
             'user' => new UserResource($request->user()),
             'access_token' => $this->authService->generate(Auth::id()),
             'token_type' => 'bearer',
+            'is_admin' => $request->user()->isAdmin(),
         ]);
     }
 }

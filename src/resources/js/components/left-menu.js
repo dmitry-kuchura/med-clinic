@@ -11,7 +11,8 @@ class LeftMenu extends React.Component {
 
         this.state = {
             authUser: null,
-            dropdownTests: false
+            dropdownTests: false,
+            dropdownPatients: false
         };
 
         this.handleDropdown = this.handleDropdown.bind(this);
@@ -27,8 +28,11 @@ class LeftMenu extends React.Component {
         event.preventDefault();
 
         switch (event.target.id) {
-            case "tests":
+            case 'tests':
                 this.setState({dropdownTests: !this.state.dropdownTests});
+                break;
+            case 'patients':
+                this.setState({dropdownPatients: !this.state.dropdownPatients});
                 break;
         }
     }
@@ -45,8 +49,28 @@ class LeftMenu extends React.Component {
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-tachometer-alt"/>
                                 </div>
-                                Главная
+                                Головна
                             </Link>
+
+                            <div className="sb-sidenav-menu-heading">Пацієнти</div>
+
+                            <Link to="#" className="nav-link collapsed" id="patients" onClick={this.handleDropdown}>
+                                <div className="sb-nav-link-icon">
+                                    <i className="fas fa-users"/>
+                                </div>
+                                Пацієнти
+                                <div className="sb-sidenav-collapse-arrow">
+                                    {this.state.dropdownPatients ? <i className="fas fa-angle-right"/> :
+                                        <i className="fas fa-angle-down"/>}
+                                </div>
+                            </Link>
+                            <div className="collapse" style={this.state.dropdownPatients ? closed : opened}>
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/patients">Список пацієнтів</Link>
+                                    <Link className="nav-link" to="/patients/create">Додати пацієнта</Link>
+                                    <Link className="nav-link" to="/patients/tests">Аналізи пацієнта</Link>
+                                </nav>
+                            </div>
 
                             <div className="sb-sidenav-menu-heading">Аналізи</div>
 
@@ -56,7 +80,8 @@ class LeftMenu extends React.Component {
                                 </div>
                                 Аналізи
                                 <div className="sb-sidenav-collapse-arrow">
-                                    {this.state.dropdownTests ? <i className="fas fa-angle-right"/> : <i className="fas fa-angle-down"/>}
+                                    {this.state.dropdownTests ? <i className="fas fa-angle-right"/> :
+                                        <i className="fas fa-angle-down"/>}
                                 </div>
                             </Link>
                             <div className="collapse" style={this.state.dropdownTests ? closed : opened}>
@@ -77,7 +102,7 @@ class LeftMenu extends React.Component {
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-cogs"/>
                                 </div>
-                                Настройки</a>
+                                Налаштування</a>
                         </div>
                     </div>
 

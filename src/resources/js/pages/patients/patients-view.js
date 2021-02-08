@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-class RecordsView extends React.Component {
+class PatientsView extends React.Component {
     constructor(props) {
         super(props);
 
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(RecordsView);
+export default connect(mapStateToProps)(PatientsView);

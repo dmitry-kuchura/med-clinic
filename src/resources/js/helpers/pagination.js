@@ -29,12 +29,16 @@ class Pagination extends React.Component {
     }
 
     render() {
+        if (this.state.total === null || this.state.total === 0) {
+            return null;
+        }
+
         return (
             <div className="row">
                 <div className="col-md-5">
                     <div className="dataTables_info" id="dataTable_info" role="status"
-                         aria-live="polite">Показано
-                        от {this.state.from} до {this.state.to} из {this.state.total} записей
+                         aria-live="polite">Відображено
+                        від {this.state.from} до {this.state.to} з {this.state.total} записів
                     </div>
                 </div>
                 <div className="col-md-7">

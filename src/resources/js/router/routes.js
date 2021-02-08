@@ -4,8 +4,9 @@ import Register from '../pages/auth/register'
 import ForgotPassword from '../pages/auth/forgot-password'
 import ResetPassword from '../pages/auth/reset-password'
 import Dashboard from '../pages/dashboard'
+import PatientsList from '../pages/patients/patients-list';
+import Settings from '../pages/settings';
 import NoMatch from '../pages/404'
-import Settings from "../pages/settings";
 
 const routes = [
     {
@@ -43,13 +44,12 @@ const routes = [
         exact: true,
         auth: true,
         component: Settings
+    }, {
+        path: '/patients',
+        exact: true,
+        auth: true,
+        component: PatientsList
     },
-    // {
-    //     path: '/admin/password/reset/:token',
-    //     exact: true,
-    //     auth: false,
-    //     component: ResetPassword
-    // },
     {
         path: '',
         exact: true,

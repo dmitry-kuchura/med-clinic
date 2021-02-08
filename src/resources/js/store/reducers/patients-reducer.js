@@ -23,16 +23,16 @@ const initialState = {
 
 const Records = (state = initialState, {type, payload = null}) => {
     switch (type) {
-        case ActionTypes.BLOG_LIST:
-            return applyRecords(state, payload);
-        case ActionTypes.BLOG_INNER:
-            return applyRecord(state, payload);
+        case ActionTypes.PATIENT_LIST:
+            return applyPatients(state, payload);
+        case ActionTypes.PATIENT_INFO:
+            return applyPatient(state, payload);
         default:
             return state;
     }
 };
 
-const applyRecords = (state, payload) => {
+const applyPatients = (state, payload) => {
     state = Object.assign({}, state, {
         from: payload.from,
         to: payload.to,
@@ -46,7 +46,7 @@ const applyRecords = (state, payload) => {
     return state;
 };
 
-const applyRecord = (state, payload) => {
+const applyPatient = (state, payload) => {
     state = Object.assign({}, state, {
         item: payload
     });

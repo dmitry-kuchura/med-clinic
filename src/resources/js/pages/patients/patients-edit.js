@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getParamFromUrl} from '../../helpers/url-params';
-import {getRecordById, updateRecord} from '../../services/records-service';
-import {getCategoriesShortList} from '../../services/categories-service';
 import {validate} from '../../helpers/validation';
 import Editor from "../../helpers/editor";
 
@@ -17,7 +15,7 @@ const rules = {
     "category_id": ["integer"],
 };
 
-class RecordsEdit extends React.Component {
+class PatientsEdit extends React.Component {
     constructor(props) {
         super(props);
 
@@ -25,16 +23,6 @@ class RecordsEdit extends React.Component {
             record: {
                 id: null,
                 alias: null,
-                translations: [
-                    {
-                        name: null,
-                        content: null,
-                        title: null,
-                        keywords: null,
-                        description: null
-                    }
-                ],
-                image: null,
                 views: null,
                 status: 0,
                 category_id: 0,
@@ -46,7 +34,6 @@ class RecordsEdit extends React.Component {
 
         if (getParamFromUrl(props, 'id')) {
             props.dispatch(getRecordById(getParamFromUrl(props, 'id')));
-            props.dispatch(getCategoriesShortList());
         }
 
         this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -256,4 +243,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(RecordsEdit);
+export default connect(mapStateToProps)(PatientsEdit);

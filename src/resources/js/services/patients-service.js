@@ -1,24 +1,24 @@
-import * as action from '../store/actions/records-action'
+import * as action from '../store/actions/patients-action'
 import Http from '../http'
 
 function preparePaginateLink(page) {
-    let link = '/api/v2/blog';
+    let link = '/api/v1/patients';
 
     if (page > 1) {
-        link = '/api/v2/blog?page=' + page;
+        link = '/api/v1/patients?page=' + page;
     }
 
     return link;
 }
 
-export function getRecordsList(page) {
+export function getPatientsList(page) {
     let link = preparePaginateLink(page);
 
     return dispatch => (
         new Promise((resolve, reject) => {
             Http.get(link)
                 .then(response => {
-                    dispatch(action.getRecords(response.data.result));
+                    dispatch(action.getPatients(response.data.result));
                     return resolve();
                 })
                 .catch(err => {
@@ -33,8 +33,8 @@ export function getRecordsList(page) {
     );
 }
 
-export function updateRecord(id, data) {
-    let link = '/api/v2/blog/' + id;
+export function updatePatient(id, data) {
+    let link = '/api/v1/patients/' + id;
 
     return dispatch => (
         new Promise((resolve, reject) => {
@@ -55,13 +55,13 @@ export function updateRecord(id, data) {
 }
 
 export function getRecordById(param) {
-    let link = '/api/v2/blog/' + param;
+    let link = '/api/v1/patients/' + param;
 
     return dispatch => (
         new Promise((resolve, reject) => {
             Http.get(link)
                 .then(response => {
-                    dispatch(action.getOneRecord(response.data.result));
+                    dispatch(action.getOnePatient(response.data.result));
                     return resolve();
                 })
                 .catch(err => {

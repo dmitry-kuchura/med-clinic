@@ -2045,7 +2045,8 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       authUser: null,
-      dropdownTests: false
+      dropdownTests: false,
+      dropdownPatients: false
     };
     _this.handleDropdown = _this.handleDropdown.bind(_assertThisInitialized(_this));
     return _this;
@@ -2066,9 +2067,15 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
       event.preventDefault();
 
       switch (event.target.id) {
-        case "tests":
+        case 'tests':
           this.setState({
             dropdownTests: !this.state.dropdownTests
+          });
+          break;
+
+        case 'patients':
+          this.setState({
+            dropdownPatients: !this.state.dropdownPatients
           });
           break;
       }
@@ -2096,7 +2103,47 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                     className: "fas fa-tachometer-alt"
                   })
-                }), "\u0413\u043B\u0430\u0432\u043D\u0430\u044F"]
+                }), "\u0413\u043E\u043B\u043E\u0432\u043D\u0430"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "sb-sidenav-menu-heading",
+                children: "\u041F\u0430\u0446\u0456\u0454\u043D\u0442\u0438"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                to: "#",
+                className: "nav-link collapsed",
+                id: "patients",
+                onClick: this.handleDropdown,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "sb-nav-link-icon",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fas fa-users"
+                  })
+                }), "\u041F\u0430\u0446\u0456\u0454\u043D\u0442\u0438", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "sb-sidenav-collapse-arrow",
+                  children: this.state.dropdownPatients ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fas fa-angle-right"
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fas fa-angle-down"
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "collapse",
+                style: this.state.dropdownPatients ? closed : opened,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("nav", {
+                  className: "sb-sidenav-menu-nested nav",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                    className: "nav-link",
+                    to: "/patients",
+                    children: "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0456\u0432"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                    className: "nav-link",
+                    to: "/patients/create",
+                    children: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0430"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+                    className: "nav-link",
+                    to: "/patients/tests",
+                    children: "\u0410\u043D\u0430\u043B\u0456\u0437\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0430"
+                  })]
+                })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "sb-sidenav-menu-heading",
                 children: "\u0410\u043D\u0430\u043B\u0456\u0437\u0438"
@@ -2153,7 +2200,7 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                     className: "fas fa-cogs"
                   })
-                }), "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"]
+                }), "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F"]
               })]
             })
           }), this.state.authUser ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -2349,6 +2396,167 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /***/ }),
 
+/***/ "./resources/js/helpers/pagination.js":
+/*!********************************************!*\
+  !*** ./resources/js/helpers/pagination.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var Pagination = /*#__PURE__*/function (_React$Component) {
+  _inherits(Pagination, _React$Component);
+
+  var _super = _createSuper(Pagination);
+
+  function Pagination(props) {
+    var _this;
+
+    _classCallCheck(this, Pagination);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      from: 0,
+      lastPage: 0,
+      currentPage: 0,
+      perPage: 0,
+      to: 0,
+      total: 0
+    };
+    return _this;
+  }
+
+  _createClass(Pagination, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) {
+        this.setState({
+          from: this.props.state.from,
+          to: this.props.state.to,
+          perPage: this.props.state.perPage,
+          currentPage: this.props.state.currentPage,
+          lastPage: this.props.state.lastPage,
+          total: this.props.state.total,
+          list: this.props.state.list
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.state.total === null || this.state.total === 0) {
+        return null;
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: "col-md-5",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "dataTables_info",
+            id: "dataTable_info",
+            role: "status",
+            "aria-live": "polite",
+            children: ["\u0412\u0456\u0434\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u043E \u0432\u0456\u0434 ", this.state.from, " \u0434\u043E ", this.state.to, " \u0437 ", this.state.total, " \u0437\u0430\u043F\u0438\u0441\u0456\u0432"]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: "col-md-7",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+            style: {
+              "float": 'right'
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("ul", {
+              className: "pagination",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+                className: this.state.currentPage === 1 ? "page-item previous disabled" : "page-item previous",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+                  href: "#",
+                  className: "page-link",
+                  children: "\xAB"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(Pages, {
+                state: this.state,
+                handleChangePage: this.props.handleChangePage
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+                className: this.state.lastPage === 1 ? "page-item next disabled" : "page-item next",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+                  href: "#",
+                  className: "page-link",
+                  children: "\xBB"
+                })
+              })]
+            })
+          })
+        })]
+      });
+    }
+  }]);
+
+  return Pagination;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var Pages = function Pages(props) {
+  var state = props.state;
+  var pages = [];
+
+  for (var i = 1; i <= state.lastPage; i++) {
+    pages.push(i);
+  }
+
+  if (pages.length) {
+    return pages.map(function (page) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+        className: state.currentPage === page ? "page-item active" : "page-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
+          href: "#",
+          className: "page-link",
+          onClick: props.handleChangePage,
+          id: page,
+          children: page
+        })
+      }, page);
+    });
+  }
+
+  return null;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pagination);
+
+/***/ }),
+
 /***/ "./resources/js/helpers/url-params.js":
 /*!********************************************!*\
   !*** ./resources/js/helpers/url-params.js ***!
@@ -2389,12 +2597,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 /* harmony import */ var _store_actions_auth_action__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/actions/auth-action */ "./resources/js/store/actions/auth-action.js");
+/* harmony import */ var _utils_cookie__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/cookie */ "./resources/js/utils/cookie.js");
+
 
 
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
+var jwtToken = (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_3__.getCookie)('jwt_token');
 (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common["X-Requested-With"]) = 'XMLHttpRequest';
 (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common["X-CSRF-TOKEN"]) = token.content;
+
+if (jwtToken) {
+  (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common.Authorization) = "Bearer ".concat(jwtToken);
+}
+
 axios__WEBPACK_IMPORTED_MODULE_0___default().interceptors.response.use(function (response) {
   return response;
 }, function (error) {
@@ -3780,6 +3996,234 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/patients/patients-list.js":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/patients/patients-list.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers_pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/pagination */ "./resources/js/helpers/pagination.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _services_patients_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/patients-service */ "./resources/js/services/patients-service.js");
+/* harmony import */ var _utils_date_format__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/date-format */ "./resources/js/utils/date-format.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var PatientsList = /*#__PURE__*/function (_React$Component) {
+  _inherits(PatientsList, _React$Component);
+
+  var _super = _createSuper(PatientsList);
+
+  function PatientsList(props) {
+    var _this;
+
+    _classCallCheck(this, PatientsList);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      from: null,
+      to: null,
+      perPage: null,
+      currentPage: 1,
+      lastPage: null,
+      total: null,
+      list: []
+    };
+    props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_4__.getPatientsList)(_this.state.currentPage));
+    _this.handleChangePage = _this.handleChangePage.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(PatientsList, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.records !== this.props.records) {
+        this.setState({
+          from: this.props.records.from,
+          to: this.props.records.to,
+          perPage: this.props.records.perPage,
+          currentPage: this.props.records.currentPage,
+          lastPage: this.props.records.lastPage,
+          total: this.props.records.total,
+          list: this.props.records.list
+        });
+      }
+    }
+  }, {
+    key: "handleChangePage",
+    value: function handleChangePage(event) {
+      event.preventDefault();
+      this.props.dispatch(getRecordsList(parseInt(event.target.id)));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "container-fluid",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+            className: "mt-4",
+            children: "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0438\u0456\u0432"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+            className: "card mb-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-body",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "table-responsive",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+                  className: "table table-bordered",
+                  id: "dataTable",
+                  width: "100%",
+                  cellSpacing: "0",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0406\u043C'\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0421\u0442\u0430\u0442\u0443\u0441"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0412\u0456\u0434\u0432\u0456\u0434\u0443\u0432\u0430\u043D\u044C"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0414\u0456\u0457"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tfoot", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0406\u043C'\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0421\u0442\u0430\u0442\u0443\u0441"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0412\u0456\u0434\u0432\u0456\u0434\u0443\u0432\u0430\u043D\u044C"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u0414\u0456\u0457"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(List, {
+                      state: this.state.list
+                    })
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_3__.default, {
+                state: this.state,
+                handleChangePage: this.handleChangePage
+              })]
+            })
+          })]
+        })
+      });
+    }
+  }]);
+
+  return PatientsList;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var List = function List(props) {
+  var list = props.state;
+  var html;
+
+  if (list.length > 0) {
+    html = list.map(function (item) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+          children: item.translation ? item.translation.name : 'N/A'
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+          children: item.views
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+          children: item.status
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+          children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_5__.formatDate)(item.created_at)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+            to: '/admin/patients/' + item.id,
+            className: "btn btn-success btn-sm",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+              className: "fas fa-edit"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            children: " "
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+            to: '/admin/patients/view/' + item.id,
+            className: "btn btn-warning btn-sm",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+              className: "fas fa-eye"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            children: " "
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
+            to: '/admin/patients/delete/' + item.id,
+            className: "btn btn-danger btn-sm",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+              className: "fas fa-trash"
+            })
+          })]
+        })]
+      }, item.id);
+    });
+    return html;
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+      colSpan: "5",
+      children: "\u041D\u0435\u0447\u0435\u0433\u043E \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u044C!"
+    })
+  });
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    authUser: state.Auth.user,
+    records: state.Records
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps)(PatientsList));
+
+/***/ }),
+
 /***/ "./resources/js/pages/settings.js":
 /*!****************************************!*\
   !*** ./resources/js/pages/settings.js ***!
@@ -4030,8 +4474,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_auth_forgot_password__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/auth/forgot-password */ "./resources/js/pages/auth/forgot-password.js");
 /* harmony import */ var _pages_auth_reset_password__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/auth/reset-password */ "./resources/js/pages/auth/reset-password.js");
 /* harmony import */ var _pages_dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/dashboard */ "./resources/js/pages/dashboard.js");
-/* harmony import */ var _pages_404__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/404 */ "./resources/js/pages/404.js");
+/* harmony import */ var _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/patients/patients-list */ "./resources/js/pages/patients/patients-list.js");
 /* harmony import */ var _pages_settings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/settings */ "./resources/js/pages/settings.js");
+/* harmony import */ var _pages_404__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../pages/404 */ "./resources/js/pages/404.js");
+
 
 
 
@@ -4075,17 +4521,16 @@ var routes = [{
   exact: true,
   auth: true,
   component: _pages_settings__WEBPACK_IMPORTED_MODULE_7__.default
-}, // {
-//     path: '/admin/password/reset/:token',
-//     exact: true,
-//     auth: false,
-//     component: ResetPassword
-// },
-{
+}, {
+  path: '/patients',
+  exact: true,
+  auth: true,
+  component: _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_6__.default
+}, {
   path: '',
   exact: true,
   auth: false,
-  component: _pages_404__WEBPACK_IMPORTED_MODULE_6__.default
+  component: _pages_404__WEBPACK_IMPORTED_MODULE_8__.default
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -4217,6 +4662,90 @@ function register(credentials) {
 
 /***/ }),
 
+/***/ "./resources/js/services/patients-service.js":
+/*!***************************************************!*\
+  !*** ./resources/js/services/patients-service.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPatientsList": () => (/* binding */ getPatientsList),
+/* harmony export */   "updatePatient": () => (/* binding */ updatePatient),
+/* harmony export */   "getRecordById": () => (/* binding */ getRecordById)
+/* harmony export */ });
+/* harmony import */ var _store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions/patients-action */ "./resources/js/store/actions/patients-action.js");
+/* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http */ "./resources/js/http.js");
+
+
+
+function preparePaginateLink(page) {
+  var link = '/api/v1/patients';
+
+  if (page > 1) {
+    link = '/api/v1/patients?page=' + page;
+  }
+
+  return link;
+}
+
+function getPatientsList(page) {
+  var link = preparePaginateLink(page);
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.get(link).then(function (response) {
+        dispatch(_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__.getPatients(response.data.result));
+        return resolve();
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function updatePatient(id, data) {
+  var link = '/api/v1/patients/' + id;
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.put(link, data).then(function (response) {
+        return resolve();
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function getRecordById(param) {
+  var link = '/api/v1/patients/' + param;
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.get(link).then(function (response) {
+        dispatch(_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__.getOnePatient(response.data.result));
+        return resolve();
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/store/action-types/index.js":
 /*!**************************************************!*\
   !*** ./resources/js/store/action-types/index.js ***!
@@ -4229,20 +4758,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AUTH_LOGIN": () => (/* binding */ AUTH_LOGIN),
 /* harmony export */   "AUTH_CHECK": () => (/* binding */ AUTH_CHECK),
 /* harmony export */   "AUTH_LOGOUT": () => (/* binding */ AUTH_LOGOUT),
-/* harmony export */   "BLOG_LIST": () => (/* binding */ BLOG_LIST),
-/* harmony export */   "BLOG_INNER": () => (/* binding */ BLOG_INNER),
-/* harmony export */   "CATEGORIES_LIST": () => (/* binding */ CATEGORIES_LIST),
-/* harmony export */   "CATEGORIES_SHORT_LIST": () => (/* binding */ CATEGORIES_SHORT_LIST),
-/* harmony export */   "CATEGORIES_INNER": () => (/* binding */ CATEGORIES_INNER)
+/* harmony export */   "PATIENT_LIST": () => (/* binding */ PATIENT_LIST),
+/* harmony export */   "PATIENT_INFO": () => (/* binding */ PATIENT_INFO)
 /* harmony export */ });
 var AUTH_LOGIN = 'AUTH_LOGIN';
 var AUTH_CHECK = 'AUTH_CHECK';
 var AUTH_LOGOUT = 'AUTH_LOGOUT';
-var BLOG_LIST = 'BLOG_LIST';
-var BLOG_INNER = 'BLOG_INNER';
-var CATEGORIES_LIST = 'CATEGORIES_LIST';
-var CATEGORIES_SHORT_LIST = 'CATEGORIES_SHORT_LIST';
-var CATEGORIES_INNER = 'CATEGORIES_INNER';
+var PATIENT_LIST = 'PATIENT_LIST';
+var PATIENT_INFO = 'PATIENT_INFO';
 
 /***/ }),
 
@@ -4275,6 +4798,35 @@ function authLogout() {
 function authCheck() {
   return {
     type: _action_types__WEBPACK_IMPORTED_MODULE_0__.AUTH_CHECK
+  };
+}
+
+/***/ }),
+
+/***/ "./resources/js/store/actions/patients-action.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/actions/patients-action.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPatients": () => (/* binding */ getPatients),
+/* harmony export */   "getOnePatient": () => (/* binding */ getOnePatient)
+/* harmony export */ });
+/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+
+function getPatients(payload) {
+  return {
+    type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_LIST,
+    payload: payload
+  };
+}
+function getOnePatient(payload) {
+  return {
+    type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_INFO,
+    payload: payload
   };
 }
 
@@ -4332,6 +4884,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
 /* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../http */ "./resources/js/http.js");
+/* harmony import */ var _utils_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/cookie */ "./resources/js/utils/cookie.js");
+
 
 
 var user = {
@@ -4369,20 +4923,15 @@ var Auth = function Auth() {
 };
 
 var authLogin = function authLogin(state, payload) {
-  var jwtToken = payload.token;
+  var jwtToken = payload.access_token;
   var user = payload.user;
-
-  if (!!payload.is_admin) {
-    localStorage.setItem('is_admin', true);
-  } else {
-    localStorage.setItem('is_admin', false);
-  }
-
-  localStorage.setItem('jwt_token', jwtToken);
+  var isAdmin = payload.is_admin;
+  (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.setCookie)('is_admin', isAdmin);
+  (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.setCookie)('jwt_token', jwtToken);
   _http__WEBPACK_IMPORTED_MODULE_1__.default.defaults.headers.common.Authorization = "Bearer ".concat(jwtToken);
   state = Object.assign({}, state, {
     isAuthenticated: true,
-    isAdmin: localStorage.getItem('is_admin') === 'true',
+    isAdmin: (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.getCookie)('is_admin') === 'true',
     user: user
   });
   return state;
@@ -4390,20 +4939,19 @@ var authLogin = function authLogin(state, payload) {
 
 var checkAuth = function checkAuth(state) {
   state = Object.assign({}, state, {
-    isAuthenticated: !!localStorage.getItem('jwt_token'),
-    isAdmin: localStorage.getItem('is_admin')
+    isAuthenticated: (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.getCookie)('jwt_token'),
+    isAdmin: (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.getCookie)('is_admin')
   });
 
   if (state.isAuthenticated) {
-    _http__WEBPACK_IMPORTED_MODULE_1__.default.defaults.headers.common.Authorization = "Bearer ".concat(localStorage.getItem('jwt_token'));
+    _http__WEBPACK_IMPORTED_MODULE_1__.default.defaults.headers.common.Authorization = "Bearer ".concat((0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.getCookie)('jwt_token'));
   }
 
   return state;
 };
 
 var logout = function logout(state) {
-  localStorage.removeItem('jwt_token');
-  localStorage.setItem('is_admin', false);
+  (0,_utils_cookie__WEBPACK_IMPORTED_MODULE_2__.deleteCookie)('jwt_token');
   state = Object.assign({}, state, {
     isAuthenticated: false,
     isAdmin: false,
@@ -4429,7 +4977,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth-reducer */ "./resources/js/store/reducers/auth-reducer.js");
-/* harmony import */ var _records_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./records-reducer */ "./resources/js/store/reducers/records-reducer.js");
+/* harmony import */ var _patients_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./patients-reducer */ "./resources/js/store/reducers/patients-reducer.js");
 /* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
 
 
@@ -4437,10 +4985,87 @@ __webpack_require__.r(__webpack_exports__);
 
 var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
   Auth: _auth_reducer__WEBPACK_IMPORTED_MODULE_0__.default,
-  Records: _records_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
+  Patients: _patients_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
   persistStore: _persist_store__WEBPACK_IMPORTED_MODULE_2__.default
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RootReducer);
+
+/***/ }),
+
+/***/ "./resources/js/store/reducers/patients-reducer.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/reducers/patients-reducer.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+
+var record = {
+  id: null,
+  name: null,
+  status: null,
+  views: null,
+  translation: null,
+  translations: [],
+  createdAt: null
+};
+var initialState = {
+  from: null,
+  to: null,
+  perPage: null,
+  currentPage: null,
+  lastPage: null,
+  total: null,
+  list: [],
+  item: record
+};
+
+var Records = function Records() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      _ref$payload = _ref.payload,
+      payload = _ref$payload === void 0 ? null : _ref$payload;
+
+  switch (type) {
+    case _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_LIST:
+      return applyPatients(state, payload);
+
+    case _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_INFO:
+      return applyPatient(state, payload);
+
+    default:
+      return state;
+  }
+};
+
+var applyPatients = function applyPatients(state, payload) {
+  state = Object.assign({}, state, {
+    from: payload.from,
+    to: payload.to,
+    perPage: payload.per_page,
+    currentPage: payload.current_page,
+    lastPage: payload.last_page,
+    total: payload.total,
+    list: payload.data
+  });
+  return state;
+};
+
+var applyPatient = function applyPatient(state, payload) {
+  state = Object.assign({}, state, {
+    item: payload
+  });
+  return state;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Records);
 
 /***/ }),
 
@@ -4481,80 +5106,94 @@ function persistStore(state, payload) {
 
 /***/ }),
 
-/***/ "./resources/js/store/reducers/records-reducer.js":
-/*!********************************************************!*\
-  !*** ./resources/js/store/reducers/records-reducer.js ***!
-  \********************************************************/
+/***/ "./resources/js/utils/cookie.js":
+/*!**************************************!*\
+  !*** ./resources/js/utils/cookie.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "getCookie": () => (/* binding */ getCookie),
+/* harmony export */   "setCookie": () => (/* binding */ setCookie),
+/* harmony export */   "deleteCookie": () => (/* binding */ deleteCookie)
 /* harmony export */ });
-/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-var record = {
-  id: null,
-  name: null,
-  status: null,
-  views: null,
-  translation: null,
-  translations: [],
-  createdAt: null
-};
-var initialState = {
-  from: null,
-  to: null,
-  perPage: null,
-  currentPage: null,
-  lastPage: null,
-  total: null,
-  list: [],
-  item: record
-};
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var Records = function Records() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  var _ref = arguments.length > 1 ? arguments[1] : undefined,
-      type = _ref.type,
-      _ref$payload = _ref.payload,
-      payload = _ref$payload === void 0 ? null : _ref$payload;
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+function setCookie(name, value) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  options = _objectSpread({
+    path: '/',
+    'max-age': 14400
+  }, options);
 
-  switch (type) {
-    case _action_types__WEBPACK_IMPORTED_MODULE_0__.BLOG_LIST:
-      return applyRecords(state, payload);
-
-    case _action_types__WEBPACK_IMPORTED_MODULE_0__.BLOG_INNER:
-      return applyRecord(state, payload);
-
-    default:
-      return state;
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
   }
-};
 
-var applyRecords = function applyRecords(state, payload) {
-  state = Object.assign({}, state, {
-    from: payload.from,
-    to: payload.to,
-    perPage: payload.per_page,
-    currentPage: payload.current_page,
-    lastPage: payload.last_page,
-    total: payload.total,
-    list: payload.data
+  var updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  for (var optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    var optionValue = options[optionKey];
+
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+function deleteCookie(name) {
+  setCookie(name, "", {
+    'max-age': -1
   });
-  return state;
-};
+}
 
-var applyRecord = function applyRecord(state, payload) {
-  state = Object.assign({}, state, {
-    item: payload
-  });
-  return state;
-};
+/***/ }),
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Records);
+/***/ "./resources/js/utils/date-format.js":
+/*!*******************************************!*\
+  !*** ./resources/js/utils/date-format.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatDate": () => (/* binding */ formatDate)
+/* harmony export */ });
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear(),
+      hour = '' + d.getHours(),
+      minutes = '' + d.getMinutes();
+
+  if (month.length < 2) {
+    month = '0' + month;
+  }
+
+  if (day.length < 2) {
+    day = '0' + day;
+  }
+
+  if (hour.length < 2) {
+    hour = '0' + hour;
+  }
+
+  return [hour, minutes].join(':') + ' ' + [day, month, year].join('/');
+}
 
 /***/ }),
 

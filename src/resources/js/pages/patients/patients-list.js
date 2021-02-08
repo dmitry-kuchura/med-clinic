@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Pagination from '../../helpers/pagination';
-import {formatDate} from '../../helpers/date-format';
-import {getRecordsList} from '../../services/records-service';
 import {Link} from 'react-router-dom';
+import {getPatientsList} from '../../services/patients-service';
+import {formatDate} from "../../utils/date-format";
 
-class RecordsList extends React.Component {
+class PatientsList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class RecordsList extends React.Component {
             list: []
         };
 
-        props.dispatch(getRecordsList(this.state.currentPage));
+        props.dispatch(getPatientsList(this.state.currentPage));
 
         this.handleChangePage = this.handleChangePage.bind(this);
     }
@@ -47,27 +47,27 @@ class RecordsList extends React.Component {
         return (
             <main>
                 <div className="container-fluid">
-                    <h1 className="mt-4">Список статей</h1>
+                    <h1 className="mt-4">Список пацієнтиів</h1>
                     <div className="card mb-4">
                         <div className="card-body">
                             <div className="table-responsive">
                                 <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
                                     <thead>
                                     <tr>
-                                        <th>Название</th>
-                                        <th>Просмотров</th>
+                                        <th>Ім'я</th>
                                         <th>Статус</th>
-                                        <th>Дата создания</th>
-                                        <th>Действия</th>
+                                        <th>Дата редагування</th>
+                                        <th>Відвідувань</th>
+                                        <th>Дії</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Название</th>
-                                        <th>Просмотров</th>
+                                        <th>Ім'я</th>
                                         <th>Статус</th>
-                                        <th>Дата создания</th>
-                                        <th>Действия</th>
+                                        <th>Дата редагування</th>
+                                        <th>Відвідувань</th>
+                                        <th>Дії</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
@@ -100,19 +100,19 @@ const List = (props) => {
                     <td>{item.status}</td>
                     <td>{formatDate(item.created_at)}</td>
                     <td>
-                        <Link to={'/admin/records/' + item.id} className="btn btn-success btn-sm">
+                        <Link to={'/admin/patients/' + item.id} className="btn btn-success btn-sm">
                             <i className="fas fa-edit"/>
                         </Link>
 
                         <span> </span>
 
-                        <Link to={'/admin/records/view/' + item.id} className="btn btn-warning btn-sm">
+                        <Link to={'/admin/patients/view/' + item.id} className="btn btn-warning btn-sm">
                             <i className="fas fa-eye"/>
                         </Link>
 
                         <span> </span>
 
-                        <Link to={'/admin/records/delete/' + item.id} className="btn btn-danger btn-sm">
+                        <Link to={'/admin/patients/delete/' + item.id} className="btn btn-danger btn-sm">
                             <i className="fas fa-trash"/>
                         </Link>
                     </td>
@@ -137,4 +137,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(RecordsList);
+export default connect(mapStateToProps)(PatientsList);
