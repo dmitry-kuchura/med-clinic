@@ -4074,15 +4074,15 @@ var PatientsList = /*#__PURE__*/function (_React$Component) {
   _createClass(PatientsList, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      if (prevProps.records !== this.props.records) {
+      if (prevProps.patients !== this.props.patients) {
         this.setState({
-          from: this.props.records.from,
-          to: this.props.records.to,
-          perPage: this.props.records.perPage,
-          currentPage: this.props.records.currentPage,
-          lastPage: this.props.records.lastPage,
-          total: this.props.records.total,
-          list: this.props.records.list
+          from: this.props.patients.from,
+          to: this.props.patients.to,
+          perPage: this.props.patients.perPage,
+          currentPage: this.props.patients.currentPage,
+          lastPage: this.props.patients.lastPage,
+          total: this.props.patients.total,
+          list: this.props.patients.list
         });
       }
     }
@@ -4090,7 +4090,7 @@ var PatientsList = /*#__PURE__*/function (_React$Component) {
     key: "handleChangePage",
     value: function handleChangePage(event) {
       event.preventDefault();
-      this.props.dispatch(getRecordsList(parseInt(event.target.id)));
+      this.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_4__.getPatientsList)(parseInt(event.target.id)));
     }
   }, {
     key: "render",
@@ -4115,13 +4115,15 @@ var PatientsList = /*#__PURE__*/function (_React$Component) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0406\u043C'\u044F"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "\u0421\u0442\u0430\u0442\u0443\u0441"
+                        children: "\u0421\u0442\u0430\u0442\u044C"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u043D\u0456 \u0434\u0430\u043D\u0456"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "\u0412\u0456\u0434\u0432\u0456\u0434\u0443\u0432\u0430\u043D\u044C"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0414\u0456\u0457"
                       })]
@@ -4129,13 +4131,15 @@ var PatientsList = /*#__PURE__*/function (_React$Component) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tfoot", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0406\u043C'\u044F"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "\u0421\u0442\u0430\u0442\u0443\u0441"
+                        children: "\u0421\u0442\u0430\u0442\u044C"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                        children: "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u043D\u0456 \u0434\u0430\u043D\u0456"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                        children: "\u0412\u0456\u0434\u0432\u0456\u0434\u0443\u0432\u0430\u043D\u044C"
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                         children: "\u0414\u0456\u0457"
                       })]
@@ -4168,13 +4172,27 @@ var List = function List(props) {
     html = list.map(function (item) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-          children: item.translation ? item.translation.name : 'N/A'
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", {
+            children: item.id
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-          children: item.views
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("strong", {
+            children: item.first_name.length ? item.first_name + ' ' + item.last_name : 'N/A'
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-          children: item.status
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+            children: item.gender === 'male' ? 'Чол.' : 'Жін.'
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            children: item.address ? 'Адреса: ' + item.address : ''
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            children: item.phone ? 'Телефон: ' + item.phone : ''
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-          children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_5__.formatDate)(item.created_at)
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+            children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_5__.formatDate)(item.updated_at)
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link, {
             to: '/admin/patients/' + item.id,
@@ -4216,7 +4234,7 @@ var List = function List(props) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     authUser: state.Auth.user,
-    records: state.Records
+    patients: state.Patients
   };
 };
 
@@ -5005,14 +5023,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
 
-var record = {
+var patient = {
   id: null,
-  name: null,
-  status: null,
-  views: null,
-  translation: null,
-  translations: [],
-  createdAt: null
+  first_name: null,
+  last_name: null,
+  address: null,
+  phone: null,
+  gender: null,
+  birthday: null,
+  createdAt: null,
+  updatedAt: null
 };
 var initialState = {
   from: null,
@@ -5022,10 +5042,10 @@ var initialState = {
   lastPage: null,
   total: null,
   list: [],
-  item: record
+  item: patient
 };
 
-var Records = function Records() {
+var Patients = function Patients() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 
   var _ref = arguments.length > 1 ? arguments[1] : undefined,
@@ -5065,7 +5085,7 @@ var applyPatient = function applyPatient(state, payload) {
   return state;
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Records);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Patients);
 
 /***/ }),
 

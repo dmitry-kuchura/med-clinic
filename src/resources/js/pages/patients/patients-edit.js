@@ -8,11 +8,6 @@ const rules = {
     "name": ["required"],
     "alias": ["url", "nullable"],
     "content": ["content", "required"],
-    "title": ["string", "nullable"],
-    "description": ["string", "nullable"],
-    "keywords": ["string", "nullable"],
-    "status": ["string", "nullable"],
-    "category_id": ["integer"],
 };
 
 class PatientsEdit extends React.Component {
@@ -87,7 +82,7 @@ class PatientsEdit extends React.Component {
 
         this.props.dispatch(updateRecord(this.state.record.id, this.state.record))
             .then(success => {
-                self.props.history.push('/admin/records');
+                self.props.history.push('/patients');
             });
     }
 

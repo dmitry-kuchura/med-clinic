@@ -6,7 +6,7 @@ use App\Models\User;
 
 class UsersRepository implements Repository
 {
-    public function findByEmail(string $email): User
+    public function findByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
     }
@@ -21,9 +21,9 @@ class UsersRepository implements Repository
         // TODO: Implement all() method.
     }
 
-    public function store(array $data)
+    public function store(array $data): User
     {
-        // TODO: Implement store() method.
+        return User::create($data);
     }
 
     public function update(array $data, int $id): void

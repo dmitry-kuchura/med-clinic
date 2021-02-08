@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('patients')->group(function () {
             Route::get('/', [PatientsController::class, 'list'])->name('api.patients.list');
+            Route::post('/create', [PatientsController::class, 'create'])->name('api.patients.create');
         });
     });
 });

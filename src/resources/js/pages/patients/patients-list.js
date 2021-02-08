@@ -25,22 +25,22 @@ class PatientsList extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.records !== this.props.records) {
+        if (prevProps.patients !== this.props.patients) {
             this.setState({
-                from: this.props.records.from,
-                to: this.props.records.to,
-                perPage: this.props.records.perPage,
-                currentPage: this.props.records.currentPage,
-                lastPage: this.props.records.lastPage,
-                total: this.props.records.total,
-                list: this.props.records.list
+                from: this.props.patients.from,
+                to: this.props.patients.to,
+                perPage: this.props.patients.perPage,
+                currentPage: this.props.patients.currentPage,
+                lastPage: this.props.patients.lastPage,
+                total: this.props.patients.total,
+                list: this.props.patients.list
             })
         }
     }
 
     handleChangePage(event) {
         event.preventDefault();
-        this.props.dispatch(getRecordsList(parseInt(event.target.id)));
+        this.props.dispatch(getPatientsList(parseInt(event.target.id)));
     }
 
     render() {
@@ -54,19 +54,21 @@ class PatientsList extends React.Component {
                                 <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Ім'я</th>
-                                        <th>Статус</th>
+                                        <th>Стать</th>
+                                        <th>Контактні дані</th>
                                         <th>Дата редагування</th>
-                                        <th>Відвідувань</th>
                                         <th>Дії</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th>#</th>
                                         <th>Ім'я</th>
-                                        <th>Статус</th>
+                                        <th>Стать</th>
+                                        <th>Контактні дані</th>
                                         <th>Дата редагування</th>
-                                        <th>Відвідувань</th>
                                         <th>Дії</th>
                                     </tr>
                                     </tfoot>
@@ -95,10 +97,14 @@ const List = (props) => {
         html = list.map(function (item) {
             return (
                 <tr key={item.id}>
-                    <td>{item.translation ? item.translation.name : 'N/A'}</td>
-                    <td>{item.views}</td>
-                    <td>{item.status}</td>
-                    <td>{formatDate(item.created_at)}</td>
+                    <td><strong>{item.id}</strong></td>
+                    <td><strong>{item.first_name.length ? item.first_name + ' ' + item.last_name : 'N/A'}</strong></td>
+                    <td><p>{item.gender === 'male' ? 'Чол.' : 'Жін.'}</p></td>
+                    <td>
+                        <span>{item.address ? 'Адреса: ' + item.address : ''}</span>
+                        <span>{item.phone ? 'Телефон: ' + item.phone : ''}</span>
+                    </td>
+                    <td><p>{formatDate(item.updated_at)}</p></td>
                     <td>
                         <Link to={'/admin/patients/' + item.id} className="btn btn-success btn-sm">
                             <i className="fas fa-edit"/>
@@ -133,7 +139,7 @@ const List = (props) => {
 const mapStateToProps = (state) => {
     return {
         authUser: state.Auth.user,
-        records: state.Records
+        patients: state.Patients
     }
 };
 

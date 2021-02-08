@@ -1,13 +1,15 @@
-import * as ActionTypes from "../action-types";
+import * as ActionTypes from '../action-types';
 
-const record = {
+const patient = {
     id: null,
-    name: null,
-    status: null,
-    views: null,
-    translation: null,
-    translations: [],
+    first_name: null,
+    last_name: null,
+    address: null,
+    phone: null,
+    gender: null,
+    birthday: null,
     createdAt: null,
+    updatedAt: null,
 };
 
 const initialState = {
@@ -18,10 +20,10 @@ const initialState = {
     lastPage: null,
     total: null,
     list: [],
-    item: record
+    item: patient
 };
 
-const Records = (state = initialState, {type, payload = null}) => {
+const Patients = (state = initialState, {type, payload = null}) => {
     switch (type) {
         case ActionTypes.PATIENT_LIST:
             return applyPatients(state, payload);
@@ -54,4 +56,4 @@ const applyPatient = (state, payload) => {
     return state;
 };
 
-export default Records;
+export default Patients;
