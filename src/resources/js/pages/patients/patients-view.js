@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {getOnePatient} from "../../store/actions/patients-action";
 
 class PatientsView extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ class PatientsView extends React.Component {
             record: null
         };
 
-        // props.dispatch(getRecordsList())
+        props.dispatch(getOnePatient())
     }
 
     componentDidUpdate(prevProps) {
@@ -36,7 +37,7 @@ class PatientsView extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        recordsList: state.Records.item
+        patient: state.Patients.item
     }
 };
 

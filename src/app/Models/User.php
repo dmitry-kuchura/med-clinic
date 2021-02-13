@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return in_array($this->role, [UserRole::ADMIN, UserRole::SUPER_ADMIN], true);
     }
+
+    public function isSuperAdmin()
+    {
+        return in_array($this->role, [UserRole::SUPER_ADMIN], true);
+    }
 }

@@ -6,7 +6,7 @@ const patient = {
     last_name: null,
     address: null,
     phone: null,
-    gender: null,
+    gender: 'male',
     birthday: null,
     createdAt: null,
     updatedAt: null,

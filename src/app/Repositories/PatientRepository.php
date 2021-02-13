@@ -10,7 +10,7 @@ class PatientRepository implements Repository
 {
     public function paginate(int $offset)
     {
-        return Patients::withCasts(['status'])->orderBy('id', 'desc')->paginate($offset);
+        return Patients::orderBy('id', 'desc')->paginate($offset);
     }
 
     public function get(int $id)

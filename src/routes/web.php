@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('{uri?}', function () {
+Route::get('{uri}', function () {
     return view('react');
-})->where('react', '^((?!api).)*$'); // except 'api' word
+})->where('uri', '^((?!api).)*$'); // except 'api' word

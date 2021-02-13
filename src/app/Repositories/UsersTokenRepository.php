@@ -50,7 +50,7 @@ class UsersTokenRepository implements Repository
         $usersTokens = UsersTokens::where('user_id', $id)->get();
 
         foreach ($usersTokens as $usersToken) {
-            if (!Carbon::parse($usersToken->expired_at)->isPast()) {
+            if (!Carbon::parse($usersToken->expired_at)->isPast() && !$usersToken->user->isSuperAdmin()) {
                 $usersToken->expired_at = Carbon::now()->format('Y-m-d H:i:s');
                 $usersToken->save();
             }

@@ -2582,6 +2582,81 @@ function getParamFromUrl(props, param) {
 
 /***/ }),
 
+/***/ "./resources/js/helpers/validation.js":
+/*!********************************************!*\
+  !*** ./resources/js/helpers/validation.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "validate": () => (/* binding */ validate)
+/* harmony export */ });
+var REQUIRE = 'required';
+var STRING = 'string';
+var CONTENT = 'content';
+var URL = 'url';
+var EMAIL = 'email';
+var INTEGER = 'integer';
+var NULLABLE = 'nullable';
+function validate(name, value, params) {
+  var pattern;
+  var error = '';
+  var errors = [];
+
+  if (params.includes(NULLABLE)) {
+    return null;
+  }
+
+  params.forEach(function (param) {
+    switch (param) {
+      case REQUIRE:
+        pattern = /^.{6,}$/;
+        error = 'Ошибка в поле %name% со значением %value%, минимум 6 символов.';
+        break;
+
+      case STRING:
+        pattern = /^[a-zA-Zа-яА-Я]+$/;
+        error = 'Ошибка в поле %name% со значением %value%, должно быть строкой.';
+        break;
+
+      case CONTENT:
+        pattern = /.*/;
+        error = 'Ошибка в поле %name% со значением %value%, должно быть контентом.';
+        break;
+
+      case URL:
+        pattern = /^[a-zA-Z0-9_-]+$/;
+        error = 'Ошибка в поле %name% со значением %value%, должно быть url\'ом.';
+        break;
+
+      case INTEGER:
+        pattern = /^\d+$/;
+        error = 'Ошибка в поле %name% со значением %value%, поле должно быть числом.';
+        break;
+
+      case EMAIL:
+        pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        error = 'Ошибка в поле %name% со значением %value%, поле должно быть email\'oм.';
+        break;
+
+      default:
+        pattern = /^.{6,}$/;
+        break;
+    }
+
+    if (!pattern.test(value)) {
+      error = error.replace('%name%', name);
+      error = error.replace('%value%', value);
+      errors.push(error);
+    }
+  });
+  return errors.length > 1 ? errors[errors.length - 1] : errors[0];
+}
+
+/***/ }),
+
 /***/ "./resources/js/http.js":
 /*!******************************!*\
   !*** ./resources/js/http.js ***!
@@ -3996,6 +4071,357 @@ var mapStateToProps = function mapStateToProps(state) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/patients/patients-edit.js":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/patients/patients-edit.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers_url_params__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/url-params */ "./resources/js/helpers/url-params.js");
+/* harmony import */ var _helpers_validation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/validation */ "./resources/js/helpers/validation.js");
+/* harmony import */ var _store_actions_patients_action__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../store/actions/patients-action */ "./resources/js/store/actions/patients-action.js");
+/* harmony import */ var _services_patients_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../services/patients-service */ "./resources/js/services/patients-service.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+var rules = {
+  'first_name': ['required'],
+  'last_name': ['required'],
+  'middle_name': ['string'],
+  'email': ['email'],
+  'phone': ['required']
+};
+
+var PatientsEdit = /*#__PURE__*/function (_React$Component) {
+  _inherits(PatientsEdit, _React$Component);
+
+  var _super = _createSuper(PatientsEdit);
+
+  function PatientsEdit(props) {
+    var _this;
+
+    _classCallCheck(this, PatientsEdit);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      patient: {
+        id: null,
+        first_name: null,
+        last_name: null,
+        middle_name: null,
+        gender: 'male'
+      }
+    };
+
+    if ((0,_helpers_url_params__WEBPACK_IMPORTED_MODULE_3__.getParamFromUrl)(props, 'id')) {
+      props.dispatch((0,_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_5__.getOnePatient)((0,_helpers_url_params__WEBPACK_IMPORTED_MODULE_3__.getParamFromUrl)(props, 'id')));
+    }
+
+    _this.handleChangeInput = _this.handleChangeInput.bind(_assertThisInitialized(_this));
+    _this.handleSubmitForm = _this.handleSubmitForm.bind(_assertThisInitialized(_this));
+    _this.handleUpdateContent = _this.handleUpdateContent.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(PatientsEdit, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.patient !== this.props.patient) {
+        this.setState({
+          patient: this.props.patient
+        });
+      }
+    }
+  }, {
+    key: "handleChangeInput",
+    value: function handleChangeInput(event) {
+      event.preventDefault();
+      var input = event.target.name;
+      var value = event.target.value;
+      var state = Object.assign({}, this.state);
+
+      switch (input) {
+        default:
+          state.patient[input] = value;
+          break;
+      }
+
+      this.setState(state);
+    }
+  }, {
+    key: "handleUpdateContent",
+    value: function handleUpdateContent(content) {
+      var state = Object.assign({}, this.state);
+      state.patient['content'] = content;
+      this.setState(state);
+    }
+  }, {
+    key: "handleSubmitForm",
+    value: function handleSubmitForm(event) {
+      event.preventDefault();
+      var self = this;
+      this.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_6__.updatePatient)(this.state.patient.id, this.state.patient)).then(function (success) {
+        self.props.history.push('/patients');
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var patient = this.state.patient;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("main", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "container-fluid",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+            className: "mt-4",
+            children: patient.id ? 'Редагування пацієнта' : 'Додавання нового пацієнта'
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "row gutters-sm",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "col-md-4 mb-3",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "card",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                    className: "card-body",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                      className: "d-flex flex-column align-items-center text-center",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
+                        src: "https://bootdey.com/img/Content/avatar/avatar7.png",
+                        alt: "Admin",
+                        className: "rounded-circle",
+                        width: "150"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                        className: "mt-3",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                          children: "John Doe"
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                          className: "text-secondary mb-1",
+                          children: "Full Stack Developer"
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                          className: "text-muted font-size-sm",
+                          children: "Bay Area, San Francisco, CA"
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                          className: "btn btn-outline-primary",
+                          children: "Message"
+                        })]
+                      })]
+                    })
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "card mt-3",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                    className: "card-body",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                      className: "row",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                        className: "col-md-12",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                          className: "form-group",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                            className: "form-check form-check-inline",
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                              className: "form-check-input",
+                              type: "radio",
+                              value: "male",
+                              name: "gender",
+                              onChange: this.handleChangeInput,
+                              checked: patient.gender === 'male',
+                              id: "genderMale"
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                              className: "form-check-label",
+                              htmlFor: "genderMale",
+                              children: "\u0427\u043E\u043B\u043E\u0432\u0456\u043A"
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                              className: "form-check form-check-inline"
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                              className: "form-check-input",
+                              type: "radio",
+                              value: "female",
+                              name: "gender",
+                              onChange: this.handleChangeInput,
+                              checked: patient.gender === 'female',
+                              id: "genderFemale"
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                              className: "form-check-label",
+                              htmlFor: "genderFemale",
+                              children: "\u0416\u0456\u043D\u043A\u0430"
+                            })]
+                          })
+                        })
+                      })
+                    })
+                  })
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "col-md-8",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "card mb-3",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                    className: "card-body",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                      className: "row",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                        className: "col-md-12",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "form-group",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                            htmlFor: "formGroupExampleInput",
+                            children: "\u0406\u043C'\u044F"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                            type: "text",
+                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("first_name", patient.first_name, rules['first_name']) ? "form-control is-invalid" : "form-control",
+                            placeholder: "\u0406\u043C'\u044F",
+                            name: "first_name",
+                            id: "first_name",
+                            onChange: this.handleChangeInput,
+                            value: patient.first_name ? patient.first_name : ''
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "invalid-feedback",
+                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)('first_name', patient.first_name, rules['first_name'])
+                          })]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "form-group",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                            htmlFor: "formGroupExampleInput",
+                            children: "\u041F\u0440\u0456\u0437\u0432\u0438\u0449\u0435"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                            type: "text",
+                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("last_name", patient.last_name, rules['last_name']) ? "form-control is-invalid" : "form-control",
+                            placeholder: "\u041F\u0440\u0456\u0437\u0432\u0438\u0449\u0435",
+                            name: "last_name",
+                            id: "last_name",
+                            onChange: this.handleChangeInput,
+                            value: patient.last_name ? patient.last_name : ''
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "invalid-feedback",
+                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("last_name", patient.last_name, rules["last_name"])
+                          })]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "form-group",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                            htmlFor: "formGroupExampleInput",
+                            children: "\u041F\u043E \u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                            type: "text",
+                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("middle_name", patient.middle_name, rules['middle_name']) ? "form-control is-invalid" : "form-control",
+                            placeholder: "\u041F\u043E \u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456",
+                            name: "middle_name",
+                            id: "middle_name",
+                            onChange: this.handleChangeInput,
+                            value: patient.middle_name ? patient.middle_name : ''
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "invalid-feedback",
+                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("middle_name", patient.middle_name, rules["middle_name"])
+                          })]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "form-group",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                            htmlFor: "formGroupExampleInput",
+                            children: "\u0422\u0435\u043B\u0435\u0444\u043E\u043D"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                            type: "text",
+                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("phone", patient.phone, rules['phone']) ? "form-control is-invalid" : "form-control",
+                            placeholder: "\u0422\u0435\u043B\u0435\u0444\u043E\u043D. \u041D\u0430\u043F\u0440\u0438\u043A\u043B\u0430\u0434: +380631234567 \u0430\u0431\u043E 0631234567",
+                            name: "phone",
+                            id: "phone",
+                            onChange: this.handleChangeInput,
+                            value: patient.middle_name ? patient.middle_name : ''
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "invalid-feedback",
+                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("middle_name", patient.middle_name, rules["middle_name"])
+                          })]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "form-group",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                            htmlFor: "formGroupExampleInput",
+                            children: "Email"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                            type: "text",
+                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("email", patient.email, rules['email']) ? "form-control is-invalid" : "form-control",
+                            placeholder: "Email",
+                            name: "email",
+                            id: "email",
+                            onChange: this.handleChangeInput,
+                            value: patient.email ? patient.email : ''
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "invalid-feedback",
+                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)("email", patient.email, rules["email"])
+                          })]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                          className: "pull-right",
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                            className: "btn btn-primary",
+                            type: "submit",
+                            onClick: this.handleSubmitForm,
+                            children: patient.id ? 'Оновити' : 'Додати'
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                            className: "form-check form-check-inline"
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                            className: "btn btn-secondary",
+                            children: "\u041D\u0430\u0437\u0430\u0434"
+                          })]
+                        })]
+                      })
+                    })
+                  })
+                })
+              })]
+            })
+          })]
+        })
+      });
+    }
+  }]);
+
+  return PatientsEdit;
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    patient: state.Patients.item
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps)(PatientsEdit));
+
+/***/ }),
+
 /***/ "./resources/js/pages/patients/patients-list.js":
 /*!******************************************************!*\
   !*** ./resources/js/pages/patients/patients-list.js ***!
@@ -4492,9 +4918,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_auth_forgot_password__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/auth/forgot-password */ "./resources/js/pages/auth/forgot-password.js");
 /* harmony import */ var _pages_auth_reset_password__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/auth/reset-password */ "./resources/js/pages/auth/reset-password.js");
 /* harmony import */ var _pages_dashboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../pages/dashboard */ "./resources/js/pages/dashboard.js");
-/* harmony import */ var _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/patients/patients-list */ "./resources/js/pages/patients/patients-list.js");
-/* harmony import */ var _pages_settings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/settings */ "./resources/js/pages/settings.js");
-/* harmony import */ var _pages_404__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../pages/404 */ "./resources/js/pages/404.js");
+/* harmony import */ var _pages_patients_patients_edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../pages/patients/patients-edit */ "./resources/js/pages/patients/patients-edit.js");
+/* harmony import */ var _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../pages/patients/patients-list */ "./resources/js/pages/patients/patients-list.js");
+/* harmony import */ var _pages_settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../pages/settings */ "./resources/js/pages/settings.js");
+/* harmony import */ var _pages_404__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../pages/404 */ "./resources/js/pages/404.js");
+
 
 
 
@@ -4538,17 +4966,27 @@ var routes = [{
   path: '/settings',
   exact: true,
   auth: true,
-  component: _pages_settings__WEBPACK_IMPORTED_MODULE_7__.default
+  component: _pages_settings__WEBPACK_IMPORTED_MODULE_8__.default
 }, {
   path: '/patients',
   exact: true,
   auth: true,
-  component: _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_6__.default
+  component: _pages_patients_patients_list__WEBPACK_IMPORTED_MODULE_7__.default
+}, {
+  path: '/patients/create',
+  exact: true,
+  auth: true,
+  component: _pages_patients_patients_edit__WEBPACK_IMPORTED_MODULE_6__.default
+}, {
+  path: '/patients/:id',
+  exact: true,
+  auth: true,
+  component: _pages_patients_patients_edit__WEBPACK_IMPORTED_MODULE_6__.default
 }, {
   path: '',
   exact: true,
   auth: false,
-  component: _pages_404__WEBPACK_IMPORTED_MODULE_8__.default
+  component: _pages_404__WEBPACK_IMPORTED_MODULE_9__.default
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -5029,7 +5467,7 @@ var patient = {
   last_name: null,
   address: null,
   phone: null,
-  gender: null,
+  gender: 'male',
   birthday: null,
   createdAt: null,
   updatedAt: null
