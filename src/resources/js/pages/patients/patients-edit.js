@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
-import {getOnePatient} from '../../store/actions/patients-action';
-import {updatePatient} from '../../services/patients-service';
+import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
+import swal from 'sweetalert';
 
 const rules = {
     'first_name': ['required'],
     'last_name': ['required'],
-    'middle_name': ['string'],
-    'email': ['email'],
+    'middle_name': ['string', 'nullable'],
+    'email': ['email', 'nullable'],
     'phone': ['required'],
 };
 
@@ -28,7 +28,7 @@ class PatientsEdit extends React.Component {
         };
 
         if (getParamFromUrl(props, 'id')) {
-            props.dispatch(getOnePatient(getParamFromUrl(props, 'id')));
+            props.dispatch(getPatientById(getParamFromUrl(props, 'id')));
         }
 
         this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -51,11 +51,7 @@ class PatientsEdit extends React.Component {
         let value = event.target.value;
         let state = Object.assign({}, this.state);
 
-        switch (input) {
-            default:
-                state.patient[input] = value;
-                break;
-        }
+        state.patient[input] = value;
 
         this.setState(state);
     }
@@ -73,14 +69,51 @@ class PatientsEdit extends React.Component {
 
         const self = this;
 
-        this.props.dispatch(updatePatient(this.state.patient.id, this.state.patient))
-            .then(success => {
-                self.props.history.push('/patients');
-            });
+        if (!this.valid()) {
+            swal('Неправильно введені данні', 'Перевірте вказанні данні!', 'error');
+            return;
+        }
+
+        if (this.state.patient.id) {
+            this.props.dispatch(updatePatient(this.state.patient))
+                .then(success => {
+                    swal('Добре!', 'Профіль було оновлено!', 'success');
+                    self.props.history.push('/patients');
+                })
+                .catch(error => {
+                    console.log(error);
+                    swal('Bad job!', 'You clicked the button!', 'error');
+                })
+        } else {
+            this.props.dispatch(createPatient(this.state.patient))
+                .then(success => {
+                    swal('Добре!', 'Профіль було створено!', 'success');
+                    self.props.history.push('/patients');
+                })
+                .catch(error => {
+                    console.log(error);
+                    swal('Bad job!', 'You clicked the button!', 'error');
+                })
+        }
+    }
+
+    valid() {
+        let patient = this.state.patient;
+
+        for (const [key, value] of Object.entries(patient)) {
+            if (rules.hasOwnProperty(key)) {
+                let valid = validate(key, value, rules[key]);
+
+                return valid === undefined || valid === null;
+            }
+        }
+
+        return true;
     }
 
     render() {
         let patient = this.state.patient;
+        let placeholder = patient.gender === 'male' ? '/images/avatars/man.png' : '/images/avatars/woman.png';
 
         return (
             <main>
@@ -95,15 +128,14 @@ class PatientsEdit extends React.Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex flex-column align-items-center text-center">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                 alt="Admin" className="rounded-circle" width="150"/>
-                                                <div className="mt-3">
-                                                    <h4>John Doe</h4>
-                                                    <p className="text-secondary mb-1">Full Stack Developer</p>
-                                                    <p className="text-muted font-size-sm">Bay Area, San Francisco,
-                                                        CA</p>
-                                                    <button className="btn btn-outline-primary">Message</button>
-                                                </div>
+                                            <img src={placeholder}
+                                                 alt="Avatar" className="rounded-circle" width="150"/>
+                                            <div className="mt-3">
+                                                <h4>{patient.first_name} {patient.last_name} {patient.middle_name}</h4>
+                                                <p className="text-secondary mb-1">{patient.phone}</p>
+                                                <p className="text-muted font-size-sm">{patient.email}</p>
+                                                {/*<button className="btn btn-outline-primary">Message</button>*/}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -121,8 +153,7 @@ class PatientsEdit extends React.Component {
                                                                onChange={this.handleChangeInput}
                                                                checked={patient.gender === 'male'}
                                                                id="genderMale"/>
-                                                        <label className="form-check-label"
-                                                               htmlFor="genderMale">Чоловік</label>
+                                                        <label className="form-check-label">Чоловік</label>
 
                                                         <div className="form-check form-check-inline"/>
 
@@ -133,7 +164,7 @@ class PatientsEdit extends React.Component {
                                                                onChange={this.handleChangeInput}
                                                                checked={patient.gender === 'female'}
                                                                id="genderFemale"/>
-                                                        <label className="form-check-label" htmlFor="genderFemale">Жінка</label>
+                                                        <label className="form-check-label">Жінка</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +226,7 @@ class PatientsEdit extends React.Component {
                                                            name="phone"
                                                            id="phone"
                                                            onChange={this.handleChangeInput}
-                                                           value={patient.middle_name ? patient.middle_name : ''}/>
+                                                           value={patient.phone ? patient.phone : ''}/>
                                                     <div
                                                         className="invalid-feedback">{validate("middle_name", patient.middle_name, rules["middle_name"])}</div>
                                                 </div>

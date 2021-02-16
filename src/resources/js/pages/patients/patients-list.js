@@ -106,19 +106,19 @@ const List = (props) => {
                     </td>
                     <td><p>{formatDate(item.updated_at)}</p></td>
                     <td>
-                        <Link to={'/admin/patients/' + item.id} className="btn btn-success btn-sm">
+                        <Link to={'/patients/' + item.id} className="btn btn-success btn-sm">
                             <i className="fas fa-edit"/>
                         </Link>
 
                         <span> </span>
 
-                        <Link to={'/admin/patients/view/' + item.id} className="btn btn-warning btn-sm">
+                        <Link to={'/patients/view/' + item.id} className="btn btn-warning btn-sm">
                             <i className="fas fa-eye"/>
                         </Link>
 
                         <span> </span>
 
-                        <Link to={'/admin/patients/delete/' + item.id} className="btn btn-danger btn-sm">
+                        <Link to={'/patients/delete/' + item.id} className="btn btn-danger btn-sm">
                             <i className="fas fa-trash"/>
                         </Link>
                     </td>

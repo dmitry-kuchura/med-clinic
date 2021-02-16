@@ -29,6 +29,24 @@ class PatientAction
         return $this->patientRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
+    public function info(int $id)
+    {
+        return $this->patientRepository->get($id);
+    }
+
+    public function update(array $data)
+    {
+        $patientData = [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'gender' => $data['gender'],
+            'phone' => $data['phone'] ?? null,
+            'address' => $data['address'] ?? null,
+        ];
+
+        $this->patientRepository->update($patientData, $data['id']);
+    }
+
     public function create(array $data): bool
     {
         $existUser = null;
@@ -65,11 +83,6 @@ class PatientAction
     private function findUserByEmail(string $email): ?User
     {
         return $this->usersRepository->findByEmail($email);
-    }
-
-    private function findPatientByEmail(string $email)
-    {
-
     }
 
     private function generateTempEmail(): string

@@ -33,8 +33,8 @@ export function getPatientsList(page) {
     );
 }
 
-export function updatePatient(id, data) {
-    let link = '/api/v1/patients/' + id;
+export function updatePatient(data) {
+    let link = '/api/v1/patients/';
 
     return dispatch => (
         new Promise((resolve, reject) => {
@@ -54,7 +54,28 @@ export function updatePatient(id, data) {
     );
 }
 
-export function getRecordById(param) {
+export function createPatient(data) {
+    let link = '/api/v1/patients/create';
+
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post(link, data)
+                .then(response => {
+                    return resolve();
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
+export function getPatientById(param) {
     let link = '/api/v1/patients/' + param;
 
     return dispatch => (

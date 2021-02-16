@@ -18,28 +18,28 @@ export function validate(name, value, params) {
     params.forEach(param => {
         switch (param) {
             case REQUIRE:
-                pattern = /^.{6,}$/;
-                error = 'Ошибка в поле %name% со значением %value%, минимум 6 символов.';
+                pattern = /^.{2,}$/;
+                error = 'Помилка зі значенням %value%, мінімально 6 символів.';
                 break;
             case STRING:
                 pattern = /^[a-zA-Zа-яА-Я]+$/;
-                error = 'Ошибка в поле %name% со значением %value%, должно быть строкой.';
+                error = 'Помилка зі значенням %value%, повинно бути строкою.';
                 break;
             case CONTENT:
                 pattern = /.*/;
-                error = 'Ошибка в поле %name% со значением %value%, должно быть контентом.';
+                error = 'Помилка зі значенням %value%, повинно бути контентом.';
                 break;
             case URL:
                 pattern = /^[a-zA-Z0-9_-]+$/;
-                error = 'Ошибка в поле %name% со значением %value%, должно быть url\'ом.';
+                error = 'Помилка зі значенням %value%, повинно бути url\'ом.';
                 break;
             case INTEGER:
                 pattern = /^\d+$/;
-                error = 'Ошибка в поле %name% со значением %value%, поле должно быть числом.';
+                error = 'Помилка зі значенням %value%, повинно бути номером.';
                 break;
             case EMAIL:
                 pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                error = 'Ошибка в поле %name% со значением %value%, поле должно быть email\'oм.';
+                error = 'Помилка зі значенням %value%, повинно бути номером email\'oм.';
                 break;
             default:
                 pattern = /^.{6,}$/;

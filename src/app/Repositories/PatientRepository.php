@@ -15,7 +15,7 @@ class PatientRepository implements Repository
 
     public function get(int $id)
     {
-        // TODO: Implement get() method.
+        return Patients::find($id);
     }
 
     public function all()
@@ -30,7 +30,7 @@ class PatientRepository implements Repository
 
     public function update(array $data, int $id)
     {
-        // TODO: Implement update() method.
+        return Patients::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)
