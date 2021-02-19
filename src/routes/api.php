@@ -37,6 +37,13 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [PatientsController::class, 'info'])->name('api.patients.info');
             Route::post('/create', [PatientsController::class, 'create'])->name('api.patients.create');
         });
+
+        Route::prefix('tests')->group(function () {
+            Route::get('/', [PatientsController::class, 'list'])->name('api.tests.tests');
+            Route::put('/', [PatientsController::class, 'update'])->name('api.tests.update');
+            Route::get('/{id}', [PatientsController::class, 'info'])->name('api.tests.info');
+            Route::post('/create', [PatientsController::class, 'create'])->name('api.tests.create');
+        });
     });
 });
 //});
