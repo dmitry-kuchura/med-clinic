@@ -15,6 +15,6 @@ class Controller extends BaseController
     {
         $response['success'] = true;
 
-        return response()->json($response, $status_code, $headers, JSON_NUMERIC_CHECK);
+        return response()->json($response, $status_code, $headers, JSON_UNESCAPED_UNICODE);
     }
 }

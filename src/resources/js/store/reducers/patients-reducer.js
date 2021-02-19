@@ -6,6 +6,7 @@ const patient = {
     last_name: null,
     address: null,
     phone: null,
+    email: null,
     gender: 'male',
     birthday: null,
     createdAt: null,
@@ -50,7 +51,19 @@ const applyPatients = (state, payload) => {
 
 const applyPatient = (state, payload) => {
     state = Object.assign({}, state, {
-        item: payload
+        item: {
+            id: payload.id,
+            first_name: payload.first_name,
+            middle_name: payload.middle_name,
+            last_name: payload.last_name,
+            address: payload.address,
+            phone: payload.phone,
+            email: payload.user.email,
+            gender: payload.gender,
+            birthday: payload.birthday,
+            createdAt: payload.createdAt,
+            updatedAt: payload.updatedAt,
+        }
     });
 
     return state;

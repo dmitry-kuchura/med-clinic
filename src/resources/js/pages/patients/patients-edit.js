@@ -22,6 +22,7 @@ class PatientsEdit extends React.Component {
                 id: null,
                 first_name: null,
                 last_name: null,
+                email: null,
                 middle_name: null,
                 gender: 'male',
             },
@@ -134,7 +135,10 @@ class PatientsEdit extends React.Component {
                                                 <h4>{patient.first_name} {patient.last_name} {patient.middle_name}</h4>
                                                 <p className="text-secondary mb-1">{patient.phone}</p>
                                                 <p className="text-muted font-size-sm">{patient.email}</p>
-                                                {/*<button className="btn btn-outline-primary">Message</button>*/}
+
+                                                {patient.id ?
+                                                    <button className="btn btn-outline-primary">Надіслати СМС</button>
+                                                : null}
                                             </div>
                                         </div>
                                     </div>

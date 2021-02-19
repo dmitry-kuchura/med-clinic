@@ -11,6 +11,11 @@ class UsersRepository implements Repository
         return User::where('email', $email)->first();
     }
 
+    public function findByID(string $id): ?User
+    {
+        return User::find($id);
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.

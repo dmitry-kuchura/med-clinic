@@ -29,7 +29,7 @@ class AuthService
         $this->passwordResetsRepository = $passwordResetsRepository;
     }
 
-    public function authorization(string $token)
+    public function authorization(string $token): void
     {
         Auth::login($this->findUserByToken($token));
     }
@@ -90,6 +90,10 @@ class AuthService
     {
         $usersToken = $this->usersTokenRepository->find($token);
 
+        if (!$usersToken) {
+            return true;
+        }
+
         return Carbon::parse($usersToken->expired_at)->isPast();
     }
 
@@ -98,7 +102,7 @@ class AuthService
         $this->usersTokenRepository->expired($user_id);
     }
 
-    public function findUserByToken(string $token): User
+    public function findUserByToken(string $token): ?User
     {
         $usersToken = $this->usersTokenRepository->find($token);
 

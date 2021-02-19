@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $user_id
  * @property string $first_name
+ * @property string $middle_name
  * @property string $last_name
  * @property string $address
  * @property string $phone
@@ -31,6 +32,7 @@ class Patients extends Model
         'id',
         'user_id',
         'first_name',
+        'middle_name',
         'last_name',
         'address',
         'phone',

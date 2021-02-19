@@ -15,7 +15,7 @@ class PatientRepository implements Repository
 
     public function get(int $id)
     {
-        return Patients::find($id);
+        return Patients::with('user')->find($id);
     }
 
     public function all()

@@ -44,6 +44,15 @@ class PatientAction
             'address' => $data['address'] ?? null,
         ];
 
+        if ($data['email']) {
+            $existUser = $this->findUserByID($data['id']);
+            if ($existUser->email !== $data['email']) {
+                if (!$existUser = $this->findUserByEmail($data['email'])) {
+                    $this->usersRepository->update(['email' => $data['email']], $data['id']);
+                }
+            }
+        }
+
         $this->patientRepository->update($patientData, $data['id']);
     }
 
@@ -68,10 +77,10 @@ class PatientAction
         $patientData = [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
             'gender' => $data['gender'],
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
-            'email' => $user->email,
             'user_id' => $user->id
         ];
 
@@ -83,6 +92,11 @@ class PatientAction
     private function findUserByEmail(string $email): ?User
     {
         return $this->usersRepository->findByEmail($email);
+    }
+
+    private function findUserByID(int $id): ?User
+    {
+        return $this->usersRepository->findByID($id);
     }
 
     private function generateTempEmail(): string

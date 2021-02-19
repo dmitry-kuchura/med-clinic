@@ -4157,6 +4157,7 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
         id: null,
         first_name: null,
         last_name: null,
+        email: null,
         middle_name: null,
         gender: 'male'
       }
@@ -4282,7 +4283,10 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
                           className: "text-muted font-size-sm",
                           children: patient.email
-                        })]
+                        }), patient.id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                          className: "btn btn-outline-primary",
+                          children: "\u041D\u0430\u0434\u0456\u0441\u043B\u0430\u0442\u0438 \u0421\u041C\u0421"
+                        }) : null]
                       })]
                     })
                   })
@@ -5526,6 +5530,7 @@ var patient = {
   last_name: null,
   address: null,
   phone: null,
+  email: null,
   gender: 'male',
   birthday: null,
   createdAt: null,
@@ -5577,7 +5582,19 @@ var applyPatients = function applyPatients(state, payload) {
 
 var applyPatient = function applyPatient(state, payload) {
   state = Object.assign({}, state, {
-    item: payload
+    item: {
+      id: payload.id,
+      first_name: payload.first_name,
+      middle_name: payload.middle_name,
+      last_name: payload.last_name,
+      address: payload.address,
+      phone: payload.phone,
+      email: payload.user.email,
+      gender: payload.gender,
+      birthday: payload.birthday,
+      createdAt: payload.createdAt,
+      updatedAt: payload.updatedAt
+    }
   });
   return state;
 };

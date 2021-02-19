@@ -19,15 +19,11 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
 ### Starting Docker Compose
 
 Checkout the repository or download the sources.
 
-Simply run `docker-compose up` and you are done.
+Simply run `docker-compose up -d` and you are done.
 
 Nginx will be available on `localhost:80` and PostgreSQL on `localhost:5432`.
 
@@ -55,36 +51,10 @@ You can execute any command on the `php` container as you would do on any docker
 
 `docker-compose exec php php -v`
 
-## Change configuration
+## Configuring PHP
 
-### Configuring PHP
-
-To change PHP's configuration edit `.docker/conf/php/php.ini`.
-Same goes for `.docker/conf/php/xdebug.ini`.
-
-You can add any .ini file in this directory, don't forget to map them by adding a new line in the php's `volume` section of the `docker-compose.yml` file.
-
-### Configuring PostgreSQL
-
-Any .sh or .sql file you add in `./.docker/conf/postgres` will be automatically loaded at boot time.
-
-If you want to change the db name, db user and db password simply edit the `.env` file at the project's root.
-
-If you connect to PostgreSQL from localhost a password is not required however from another container you will have to supply it.
-
-## Adding aliases
-
-To avoid typing over and over again the same commands you can add two useful aliases in your shell's configuration (`.bashrc` or `.zshrc` for instance):
-
-```
-alias dcu="docker-compose up"
-alias dcr="docker-compose run"
-alias dce="docker-compose exec"
-```
-
-It then becomes way faster to execute a composer command for instance:
-
-`dcr composer require --dev phpunit/phpunit`
+To change PHP's configuration edit `.docker/php/php.ini`.
+Same goes for `.docker/php/xdebug.ini`.
 
 ## Clear cache
 
