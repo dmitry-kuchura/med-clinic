@@ -4,6 +4,7 @@ import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import swal from 'sweetalert';
+import Modal from '../../utils/modal';
 
 const rules = {
     'first_name': ['required'],
@@ -26,6 +27,9 @@ class PatientsEdit extends React.Component {
                 middle_name: null,
                 gender: 'male',
             },
+            showSendEmail: false,
+            showSendSms: false,
+            showAddTest: false
         };
 
         if (getParamFromUrl(props, 'id')) {
@@ -34,7 +38,10 @@ class PatientsEdit extends React.Component {
 
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
-        this.handleUpdateContent = this.handleUpdateContent.bind(this);
+        this.handleSendEmail = this.handleSendEmail.bind(this);
+        this.handleSendSms = this.handleSendSms.bind(this);
+        this.handleAddTest = this.handleAddTest.bind(this);
+        this.handleHide = this.handleHide.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -52,15 +59,10 @@ class PatientsEdit extends React.Component {
         let value = event.target.value;
         let state = Object.assign({}, this.state);
 
+        console.log(input.split('.'));
+        console.log(event.target.value);
+
         state.patient[input] = value;
-
-        this.setState(state);
-    }
-
-    handleUpdateContent(content) {
-        let state = Object.assign({}, this.state);
-
-        state.patient['content'] = content;
 
         this.setState(state);
     }
@@ -83,7 +85,7 @@ class PatientsEdit extends React.Component {
                 })
                 .catch(error => {
                     console.log(error);
-                    swal('Bad job!', 'You clicked the button!', 'error');
+                    swal('Погано!', 'Щось пішло не за планом!', 'error');
                 })
         } else {
             this.props.dispatch(createPatient(this.state.patient))
@@ -93,7 +95,7 @@ class PatientsEdit extends React.Component {
                 })
                 .catch(error => {
                     console.log(error);
-                    swal('Bad job!', 'You clicked the button!', 'error');
+                    swal('Погано!', 'Щось пішло не за планом!', 'error');
                 })
         }
     }
@@ -110,6 +112,32 @@ class PatientsEdit extends React.Component {
         }
 
         return true;
+    }
+
+    handleHide() {
+        this.setState({
+            showSendEmail: false,
+            showSendSms: false,
+            showAddTest: false,
+        });
+    }
+
+    handleSendEmail() {
+        this.setState({
+            showSendEmail: true
+        });
+    }
+
+    handleSendSms() {
+        this.setState({
+            showSendSms: true
+        });
+    }
+
+    handleAddTest() {
+        this.setState({
+            showAddTest: true
+        });
     }
 
     render() {
@@ -137,18 +165,20 @@ class PatientsEdit extends React.Component {
                                                 <p className="text-muted font-size-sm">{patient.email}</p>
 
                                                 {patient.id ?
-                                                    <button className="btn btn-outline-primary">Надіслати СМС</button>
+                                                    <button type="button" className="btn btn-outline-primary m-1"
+                                                            onClick={this.handleSendSms}>Надіслати
+                                                        СМС</button>
                                                     : null}
 
                                                 {patient.id ?
-                                                    <button className="btn btn-outline-secondary">Надіслати
+                                                    <button type="button" className="btn btn-outline-secondary m-1"
+                                                            onClick={this.handleSendEmail}>Надіслати
                                                         Email</button>
                                                     : null}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="card mt-3">
                                     <div className="card-body">
                                         <div className="row">
@@ -273,15 +303,34 @@ class PatientsEdit extends React.Component {
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-md-12">
-
-
-                                                <div className="pull-right">
-                                                    <button className="btn btn-primary" type="submit"
-                                                            onClick={this.handleSubmitForm}>{patient.id ? 'Оновити' : 'Додати'}
+                                                <div className="row float-right m-2">
+                                                    <button type="button" className="btn btn-primary"
+                                                            onClick={this.handleAddTest}>
+                                                        Додати результат
                                                     </button>
-                                                    <div className="form-check form-check-inline"/>
-                                                    <button className="btn btn-secondary">Назад</button>
                                                 </div>
+
+                                                <table className="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Аналіз</th>
+                                                        <th scope="col">Додано</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">2</th>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -290,6 +339,46 @@ class PatientsEdit extends React.Component {
                         </div>
                     </form>
                 </div>
+
+                <Modal show={this.state.showSendSms} handleHide={this.handleHide} title="Віправка SMS">
+                    <form>
+                        <div className="form-group">
+                            <label htmlFor="phone">Телефон</label>
+                            <input type="text" className="form-control" id="phone" placeholder="+380931106215"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="message">Текст повідомлення</label>
+                            <textarea className="form-control" id="message" rows="3"></textarea>
+                        </div>
+                    </form>
+                </Modal>
+                <Modal show={this.state.showSendEmail} handleHide={this.handleHide} title="Відправка Email">
+                    <form>
+                        <div className="form-group">
+                            <label htmlFor="email">Email адреса</label>
+                            <input type="email" className="form-control" id="email" placeholder="name@example.com"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="message">Текст повідомлення</label>
+                            <textarea className="form-control" id="message" rows="3"></textarea>
+                        </div>
+                    </form>
+                </Modal>
+                <Modal show={this.state.showAddTest} handleHide={this.handleHide}
+                       handleChangeInput={this.handleChangeInput} title="Додаваня аналізу">
+                    <form>
+                        <div className="form-group">
+                            <label htmlFor="test">Аналіз</label>
+                            <select name="test.id" className="form-control" id="test.id"
+                                    onChange={this.handleChangeInput}>
+                                <option>Не обрано</option>
+                                <option value="1">Аналіз крові (1)</option>
+                                <option value="2">Аналіз крові (2)</option>
+                                <option value="3">Аналіз крові (3)</option>
+                            </select>
+                        </div>
+                    </form>
+                </Modal>
             </main>
         );
     }

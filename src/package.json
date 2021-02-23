@@ -15,11 +15,13 @@
         "moment": "^2.24.0",
         "react": "^16.13.0",
         "react-router": "^5.2.0",
+        "axios": "^0.21",
+        "jquery": "^3.0.0",
+        "popper.js": "^1.16.0",
         "sweetalert": "^2.1.2"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.12.10",
-        "axios": "^0.21",
         "laravel-mix": "^6.0.6",
         "laravel-mix-purgecss": "^6.0.0",
         "laravel-mix-tailwind": "^0.1.1",
