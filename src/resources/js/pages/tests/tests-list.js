@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Pagination from '../../helpers/pagination';
 import {Link} from 'react-router-dom';
-import {getPatientsList} from '../../services/patients-service';
+import {getTestsList} from '../../services/tests-service';
 import {formatDate} from '../../utils/date-format';
 
-class PatientsList extends React.Component {
+class TestsList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,35 +19,35 @@ class PatientsList extends React.Component {
             list: []
         };
 
-        props.dispatch(getPatientsList(this.state.currentPage));
+        props.dispatch(getTestsList(this.state.currentPage));
 
         this.handleChangePage = this.handleChangePage.bind(this);
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.patients !== this.props.patients) {
+        if (prevProps.tests !== this.props.tests) {
             this.setState({
-                from: this.props.patients.from,
-                to: this.props.patients.to,
-                perPage: this.props.patients.perPage,
-                currentPage: this.props.patients.currentPage,
-                lastPage: this.props.patients.lastPage,
-                total: this.props.patients.total,
-                list: this.props.patients.list
+                from: this.props.tests.from,
+                to: this.props.tests.to,
+                perPage: this.props.tests.perPage,
+                currentPage: this.props.tests.currentPage,
+                lastPage: this.props.tests.lastPage,
+                total: this.props.tests.total,
+                list: this.props.tests.list
             })
         }
     }
 
     handleChangePage(event) {
         event.preventDefault();
-        this.props.dispatch(getPatientsList(parseInt(event.target.id)));
+        this.props.dispatch(getTestsList(parseInt(event.target.id)));
     }
 
     render() {
         return (
             <main>
                 <div className="container-fluid">
-                    <h1 className="mt-4">Список пацієнтиів</h1>
+                    <h1 className="mt-4">Список аналізів</h1>
                     <div className="card mb-4">
                         <div className="card-body">
                             <div className="table-responsive">
@@ -55,9 +55,8 @@ class PatientsList extends React.Component {
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Ім'я</th>
-                                        <th>Стать</th>
-                                        <th>Контактні дані</th>
+                                        <th>Назва</th>
+                                        <th>Ціна</th>
                                         <th>Дата редагування</th>
                                         <th>Дії</th>
                                     </tr>
@@ -65,9 +64,8 @@ class PatientsList extends React.Component {
                                     <tfoot>
                                     <tr>
                                         <th>#</th>
-                                        <th>Ім'я</th>
-                                        <th>Стать</th>
-                                        <th>Контактні дані</th>
+                                        <th>Назва</th>
+                                        <th>Ціна</th>
                                         <th>Дата редагування</th>
                                         <th>Дії</th>
                                     </tr>
@@ -98,12 +96,8 @@ const List = (props) => {
             return (
                 <tr key={item.id}>
                     <td><strong>{item.id}</strong></td>
-                    <td><strong>{item.first_name.length ? item.first_name + ' ' + item.last_name : 'N/A'}</strong></td>
-                    <td><p>{item.gender === 'male' ? 'Чол.' : 'Жін.'}</p></td>
-                    <td>
-                        <span>{item.address ? 'Адреса: ' + item.address : ''}</span>
-                        <span>{item.phone ? 'Телефон: ' + item.phone : ''}</span>
-                    </td>
+                    <td>{item.name.length ? item.name + ' ' + item.name : 'N/A'}</td>
+                    <td><p>{item.cost + ' грн.'}</p></td>
                     <td><p>{formatDate(item.updated_at)}</p></td>
                     <td>
                         <Link to={'/patients/' + item.id} className="btn btn-success btn-sm">
@@ -139,8 +133,8 @@ const List = (props) => {
 const mapStateToProps = (state) => {
     return {
         authUser: state.Auth.user,
-        patients: state.Patients
+        tests: state.Tests
     }
 };
 
-export default connect(mapStateToProps)(PatientsList);
+export default connect(mapStateToProps)(TestsList);

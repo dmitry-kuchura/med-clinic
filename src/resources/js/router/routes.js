@@ -8,6 +8,7 @@ import PatientsEdit from '../pages/patients/patients-edit';
 import PatientsList from '../pages/patients/patients-list';
 import Settings from '../pages/settings';
 import NoMatch from '../pages/404'
+import TestsList from '../pages/tests/tests-list';
 
 const routes = [
     {
@@ -60,6 +61,11 @@ const routes = [
         exact: true,
         auth: true,
         component: PatientsEdit
+    }, {
+        path: '/tests',
+        exact: true,
+        auth: true,
+        component: TestsList
     }, {
         path: '',
         exact: true,

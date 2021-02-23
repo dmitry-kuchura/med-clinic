@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\UpdatePasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\PatientsController;
+use App\Http\Controllers\Api\TestsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,10 +40,10 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('tests')->group(function () {
-            Route::get('/', [PatientsController::class, 'list'])->name('api.tests.tests');
-            Route::put('/', [PatientsController::class, 'update'])->name('api.tests.update');
-            Route::get('/{id}', [PatientsController::class, 'info'])->name('api.tests.info');
-            Route::post('/create', [PatientsController::class, 'create'])->name('api.tests.create');
+            Route::get('/', [TestsController::class, 'list'])->name('api.tests.tests');
+            Route::put('/', [TestsController::class, 'update'])->name('api.tests.update');
+            Route::get('/{id}', [TestsController::class, 'info'])->name('api.tests.info');
+            Route::post('/create', [TestsController::class, 'create'])->name('api.tests.create');
         });
     });
 });

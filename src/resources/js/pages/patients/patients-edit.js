@@ -138,7 +138,12 @@ class PatientsEdit extends React.Component {
 
                                                 {patient.id ?
                                                     <button className="btn btn-outline-primary">Надіслати СМС</button>
-                                                : null}
+                                                    : null}
+
+                                                {patient.id ?
+                                                    <button className="btn btn-outline-secondary">Надіслати
+                                                        Email</button>
+                                                    : null}
                                             </div>
                                         </div>
                                     </div>
@@ -247,6 +252,28 @@ class PatientsEdit extends React.Component {
                                                     <div
                                                         className="invalid-feedback">{validate("email", patient.email, rules["email"])}</div>
                                                 </div>
+
+                                                <div className="pull-right">
+                                                    <button className="btn btn-primary" type="submit"
+                                                            onClick={this.handleSubmitForm}>{patient.id ? 'Оновити' : 'Додати'}
+                                                    </button>
+                                                    <div className="form-check form-check-inline"/>
+                                                    <button className="btn btn-secondary">Назад</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row gutters-sm">
+                            <div className="col-md-12">
+                                <div className="card mb-3">
+                                    <div className="card-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+
 
                                                 <div className="pull-right">
                                                     <button className="btn btn-primary" type="submit"
