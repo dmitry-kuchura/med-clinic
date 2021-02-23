@@ -22,6 +22,8 @@ const initialState = {
 
 const Tests = (state = initialState, {type, payload = null}) => {
     switch (type) {
+        case ActionTypes.TEST_ALL:
+            return applyAllTests(state, payload);
         case ActionTypes.TEST_LIST:
             return applyTests(state, payload);
         case ActionTypes.TEST_INFO:
@@ -40,6 +42,14 @@ const applyTests = (state, payload) => {
         lastPage: payload.last_page,
         total: payload.total,
         list: payload.data
+    });
+
+    return state;
+};
+
+const applyAllTests = (state, payload) => {
+    state = Object.assign({}, state, {
+        list: payload
     });
 
     return state;

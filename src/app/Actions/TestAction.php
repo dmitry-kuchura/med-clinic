@@ -19,4 +19,9 @@ class TestAction
     {
         return $this->testsRepository->paginate(self::RECORDS_AT_PAGE);
     }
+
+    public function all()
+    {
+        return $this->testsRepository->all();
+    }
 }

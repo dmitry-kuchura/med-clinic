@@ -38,11 +38,7 @@ class Modal extends React.Component {
                         <div className="modal-body">
                             {this.state.content}
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal"
-                                    onClick={this.props.handleHide}>Закрити
-                            </button>
-                        </div>
+                        <div className="modal-footer"></div>
                     </div>
                 </div>
             </div>

@@ -33,6 +33,26 @@ export function getTestsList(page) {
     );
 }
 
+export function getAllTestsList() {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get('/api/v1/tests/all')
+                .then(response => {
+                    dispatch(action.getAllTests(response.data.result));
+                    return resolve();
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
 export function updateTest(data) {
     let link = '/api/v1/tests/';
 

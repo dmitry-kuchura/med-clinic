@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
+import {getAllTestsList} from '../../services/tests-service';
 import swal from 'sweetalert';
 import Modal from '../../utils/modal';
 
@@ -27,6 +28,12 @@ class PatientsEdit extends React.Component {
                 middle_name: null,
                 gender: 'male',
             },
+            test: {
+                test_id: null,
+                file: null,
+                result: null,
+                reference_values: null,
+            },
             showSendEmail: false,
             showSendSms: false,
             showAddTest: false
@@ -34,6 +41,7 @@ class PatientsEdit extends React.Component {
 
         if (getParamFromUrl(props, 'id')) {
             props.dispatch(getPatientById(getParamFromUrl(props, 'id')));
+            props.dispatch(getAllTestsList());
         }
 
         this.handleChangeInput = this.handleChangeInput.bind(this);
@@ -45,9 +53,10 @@ class PatientsEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.patient !== this.props.patient) {
+        if (prevProps !== this.props) {
             this.setState({
                 patient: this.props.patient,
+                tests: this.props.tests.list
             })
         }
     }
@@ -59,10 +68,13 @@ class PatientsEdit extends React.Component {
         let value = event.target.value;
         let state = Object.assign({}, this.state);
 
-        console.log(input.split('.'));
-        console.log(event.target.value);
+        let check = input.split('.');
 
-        state.patient[input] = value;
+        if (check.length === 1) {
+            state.patient[input] = value;
+        } else {
+            state[check[0]][check[1]] = value;
+        }
 
         this.setState(state);
     }
@@ -141,8 +153,11 @@ class PatientsEdit extends React.Component {
     }
 
     render() {
+        let tests = this.state.tests;
         let patient = this.state.patient;
         let placeholder = patient.gender === 'male' ? '/images/avatars/man.png' : '/images/avatars/woman.png';
+
+        console.log(this.state.test)
 
         return (
             <main>
@@ -368,14 +383,43 @@ class PatientsEdit extends React.Component {
                        handleChangeInput={this.handleChangeInput} title="Додаваня аналізу">
                     <form>
                         <div className="form-group">
-                            <label htmlFor="test">Аналіз</label>
-                            <select name="test.id" className="form-control" id="test.id"
-                                    onChange={this.handleChangeInput}>
+                            <label htmlFor="test.test_id">Аналіз</label>
+                            <select name="test.test_id" className="form-control" id="test.test_id"
+                                    onChange={this.handleChangeInput} defaultValue={this.state.test.test_id}>
                                 <option>Не обрано</option>
-                                <option value="1">Аналіз крові (1)</option>
-                                <option value="2">Аналіз крові (2)</option>
-                                <option value="3">Аналіз крові (3)</option>
+                                {tests && tests.length && tests.map(test => {
+                                        return <option key={test.id}
+                                                       value={test.id}>{test.name}</option>
+                                    }
+                                )};
                             </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="message">Результат</label>
+                            <textarea className="form-control" id="test.result" name="test.result" rows="2"
+                                      onChange={this.handleChangeInput}
+                                      value={this.state.test.result ? this.state.test.result : ''}></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="message">Референтні значення</label>
+                            <textarea className="form-control" id="test.reference_values" name="test.reference_values"
+                                      rows="2" onChange={this.handleChangeInput}
+                                      value={this.state.test.reference_values ? this.state.test.reference_values : ''}></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="test.file">Файл</label>
+                            <input type="file" name="test.file" className="form-control" id="test.file"/>
+                        </div>
+
+                        <div className="form-group">
+                            <div className="float-right">
+                                <button type="button" className="btn btn-success">
+                                    Додати
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </Modal>
@@ -387,6 +431,7 @@ class PatientsEdit extends React.Component {
 const mapStateToProps = (state) => {
     return {
         patient: state.Patients.item,
+        tests: state.Tests,
     }
 };
 
