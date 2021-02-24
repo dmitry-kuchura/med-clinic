@@ -13,3 +13,10 @@ export function getOnePatient(payload) {
         payload
     }
 }
+
+export function getPatientTests(payload) {
+    return {
+        type: ActionTypes.PATIENT_TESTS,
+        payload
+    }
+}

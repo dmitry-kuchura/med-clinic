@@ -1,11 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Modal from '../../utils/modal';
+import PatientTestsList from './common/patient-tests-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
-import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {getAllTestsList} from '../../services/tests-service';
+import {
+    addPatientTest,
+    createPatient,
+    getPatientById,
+    getPatientsTests,
+    updatePatient
+} from '../../services/patients-service';
 import swal from 'sweetalert';
-import Modal from '../../utils/modal';
 
 const rules = {
     'first_name': ['required'],
@@ -34,29 +41,35 @@ class PatientsEdit extends React.Component {
                 result: null,
                 reference_values: null,
             },
-            showSendEmail: false,
-            showSendSms: false,
-            showAddTest: false
+            showSendEmailModal: false,
+            showSendSmsModal: false,
+            showAddTestModal: false,
+            patientTests: []
         };
 
         if (getParamFromUrl(props, 'id')) {
-            props.dispatch(getPatientById(getParamFromUrl(props, 'id')));
+            props.dispatch(getPatientById(getParamFromUrl(props, 'id')))
+                .then(success => {
+                    props.dispatch(getPatientsTests(getParamFromUrl(props, 'id')));
+                })
+
             props.dispatch(getAllTestsList());
         }
 
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
-        this.handleSendEmail = this.handleSendEmail.bind(this);
-        this.handleSendSms = this.handleSendSms.bind(this);
-        this.handleAddTest = this.handleAddTest.bind(this);
+        this.handleShowModal = this.handleShowModal.bind(this);
         this.handleHide = this.handleHide.bind(this);
+        this.handleSubmitPatientTest = this.handleSubmitPatientTest.bind(this);
+        this.clearTestState = this.clearTestState.bind(this);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
             this.setState({
                 patient: this.props.patient,
-                tests: this.props.tests.list
+                tests: this.props.tests.list,
+                patientTests: this.props.patient.tests
             })
         }
     }
@@ -64,11 +77,16 @@ class PatientsEdit extends React.Component {
     handleChangeInput(event) {
         event.preventDefault();
 
+        let type = event.target.type;
         let input = event.target.name;
         let value = event.target.value;
         let state = Object.assign({}, this.state);
 
         let check = input.split('.');
+
+        if (type === 'file') {
+            value = event.target.files[0]
+        }
 
         if (check.length === 1) {
             state.patient[input] = value;
@@ -112,6 +130,32 @@ class PatientsEdit extends React.Component {
         }
     }
 
+    handleSubmitPatientTest(event) {
+        event.preventDefault();
+
+        let data = {
+            patient_id: this.state.patient.id,
+            test_id: this.state.test.test_id,
+            file: this.state.test.file,
+            result: this.state.test.result,
+            reference_values: this.state.test.reference_values,
+        }
+
+        this.props.dispatch(addPatientTest(data))
+            .then(success => {
+                this.handleHide();
+                this.clearTestState();
+
+                swal('Добре!', 'Аналіз було додано! Лист надіслано.', 'success');
+
+                this.props.dispatch(getPatientsTests(this.state.patient.id))
+            })
+            .catch(error => {
+                console.log(error);
+                swal('Погано!', 'Щось пішло не за планом!', 'error');
+            })
+    }
+
     valid() {
         let patient = this.state.patient;
 
@@ -126,38 +170,53 @@ class PatientsEdit extends React.Component {
         return true;
     }
 
+    clearTestState() {
+        this.setState({
+            test: {
+                test_id: null,
+                file: null,
+                result: null,
+                reference_values: null,
+            }
+        });
+    }
+
     handleHide() {
         this.setState({
-            showSendEmail: false,
-            showSendSms: false,
-            showAddTest: false,
+            showSendEmailModal: false,
+            showSendSmsModal: false,
+            showAddTestModal: false,
         });
     }
 
-    handleSendEmail() {
-        this.setState({
-            showSendEmail: true
-        });
-    }
+    handleShowModal(event) {
+        let param = event.target.getAttribute('data-modal');
 
-    handleSendSms() {
-        this.setState({
-            showSendSms: true
-        });
-    }
+        this.handleHide();
 
-    handleAddTest() {
-        this.setState({
-            showAddTest: true
-        });
+        switch (param) {
+            case 'email':
+                this.setState({
+                    showSendEmailModal: true
+                });
+                break;
+            case 'sms':
+                this.setState({
+                    showSendSmsModal: true
+                });
+                break;
+            case 'test':
+                this.setState({
+                    showAddTestModal: true
+                });
+                break;
+        }
     }
 
     render() {
         let tests = this.state.tests;
         let patient = this.state.patient;
         let placeholder = patient.gender === 'male' ? '/images/avatars/man.png' : '/images/avatars/woman.png';
-
-        console.log(this.state.test)
 
         return (
             <main>
@@ -181,13 +240,15 @@ class PatientsEdit extends React.Component {
 
                                                 {patient.id ?
                                                     <button type="button" className="btn btn-outline-primary m-1"
-                                                            onClick={this.handleSendSms}>Надіслати
+                                                            data-modal="sms"
+                                                            onClick={this.handleShowModal}>Надіслати
                                                         СМС</button>
                                                     : null}
 
                                                 {patient.id ?
                                                     <button type="button" className="btn btn-outline-secondary m-1"
-                                                            onClick={this.handleSendEmail}>Надіслати
+                                                            data-modal="email"
+                                                            onClick={this.handleShowModal}>Надіслати
                                                         Email</button>
                                                     : null}
                                             </div>
@@ -320,32 +381,13 @@ class PatientsEdit extends React.Component {
                                             <div className="col-md-12">
                                                 <div className="row float-right m-2">
                                                     <button type="button" className="btn btn-primary"
-                                                            onClick={this.handleAddTest}>
+                                                            data-modal="test"
+                                                            onClick={this.handleShowModal}>
                                                         Додати результат
                                                     </button>
                                                 </div>
 
-                                                <table className="table table-hover">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Аналіз</th>
-                                                        <th scope="col">Додано</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                <PatientTestsList data={this.state.patientTests}/>
                                             </div>
                                         </div>
                                     </div>
@@ -355,7 +397,7 @@ class PatientsEdit extends React.Component {
                     </form>
                 </div>
 
-                <Modal show={this.state.showSendSms} handleHide={this.handleHide} title="Віправка SMS">
+                <Modal show={this.state.showSendSmsModal} handleHide={this.handleHide} title="Віправка SMS">
                     <form>
                         <div className="form-group">
                             <label htmlFor="phone">Телефон</label>
@@ -367,7 +409,8 @@ class PatientsEdit extends React.Component {
                         </div>
                     </form>
                 </Modal>
-                <Modal show={this.state.showSendEmail} handleHide={this.handleHide} title="Відправка Email">
+
+                <Modal show={this.state.showSendEmailModal} handleHide={this.handleHide} title="Відправка Email">
                     <form>
                         <div className="form-group">
                             <label htmlFor="email">Email адреса</label>
@@ -379,8 +422,8 @@ class PatientsEdit extends React.Component {
                         </div>
                     </form>
                 </Modal>
-                <Modal show={this.state.showAddTest} handleHide={this.handleHide}
-                       handleChangeInput={this.handleChangeInput} title="Додаваня аналізу">
+
+                <Modal show={this.state.showAddTestModal} handleHide={this.handleHide} title="Додаваня аналізу">
                     <form>
                         <div className="form-group">
                             <label htmlFor="test.test_id">Аналіз</label>
@@ -411,12 +454,14 @@ class PatientsEdit extends React.Component {
 
                         <div className="form-group">
                             <label htmlFor="test.file">Файл</label>
-                            <input type="file" name="test.file" className="form-control" id="test.file"/>
+                            <input type="file" name="test.file" className="form-control" id="test.file"
+                                   onChange={this.handleChangeInput}/>
                         </div>
 
                         <div className="form-group">
                             <div className="float-right">
-                                <button type="button" className="btn btn-success">
+                                <button type="button" className="btn btn-success"
+                                        onClick={this.handleSubmitPatientTest}>
                                     Додати
                                 </button>
                             </div>

@@ -16,15 +16,16 @@ class CreatePatientsTestsTable extends Migration
         Schema::create('patients_tests', function (Blueprint $table) {
             $table->id();
 
-            $table->string('mark');
-            $table->string('result');
-            $table->string('reference_values');
+            $table->string('mark')->nullable();
+            $table->string('result')->nullable();
+            $table->string('reference_values')->nullable();
+            $table->string('file')->nullable();
 
-            $table->unsignedBigInteger('tests_id');
+            $table->unsignedBigInteger('test_id');
             $table->unsignedBigInteger('patient_id');
 
             $table->foreign('patient_id')->references('id')->on('patients');
-            $table->foreign('tests_id')->references('id')->on('tests');
+            $table->foreign('test_id')->references('id')->on('tests');
 
             $table->timestamps();
         });

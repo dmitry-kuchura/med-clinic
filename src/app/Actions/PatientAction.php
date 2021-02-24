@@ -2,8 +2,11 @@
 
 namespace App\Actions;
 
+use App\Models\Patients;
+use App\Models\PatientsTests;
 use App\Models\User;
-use App\Repositories\PatientRepository;
+use App\Repositories\PatientsRepository;
+use App\Repositories\PatientsTestsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Str;
 
@@ -11,27 +14,31 @@ class PatientAction
 {
     const RECORDS_AT_PAGE = 10;
 
-    private PatientRepository $patientRepository;
-
     private UsersRepository $usersRepository;
 
+    private PatientsRepository $patientsRepository;
+
+    private PatientsTestsRepository $patientsTestsRepository;
+
     public function __construct(
-        PatientRepository $patientRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
+        PatientsRepository $patientsRepository,
+        PatientsTestsRepository $patientsTestsRepository
     )
     {
-        $this->patientRepository = $patientRepository;
+        $this->patientsRepository = $patientsRepository;
         $this->usersRepository = $usersRepository;
+        $this->patientsTestsRepository = $patientsTestsRepository;
     }
 
     public function list()
     {
-        return $this->patientRepository->paginate(self::RECORDS_AT_PAGE);
+        return $this->patientsRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
     public function info(int $id)
     {
-        return $this->patientRepository->get($id);
+        return $this->patientsRepository->get($id);
     }
 
     public function update(array $data)
@@ -53,7 +60,7 @@ class PatientAction
             }
         }
 
-        $this->patientRepository->update($patientData, $data['id']);
+        $this->patientsRepository->update($patientData, $data['id']);
     }
 
     public function create(array $data): bool
@@ -84,9 +91,29 @@ class PatientAction
             'user_id' => $user->id
         ];
 
-        $this->patientRepository->store($patientData);
+        $this->patientsRepository->store($patientData);
 
         return true;
+    }
+
+    public function addPatientTest(array $data): PatientsTests
+    {
+        $testData = [
+            'test_id' => $data['test_id'],
+            'patient_id' => $data['patient_id'],
+            'file' => 'asfgsdfgsdfgKJHksfkBKbKLSADfbvklB123kjBklbaklblkhbdvbvksdbvksdbvksdbvksdbjv',
+            'result' => $data['result'] ?? null,
+            'reference_values' => $data['reference_values'] ?? null,
+        ];
+
+        $patientTest = $this->patientsTestsRepository->store($testData);
+
+        return $this->patientsTestsRepository->get($patientTest->id);
+    }
+
+    public function listPatientTests(int $id)
+    {
+        return $this->patientsTestsRepository->find($id);
     }
 
     private function findUserByEmail(string $email): ?User

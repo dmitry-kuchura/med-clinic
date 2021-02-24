@@ -35,8 +35,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('patients')->group(function () {
             Route::get('/', [PatientsController::class, 'list'])->name('api.patients.list');
             Route::put('/', [PatientsController::class, 'update'])->name('api.patients.update');
-            Route::get('/{id}', [PatientsController::class, 'info'])->name('api.patients.info');
+            Route::get('/{id}', [PatientsController::class, 'info'])->name('api.patients.info')->where('id', '[0-9]+');
             Route::post('/create', [PatientsController::class, 'create'])->name('api.patients.create');
+            Route::post('/add-test', [PatientsController::class, 'addTest'])->name('api.patients.add-test');
+            Route::get('/{id}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('id', '[0-9]+');
         });
 
         Route::prefix('tests')->group(function () {

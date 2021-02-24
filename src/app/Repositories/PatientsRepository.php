@@ -2,18 +2,16 @@
 
 namespace App\Repositories;
 
-namespace App\Repositories;
-
 use App\Models\Patients;
 
-class PatientRepository implements Repository
+class PatientsRepository implements Repository
 {
     public function paginate(int $offset)
     {
         return Patients::orderBy('id', 'desc')->paginate($offset);
     }
 
-    public function get(int $id)
+    public function get(int $id): ?Patients
     {
         return Patients::with('user')->find($id);
     }
