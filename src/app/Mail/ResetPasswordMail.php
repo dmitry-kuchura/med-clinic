@@ -24,8 +24,10 @@ class ResetPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.reset-password')->with([
-            'link' => 'http://localhost/reset-password/' . $this->token,
-        ]);
+        return $this->subject('Відновлення паролю | МедСервіс - Медична система')
+            ->view('emails.reset-password')
+            ->with([
+                'link' => 'http://localhost/reset-password/' . $this->token,
+            ]);
     }
 }

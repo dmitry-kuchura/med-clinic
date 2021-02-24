@@ -52,7 +52,13 @@ class PatientsController extends Controller
     {
         $patientTest = $this->patientAction->addPatientTest($request->all());
 
-//        Mail::to($patientTest->patient->user->email)->send(new AddPatientTestMail($patientTest));
+        $file = null;
+
+        if ($request->file('file')) {
+            $file = $request->file('file');
+        }
+
+        Mail::to($patientTest->patient->user->email)->send(new AddPatientTestMail($patientTest, $file));
 
         return $this->returnResponse(['created' => true], Response::HTTP_CREATED);
     }

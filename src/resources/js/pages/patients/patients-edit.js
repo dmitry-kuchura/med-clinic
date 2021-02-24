@@ -5,13 +5,8 @@ import PatientTestsList from './common/patient-tests-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {getAllTestsList} from '../../services/tests-service';
-import {
-    addPatientTest,
-    createPatient,
-    getPatientById,
-    getPatientsTests,
-    updatePatient
-} from '../../services/patients-service';
+import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
+import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
 import swal from 'sweetalert';
 
 const rules = {
@@ -69,7 +64,7 @@ class PatientsEdit extends React.Component {
             this.setState({
                 patient: this.props.patient,
                 tests: this.props.tests.list,
-                patientTests: this.props.patient.tests
+                patientTests: this.props.patientTests
             })
         }
     }
@@ -151,7 +146,6 @@ class PatientsEdit extends React.Component {
                 this.props.dispatch(getPatientsTests(this.state.patient.id))
             })
             .catch(error => {
-                console.log(error);
                 swal('Погано!', 'Щось пішло не за планом!', 'error');
             })
     }
@@ -477,6 +471,7 @@ const mapStateToProps = (state) => {
     return {
         patient: state.Patients.item,
         tests: state.Tests,
+        patientTests: state.PatientsTests.list,
     }
 };
 

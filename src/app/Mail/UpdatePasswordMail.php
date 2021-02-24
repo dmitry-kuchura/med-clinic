@@ -25,9 +25,11 @@ class UpdatePasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.update-password')->with([
-            'user' => $this->user,
-            'link' => config('app.url'),
-        ]);
+        return $this->subject('Пароль оновлено | МедСервіс - Медична система')
+            ->view('emails.update-password')
+            ->with([
+                'user' => $this->user,
+                'link' => config('app.url'),
+            ]);
     }
 }

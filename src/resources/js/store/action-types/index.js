@@ -4,7 +4,8 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export const PATIENT_LIST = 'PATIENT_LIST';
 export const PATIENT_INFO = 'PATIENT_INFO';
-export const PATIENT_TESTS = 'PATIENT_TESTS';
+
+export const PATIENT_TESTS_LIST = 'PATIENT_TESTS_LIST';
 
 export const TEST_ALL = 'TEST_ALL';
 export const TEST_LIST = 'TEST_LIST';

@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Exceptions\NotAddPatientTestException;
 use App\Models\Patients;
 use App\Models\PatientsTests;
 use App\Models\User;
@@ -106,7 +107,11 @@ class PatientAction
             'reference_values' => $data['reference_values'] ?? null,
         ];
 
-        $patientTest = $this->patientsTestsRepository->store($testData);
+        try {
+            $patientTest = $this->patientsTestsRepository->store($testData);
+        } catch (\Throwable $e) {
+            throw new NotAddPatientTestException();
+        }
 
         return $this->patientsTestsRepository->get($patientTest->id);
     }

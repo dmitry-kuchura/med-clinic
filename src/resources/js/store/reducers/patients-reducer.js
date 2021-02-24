@@ -10,8 +10,7 @@ const patient = {
     gender: 'male',
     birthday: null,
     createdAt: null,
-    updatedAt: null,
-    tests: []
+    updatedAt: null
 };
 
 const initialState = {
@@ -31,32 +30,9 @@ const Patients = (state = initialState, {type, payload = null}) => {
             return applyPatients(state, payload);
         case ActionTypes.PATIENT_INFO:
             return applyPatient(state, payload);
-        case ActionTypes.PATIENT_TESTS:
-            return applyPatientTests(state, payload);
         default:
             return state;
     }
-};
-
-const applyPatientTests = (state, payload) => {
-    state = Object.assign({}, state, {
-        item: {
-            id: state.item.id,
-            first_name: state.item.first_name,
-            middle_name: state.item.middle_name,
-            last_name: state.item.last_name,
-            address: state.item.address,
-            phone: state.item.phone,
-            email: state.item.email,
-            gender: state.item.gender,
-            birthday: state.item.birthday,
-            createdAt: state.item.createdAt,
-            updatedAt: state.item.updatedAt,
-            tests: payload,
-        }
-    });
-
-    return state;
 };
 
 const applyPatients = (state, payload) => {
