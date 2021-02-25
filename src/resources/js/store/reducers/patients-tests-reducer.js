@@ -21,7 +21,13 @@ const PatientsTests = (state = initialState, {type, payload = null}) => {
 
 const applyPatientTests = (state, payload) => {
     state = Object.assign({}, state, {
-        list: payload,
+        from: payload.from,
+        to: payload.to,
+        perPage: payload.per_page,
+        currentPage: payload.current_page,
+        lastPage: payload.last_page,
+        total: payload.total,
+        list: payload.data
     });
 
     return state;

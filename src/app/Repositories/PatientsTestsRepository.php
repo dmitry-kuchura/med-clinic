@@ -11,6 +11,11 @@ class PatientsTestsRepository implements Repository
         return PatientsTests::with(['patient', 'patient.user', 'test'])->find($id);
     }
 
+    public function paginate(int $id, int $offset)
+    {
+        return PatientsTests::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->orderBy('id', 'desc')->paginate($offset);
+    }
+
     public function find(int $id)
     {
         return PatientsTests::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->get();

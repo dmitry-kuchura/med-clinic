@@ -1,13 +1,21 @@
 import React from 'react';
 import {formatDate} from "../../../utils/date-format";
-import {Link} from "react-router-dom";
+import Pagination from "../../../helpers/pagination";
 
 class PatientTestsList extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: []
+            data: {
+                from: null,
+                to: null,
+                perPage: null,
+                currentPage: null,
+                lastPage: null,
+                total: null,
+                list: [],
+            }
         };
     }
 
@@ -32,7 +40,7 @@ class PatientTestsList extends React.Component {
                 </thead>
                 <tbody>
 
-                <List data={this.state.data}/>
+                <List data={this.state.data.list}/>
 
                 </tbody>
             </table>

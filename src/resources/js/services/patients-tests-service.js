@@ -1,11 +1,11 @@
 import * as action from '../store/actions/patients-tests-action'
 import Http from '../http'
 
-function preparePaginateLink(page) {
-    let link = '/api/v1/patients';
+function preparePaginateLink(page, id) {
+    let link = '/api/v1/patients/' + id + '/tests';
 
     if (page > 1) {
-        link = '/api/v1/patients?page=' + page;
+        link = '/api/v1/patients/' + id + '/tests?page=' + page;
     }
 
     return link;
@@ -44,8 +44,8 @@ export function addPatientTest(data) {
     );
 }
 
-export function getPatientsTests(id) {
-    let link = '/api/v1/patients/' + id + '/tests';
+export function getPatientsTests(page, id) {
+    let link = preparePaginateLink(page, id);
 
     return dispatch => (
         new Promise((resolve, reject) => {

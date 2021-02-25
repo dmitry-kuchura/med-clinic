@@ -5,9 +5,10 @@ import PatientTestsList from './common/patient-tests-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {getAllTestsList} from '../../services/tests-service';
-import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
+import {createPatient, getPatientById, getPatientsList, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
 import swal from 'sweetalert';
+import Pagination from "../../helpers/pagination";
 
 const rules = {
     'first_name': ['required'],
@@ -39,18 +40,27 @@ class PatientsEdit extends React.Component {
             showSendEmailModal: false,
             showSendSmsModal: false,
             showAddTestModal: false,
-            patientTests: []
+            patientTests: {
+                from: null,
+                to: null,
+                perPage: null,
+                currentPage: null,
+                lastPage: null,
+                total: null,
+                list: [],
+            }
         };
 
         if (getParamFromUrl(props, 'id')) {
             props.dispatch(getPatientById(getParamFromUrl(props, 'id')))
                 .then(success => {
-                    props.dispatch(getPatientsTests(getParamFromUrl(props, 'id')));
+                    props.dispatch(getPatientsTests(1, getParamFromUrl(props, 'id')));
                 })
 
             props.dispatch(getAllTestsList());
         }
 
+        this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeInput = this.handleChangeInput.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
         this.handleShowModal = this.handleShowModal.bind(this);
@@ -143,7 +153,7 @@ class PatientsEdit extends React.Component {
 
                 swal('Добре!', 'Аналіз було додано! Лист надіслано.', 'success');
 
-                this.props.dispatch(getPatientsTests(this.state.patient.id))
+                this.props.dispatch(getPatientsTests(1, this.state.patient.id))
             })
             .catch(error => {
                 swal('Погано!', 'Щось пішло не за планом!', 'error');
@@ -205,6 +215,11 @@ class PatientsEdit extends React.Component {
                 });
                 break;
         }
+    }
+
+    handleChangePage(event) {
+        event.preventDefault();
+        this.props.dispatch(getPatientsTests(parseInt(event.target.id), this.state.patient.id));
     }
 
     render() {
@@ -373,15 +388,20 @@ class PatientsEdit extends React.Component {
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-md-12">
-                                                <div className="row float-right m-2">
-                                                    <button type="button" className="btn btn-primary"
-                                                            data-modal="test"
-                                                            onClick={this.handleShowModal}>
-                                                        Додати результат
-                                                    </button>
+                                                <div className="table-responsive">
+                                                    <div className="row float-right m-2">
+                                                        <button type="button" className="btn btn-primary"
+                                                                data-modal="test"
+                                                                onClick={this.handleShowModal}>
+                                                            Додати результат
+                                                        </button>
+                                                    </div>
+
+                                                    <PatientTestsList data={this.state.patientTests}/>
                                                 </div>
 
-                                                <PatientTestsList data={this.state.patientTests}/>
+                                                <Pagination state={this.state.patientTests}
+                                                            handleChangePage={this.handleChangePage}/>
                                             </div>
                                         </div>
                                     </div>
@@ -471,7 +491,7 @@ const mapStateToProps = (state) => {
     return {
         patient: state.Patients.item,
         tests: state.Tests,
-        patientTests: state.PatientsTests.list,
+        patientTests: state.PatientsTests,
     }
 };
 

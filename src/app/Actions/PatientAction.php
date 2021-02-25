@@ -118,7 +118,7 @@ class PatientAction
 
     public function listPatientTests(int $id)
     {
-        return $this->patientsTestsRepository->find($id);
+        return $this->patientsTestsRepository->paginate($id, self::RECORDS_AT_PAGE);
     }
 
     private function findUserByEmail(string $email): ?User
