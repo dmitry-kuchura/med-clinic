@@ -30,11 +30,8 @@ class AddPatientTestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Результати аналізу | МедСервіс - Медична система')
+        $email = $this->subject('Результати аналізу | МедСервіс - Медична система')
             ->view('emails.add-patient-test')
-//            ->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
-//                'mime' => $this->file->getMimeType(),
-//            ])
             ->with([
                 'result' => $this->patientsTest,
                 'patient' => $this->patientsTest->patient,
@@ -42,5 +39,13 @@ class AddPatientTestMail extends Mailable
                 'date' => Carbon::now()->format('Y-m-d'),
                 'link' => 'http://localhost/',
             ]);
+
+        if (true) {
+            $email->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
+                'mime' => $this->file->getMimeType(),
+            ]);
+        }
+
+        return $email;
     }
 }

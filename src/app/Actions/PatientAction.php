@@ -101,7 +101,7 @@ class PatientAction
         $testData = [
             'test_id' => $data['test_id'],
             'patient_id' => $data['patient_id'],
-            'file' => 'asfgsdfgsdfgKJHksfkBKbKLSADfbvklB123kjBklbaklblkhbdvbvksdbvksdbvksdbvksdbjv',
+            'file' => $data['file'] ?? null,
             'result' => $data['result'] ?? null,
             'reference_values' => $data['reference_values'] ?? null,
         ];

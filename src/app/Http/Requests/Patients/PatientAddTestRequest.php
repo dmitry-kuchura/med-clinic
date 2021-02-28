@@ -30,8 +30,8 @@ class PatientAddTestRequest extends FormRequest
             'patient_id' => 'required|integer',
             'test_id' => 'required|integer',
             'file' => 'nullable|file|max:50000',
-            'result' => 'required|string',
-            'reference_values' => 'string'
+            'result' => 'nullable|string',
+            'reference_values' => 'nullable|string'
         ];
     }
 
