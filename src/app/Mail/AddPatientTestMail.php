@@ -32,9 +32,9 @@ class AddPatientTestMail extends Mailable
     {
         return $this->subject('Результати аналізу | МедСервіс - Медична система')
             ->view('emails.add-patient-test')
-            ->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
-                'mime' => $this->file->getMimeType(),
-            ])
+//            ->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
+//                'mime' => $this->file->getMimeType(),
+//            ])
             ->with([
                 'result' => $this->patientsTest,
                 'patient' => $this->patientsTest->patient,

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Patients;
+namespace App\Http\Requests\Messages;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class PatientAddTestRequest extends FormRequest
+class SendMessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,22 +27,16 @@ class PatientAddTestRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required|integer',
-            'test_id' => 'required|integer',
-            'file' => 'nullable|file|max:50000',
-            'result' => 'required|string',
-            'reference_values' => 'string'
+            'phone' => 'required|string',
+            'text' => 'required|string'
         ];
     }
 
     public function messages()
     {
         return [
-            'patient_id' => 'Вкажіть піцієнта',
-            'test_id' => 'Вкажіть тест',
-            'file' => 'Невірний файл',
-            'result' => 'Вкажіть результат',
-            'reference_values' => 'Вкажіть значення',
+            'phone' => 'Вкажіть піцієнта',
+            'text' => 'Вкажіть тест',
         ];
     }
 

@@ -17,7 +17,9 @@ export function addPatientTest(data) {
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
-        formData.append(key, value)
+        if (value !== null) {
+            formData.append(key, value)
+        }
     }
 
     const config = {

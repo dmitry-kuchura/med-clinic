@@ -31,7 +31,7 @@ class PatientCreateRequest extends FormRequest
             'last_name' => 'required|string|min:4|max:255',
             'gender' => 'required|string',
             'phone' => 'required|string',
-            'email' => 'email|string'
+            'email' => 'nullable|email|string'
         ];
     }
 

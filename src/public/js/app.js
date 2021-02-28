@@ -6058,7 +6058,9 @@ function addPatientTest(data) {
         key = _Object$entries$_i[0],
         value = _Object$entries$_i[1];
 
-    formData.append(key, value);
+    if (value !== null) {
+      formData.append(key, value);
+    }
   }
 
   var config = {

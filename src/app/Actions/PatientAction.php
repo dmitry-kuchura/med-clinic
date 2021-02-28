@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\Exceptions\NotAddPatientTestException;
-use App\Models\Patients;
 use App\Models\PatientsTests;
 use App\Models\User;
 use App\Repositories\PatientsRepository;

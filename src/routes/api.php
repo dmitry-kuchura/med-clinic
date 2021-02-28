@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\UpdatePasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\MessagesController;
 use App\Http\Controllers\Api\PatientsController;
 use App\Http\Controllers\Api\TestsController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,11 @@ Route::prefix('v1')->group(function () {
             Route::post('/create', [PatientsController::class, 'create'])->name('api.patients.create');
             Route::post('/add-test', [PatientsController::class, 'addTest'])->name('api.patients.add-test');
             Route::get('/{id}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('id', '[0-9]+');
+
+            Route::prefix('messages')->group(function () {
+                Route::post('/{id}/send', [MessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
+                Route::post('/{id}/list', [MessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
+            });
         });
 
         Route::prefix('tests')->group(function () {
