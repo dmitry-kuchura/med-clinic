@@ -11,10 +11,10 @@ class AmazonS3
     {
         $file = $request->file('file');
 
-        $filename = $this->quickRandom() . '.' . $file->getExtension();
+        $filename = $this->quickRandom() . '.' . $file->extension();
 
         try {
-            Storage::disk('s3')->put('/patient_' . $patientId . '/' . $filename, $file, []);
+            Storage::disk('s3')->put('/patient_' . $patientId, $file, []);
         } catch (\Throwable $exception) {
             throw new FileUploadErrorException($exception->getMessage());
         }

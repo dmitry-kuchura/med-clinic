@@ -40,7 +40,7 @@ class AddPatientTestMail extends Mailable
                 'link' => 'http://localhost/',
             ]);
 
-        if (true) {
+        if ($this->file) {
             $email->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
                 'mime' => $this->file->getMimeType(),
             ]);

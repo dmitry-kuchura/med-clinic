@@ -102,14 +102,14 @@ class PatientAction
             'test_id' => $data['test_id'],
             'patient_id' => $data['patient_id'],
             'file' => $data['file'] ?? null,
-            'result' => $data['result'] ?? null,
+            'result' => $data['result'] ?? 'Результат у файлі',
             'reference_values' => $data['reference_values'] ?? null,
         ];
 
         try {
             $patientTest = $this->patientsTestsRepository->store($testData);
         } catch (\Throwable $e) {
-            throw new NotAddPatientTestException();
+            throw new NotAddPatientTestException($e->getMessage());
         }
 
         return $this->patientsTestsRepository->get($patientTest->id);
