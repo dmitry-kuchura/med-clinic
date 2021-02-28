@@ -1,14 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Modal from '../../utils/modal';
+import Pagination from '../../helpers/pagination';
 import PatientTestsList from './common/patient-tests-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {getAllTestsList} from '../../services/tests-service';
-import {createPatient, getPatientById, getPatientsList, updatePatient} from '../../services/patients-service';
+import {sendMessage} from '../../services/patients-messages-service';
+import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
 import swal from 'sweetalert';
-import Pagination from "../../helpers/pagination";
 
 const rules = {
     'first_name': ['required'],
@@ -28,6 +29,7 @@ class PatientsEdit extends React.Component {
                 first_name: null,
                 last_name: null,
                 email: null,
+                phone: null,
                 middle_name: null,
                 gender: 'male',
             },
@@ -36,6 +38,10 @@ class PatientsEdit extends React.Component {
                 file: null,
                 result: null,
                 reference_values: null,
+            },
+            message: {
+                phone: '',
+                text: '',
             },
             showSendEmailModal: false,
             showSendSmsModal: false,
@@ -66,6 +72,7 @@ class PatientsEdit extends React.Component {
         this.handleShowModal = this.handleShowModal.bind(this);
         this.handleHide = this.handleHide.bind(this);
         this.handleSubmitPatientTest = this.handleSubmitPatientTest.bind(this);
+        this.handleSubmitSms = this.handleSubmitSms.bind(this);
         this.clearTestState = this.clearTestState.bind(this);
     }
 
@@ -160,6 +167,28 @@ class PatientsEdit extends React.Component {
             })
     }
 
+    handleSubmitSms(event) {
+        event.preventDefault();
+
+        let data = {
+            phone: this.state.message.phone,
+            text: this.state.message.text,
+        }
+
+        this.props.dispatch(sendMessage(this.state.patient.id, data))
+            .then(success => {
+                this.handleHide();
+                this.clearTestState();
+
+                swal('Добре!', 'СМС повідомлення було надіслано!', 'success');
+
+                this.props.dispatch(getPatientsTests(1, this.state.patient.id))
+            })
+            .catch(error => {
+                swal('Погано!', 'Щось пішло не за планом!', 'error');
+            })
+    }
+
     valid() {
         let patient = this.state.patient;
 
@@ -206,6 +235,10 @@ class PatientsEdit extends React.Component {
                 break;
             case 'sms':
                 this.setState({
+                    message: {
+                        phone: this.state.patient.phone,
+                        text: '',
+                    },
                     showSendSmsModal: true
                 });
                 break;
@@ -414,12 +447,29 @@ class PatientsEdit extends React.Component {
                 <Modal show={this.state.showSendSmsModal} handleHide={this.handleHide} title="Віправка SMS">
                     <form>
                         <div className="form-group">
-                            <label htmlFor="phone">Телефон</label>
-                            <input type="text" className="form-control" id="phone" placeholder="+380931106215"/>
+                            <label htmlFor="message.phone">Телефон</label>
+                            <input type="text" className="form-control"
+                                   id="message.phone"
+                                   name="message.phone"
+                                   defaultValue={this.state.message.phone}
+                                   onChange={this.handleChangeInput}
+                                   placeholder="+380931106215"/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="message">Текст повідомлення</label>
-                            <textarea className="form-control" id="message" rows="3"></textarea>
+                            <label htmlFor="message.text">Текст повідомлення</label>
+                            <textarea className="form-control"
+                                      id="message.text"
+                                      name="message.text"
+                                      rows="3"
+                                      onChange={this.handleChangeInput}></textarea>
+                        </div>
+                        <div className="form-group">
+                            <div className="float-right">
+                                <button type="button" className="btn btn-success"
+                                        onClick={this.handleSubmitSms}>
+                                    Відправити
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </Modal>
