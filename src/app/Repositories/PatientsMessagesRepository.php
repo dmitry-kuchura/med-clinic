@@ -6,6 +6,11 @@ use App\Models\PatientsMessages;
 
 class PatientsMessagesRepository implements Repository
 {
+    public function paginate(int $id, int $offset)
+    {
+        return PatientsMessages::where('patient_id', $id)->with(['message', 'patient'])->orderBy('id', 'desc')->paginate($offset);
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.

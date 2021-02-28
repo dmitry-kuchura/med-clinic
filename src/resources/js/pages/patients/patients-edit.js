@@ -6,10 +6,11 @@ import PatientTestsList from './common/patient-tests-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
 import {getAllTestsList} from '../../services/tests-service';
-import {sendMessage} from '../../services/patients-messages-service';
+import {getPatientMessagesList, sendPatientMessage} from '../../services/patients-messages-service';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
 import swal from 'sweetalert';
+import PatientMessagesList from "./common/patient-messages-list";
 
 const rules = {
     'first_name': ['required'],
@@ -54,16 +55,27 @@ class PatientsEdit extends React.Component {
                 lastPage: null,
                 total: null,
                 list: [],
+            },
+            patientMessages: {
+                from: null,
+                to: null,
+                perPage: null,
+                currentPage: null,
+                lastPage: null,
+                total: null,
+                list: [],
             }
         };
 
-        if (getParamFromUrl(props, 'id')) {
-            props.dispatch(getPatientById(getParamFromUrl(props, 'id')))
-                .then(success => {
-                    props.dispatch(getPatientsTests(1, getParamFromUrl(props, 'id')));
-                })
+        const patientId = getParamFromUrl(props, 'id');
 
+        if (patientId) {
             props.dispatch(getAllTestsList());
+            props.dispatch(getPatientById(patientId))
+                .then(success => {
+                    props.dispatch(getPatientMessagesList(1, patientId));
+                    props.dispatch(getPatientsTests(1, patientId));
+                })
         }
 
         this.handleChangePage = this.handleChangePage.bind(this);
@@ -81,7 +93,8 @@ class PatientsEdit extends React.Component {
             this.setState({
                 patient: this.props.patient,
                 tests: this.props.tests.list,
-                patientTests: this.props.patientTests
+                patientTests: this.props.patientTests,
+                patientMessages: this.props.patientMessages
             })
         }
     }
@@ -175,14 +188,14 @@ class PatientsEdit extends React.Component {
             text: this.state.message.text,
         }
 
-        this.props.dispatch(sendMessage(this.state.patient.id, data))
+        this.props.dispatch(sendPatientMessage(this.state.patient.id, data))
             .then(success => {
                 this.handleHide();
                 this.clearTestState();
 
                 swal('Добре!', 'СМС повідомлення було надіслано!', 'success');
 
-                this.props.dispatch(getPatientsTests(1, this.state.patient.id))
+                this.props.dispatch(getPatientMessagesList(1, this.state.patient.id))
             })
             .catch(error => {
                 swal('Погано!', 'Щось пішло не за планом!', 'error');
@@ -441,6 +454,25 @@ class PatientsEdit extends React.Component {
                                 </div>
                             </div>
                         </div>
+
+                        <div className="row gutters-sm">
+                            <div className="col-md-12">
+                                <div className="card mb-3">
+                                    <div className="card-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="table-responsive">
+                                                    <PatientMessagesList data={this.state.patientMessages}/>
+                                                </div>
+
+                                                <Pagination state={this.state.patientMessages}
+                                                            handleChangePage={this.handleChangePage}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
@@ -542,6 +574,7 @@ const mapStateToProps = (state) => {
         patient: state.Patients.item,
         tests: state.Tests,
         patientTests: state.PatientsTests,
+        patientMessages: state.PatientsMessages,
     }
 };
 

@@ -7,6 +7,8 @@ use App\Repositories\PatientsMessagesRepository;
 
 class MessageAction
 {
+    const RECORDS_AT_PAGE = 10;
+
     private MessagesRepository $messageRepository;
 
     private PatientsMessagesRepository $patientsMessagesRepository;
@@ -18,6 +20,11 @@ class MessageAction
     {
         $this->messageRepository = $messageRepository;
         $this->patientsMessagesRepository = $patientsMessagesRepository;
+    }
+
+    public function list(int $id)
+    {
+        return $this->patientsMessagesRepository->paginate($id, self::RECORDS_AT_PAGE);
     }
 
     public function send(array $request, array $response)

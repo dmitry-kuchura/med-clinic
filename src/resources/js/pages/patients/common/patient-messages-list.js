@@ -2,7 +2,7 @@ import React from 'react';
 import {formatDate} from "../../../utils/date-format";
 import Pagination from "../../../helpers/pagination";
 
-class PatientTestsList extends React.Component {
+class PatientMessagesList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -33,9 +33,9 @@ class PatientTestsList extends React.Component {
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Аналіз</th>
-                    <th scope="col">Результат</th>
-                    <th scope="col">Додано</th>
+                    <th scope="col">Текст</th>
+                    <th scope="col">Отримувач</th>
+                    <th scope="col">Надіслано</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,9 +57,9 @@ const List = (props) => {
             return (
                 <tr key={item.id}>
                     <td><strong>{item.id}</strong></td>
-                    <td><p>{item.test.name}</p></td>
-                    <td><p>{item.result}</p></td>
-                    <td><p>{formatDate(item.created_at)}</p></td>
+                    <td><p>{item.message.text}</p></td>
+                    <td><p>{item.message.recipient}</p></td>
+                    <td><p>{formatDate(item.message.created_at)}</p></td>
                 </tr>
             )
         });
@@ -74,4 +74,4 @@ const List = (props) => {
     )
 };
 
-export default PatientTestsList;
+export default PatientMessagesList;

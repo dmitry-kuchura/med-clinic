@@ -6,7 +6,6 @@ use App\Actions\MessageAction;
 use App\Helpers\TurboSMS;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Messages\SendMessageRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class MessagesController extends Controller
@@ -33,8 +32,10 @@ class MessagesController extends Controller
         return $this->returnResponse(['created' => true], Response::HTTP_CREATED);
     }
 
-    public function list(Request $request)
+    public function list(int $id)
     {
-        dd('here');
+        $result = $this->action->list($id);
+
+        return $this->returnResponse(['result' => $result], Response::HTTP_OK);
     }
 }

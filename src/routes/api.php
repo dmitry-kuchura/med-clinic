@@ -43,7 +43,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('messages')->group(function () {
                 Route::post('/{id}/send', [MessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
-                Route::post('/{id}/list', [MessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
+                Route::get('/{id}/list', [MessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
             });
         });
 

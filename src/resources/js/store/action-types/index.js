@@ -7,6 +7,8 @@ export const PATIENT_INFO = 'PATIENT_INFO';
 
 export const PATIENT_TESTS_LIST = 'PATIENT_TESTS_LIST';
 
+export const PATIENT_MESSAGES_LIST = 'PATIENT_MESSAGES_LIST';
+
 export const TEST_ALL = 'TEST_ALL';
 export const TEST_LIST = 'TEST_LIST';
 export const TEST_INFO = 'TEST_INFO';
