@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\UpdatePasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\FirebirdController;
 use App\Http\Controllers\Api\MessagesController;
 use App\Http\Controllers\Api\PatientsController;
 use App\Http\Controllers\Api\TestsController;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 
 //Route::middleware(['logging'])->group(function () {
 Route::prefix('v1')->group(function () {
+    Route::get('/firebird', [FirebirdController::class, 'list'])->name('api.firebird.list');
+
     Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
     Route::post('/login', [LoginController::class, 'login'])->name('api.login');
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('api.reset.password');

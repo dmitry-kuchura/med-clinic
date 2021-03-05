@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   web:
@@ -13,7 +13,7 @@ services:
       - php
       - database
 
-  php:
+  php: &app-service
     container_name: clinic_php
     build: .docker/php
     user: '${UID}:${GID}'
@@ -22,12 +22,24 @@ services:
       - './.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini'
       - './src/:/var/www/html'
 
+  #  queue:
+  #    <<: *app-service
+  #    container_name: clinic_queue
+  #    restart: always
+  #    command: php /var/www/html/artisan queue:work
+
+  scheduler:
+    <<: *app-service
+    container_name: clinic_scheduler
+    restart: always
+    command: /scheduler/scheduler.sh
+
   composer:
     container_name: clinic_composer
     image: composer:latest
     user: '${UID}:${GID}'
     volumes:
-      - './src/:/app'
+      - ./src/:/app
     command: install
 
   database:
@@ -40,7 +52,15 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - 'postgres-database-clinic:/var/lib/postgresql/data'
+      - postgres-database-clinic:/var/lib/postgresql/data:rw
+
+#  redis:
+#    image: redis:6-alpine
+#    restart: always
+#    command: redis-server
+#    volumes:
+#      - redis-data:/data:rw
+#    ports: [ '6379', '16379:6379' ]
 
 volumes:
   postgres-database-clinic:

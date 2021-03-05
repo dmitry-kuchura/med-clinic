@@ -29,7 +29,7 @@ class Pagination extends React.Component {
     }
 
     render() {
-        if (this.state.total === null || this.state.total === 0) {
+        if (this.state.total === null || this.state.total === 0 || this.state.lastPage === 1) {
             return null;
         }
 

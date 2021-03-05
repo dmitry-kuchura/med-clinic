@@ -2,6 +2,7 @@ FROM php:7.4-fpm
 
 # Installing dependencies
 RUN apt-get update && apt-get install -y \
+        firebird-dev \
         zip \
         libpq-dev \
         libfreetype6-dev \
@@ -24,3 +25,9 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
         	pdo \
         	pdo_pgsql \
         	pgsql
+
+# Install the PHP firebird extention
+RUN docker-php-ext-install pdo_firebird
+
+# Copy command scheduler
+COPY ./scheduler.sh /scheduler/scheduler.sh

@@ -91,6 +91,17 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'firebird' => [
+            'driver'   => 'firebird',
+            'host'     => env('FIREBIRD_DB_HOST', 'localhost'),
+            'database' => env('FIREBIRD_DB_DATABASE', '/path_to/database.fdb'),
+            'username' => env('FIREBIRD_DB_USERNAME', 'sysdba'),
+            'password' => env('FIREBIRD_DB_PASSWORD', 'masterkey'),
+            'charset'  => env('FIREBIRD_DB_CHARSET', 'UTF8'),
+            'version'  => env('FIREBIRD_DB_VERSION', '2.5'), // Supported versions: 2.5, 1.5
+            'role'     => null,
+        ],
+
     ],
 
     /*
