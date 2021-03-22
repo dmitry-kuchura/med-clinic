@@ -3,45 +3,73 @@
 namespace App\Console\Commands;
 
 use App\Helpers\TurboSMS;
+use App\Services\AppointmentService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class SendSmsCommand extends Command
 {
-    /**
-     * Имя и сигнатура консольной команды.
-     *
-     * @var string
-     */
-    protected $signature = 'sms:send {user}';
+    /** @var string */
+    protected $signature = 'sms:send';
 
-    /**
-     * Описание консольной команды.
-     *
-     * @var string
-     */
-    protected $description = 'Send drip e-mails to a user';
+    /** @var string */
+    protected $description = 'Scheduler send SMS messages.';
 
-    /**
-     * Служба "TurboSMS"
-     *
-     * @var TurboSMS
-     */
-    protected $service;
+    private AppointmentService $services;
 
-    /**
-     * Создание нового экземпляра команды.
-     *
-     * @return void
-     */
-    public function __construct()
+    private TurboSMS $smsSender;
+
+    public function __construct(AppointmentService $appointmentService)
     {
         parent::__construct();
-
-        $this->service = new TurboSMS();
+        $this->smsSender = new TurboSMS();
+        $this->services = $appointmentService;
     }
 
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
     public function handle()
     {
-        $this->service->send(['+380931106215'], 'Send SMS every 4 minutes');
+        if ($this->checkIsAllowedSend()) {
+            $lastAppointment = $this->services->getLastAppointmentPatient();
+
+            if ($lastAppointment) {
+                $result = $this->services->getPatientsListForMessages($lastAppointment);
+            } else {
+                $appointment = Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
+                $result = $this->services->getPatientsListForMessages($appointment);
+            }
+
+            foreach ($result as $record) {
+                if (isset($record['phone'])) {
+                    $message = $this->prepareMessage($record);
+//                    $this->smsSender->send([$record['phone']], $message);
+                    $this->smsSender->send(['0931106215'], $message);
+                }
+            }
+
+            $this->services->syncPatients($result);
+        }
+
+        return true;
+    }
+
+    private function checkIsAllowedSend(): bool
+    {
+        $now = (int)Carbon::now('Europe/Kiev')->format('H');
+
+        return $now > 06 && $now < 21;
+    }
+
+    private function prepareMessage(array $record): string
+    {
+        $message = 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}';
+
+        $datetime = Carbon::parse($record['appointment_time']);
+
+        return str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $message);
     }
 }

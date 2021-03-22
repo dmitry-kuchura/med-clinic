@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Exceptions\NotAddPatientTestException;
-use App\Models\PatientsTests;
+use App\Exceptions\UpdatePatientException;
+use App\Models\Patients;
 use App\Models\User;
 use App\Repositories\PatientsRepository;
 use App\Repositories\PatientsTestsRepository;
@@ -46,25 +46,33 @@ class PatientAction
         $patientData = [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
             'gender' => $data['gender'],
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
         ];
 
-        if ($data['email']) {
-            $existUser = $this->findUserByID($data['id']);
-            if ($existUser->email !== $data['email']) {
-                if (!$existUser = $this->findUserByEmail($data['email'])) {
-                    $this->usersRepository->update(['email' => $data['email']], $data['id']);
-                }
-            }
-        }
+        $patient = $this->findPatient($data['id']);
 
-        $this->patientsRepository->update($patientData, $data['id']);
+        try {
+            $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
+            $this->patientsRepository->update($patientData, $data['id']);
+        } catch (\Throwable $throwable) {
+            throw new UpdatePatientException();
+        }
     }
 
-    public function create(array $data): bool
+    public function create(array $data): ?Patients
     {
+        if (isset($data['phone']) && $data['phone']) {
+            $existPatient = $this->findPatientByPhone($data['phone']);
+
+            if ($existPatient) {
+                return $existPatient;
+            }
+
+        }
+
         $existUser = null;
 
         if (isset($data['email']) && $data['email']) {
@@ -91,43 +99,22 @@ class PatientAction
             'user_id' => $user->id
         ];
 
-        $this->patientsRepository->store($patientData);
-
-        return true;
+        return $this->patientsRepository->store($patientData);
     }
 
-    public function addPatientTest(array $data): PatientsTests
+    private function findPatient(int $id): ?Patients
     {
-        $testData = [
-            'test_id' => $data['test_id'],
-            'patient_id' => $data['patient_id'],
-            'file' => $data['file'] ?? null,
-            'result' => $data['result'] ?? 'Результат у файлі',
-            'reference_values' => $data['reference_values'] ?? null,
-        ];
-
-        try {
-            $patientTest = $this->patientsTestsRepository->store($testData);
-        } catch (\Throwable $e) {
-            throw new NotAddPatientTestException($e->getMessage());
-        }
-
-        return $this->patientsTestsRepository->get($patientTest->id);
+        return $this->patientsRepository->find($id);
     }
 
-    public function listPatientTests(int $id)
+    private function findPatientByPhone(string $phone): ?Patients
     {
-        return $this->patientsTestsRepository->paginate($id, self::RECORDS_AT_PAGE);
+        return $this->patientsRepository->findByPhone($phone);
     }
 
     private function findUserByEmail(string $email): ?User
     {
         return $this->usersRepository->findByEmail($email);
-    }
-
-    private function findUserByID(int $id): ?User
-    {
-        return $this->usersRepository->findByID($id);
     }
 
     private function generateTempEmail(): string

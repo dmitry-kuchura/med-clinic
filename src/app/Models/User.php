@@ -20,6 +20,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $updated_at
  *
  * @property bool $isAdmin
+ * @property bool $isTempEmail
  * @property UsersTokens $tokens
  */
 class User extends Authenticatable
@@ -66,8 +67,10 @@ class User extends Authenticatable
         return in_array($this->role, [UserRole::ADMIN, UserRole::SUPER_ADMIN], true);
     }
 
-    public function isSuperAdmin()
+    public function isTempEmail()
     {
-        return in_array($this->role, [UserRole::SUPER_ADMIN], true);
+        $email = explode('@', $this->email);
+
+        return $email[1] === 'temporary.email';
     }
 }

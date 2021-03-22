@@ -6,6 +6,17 @@ use App\Models\Patients;
 
 class PatientsRepository implements Repository
 {
+
+    public function findByPhone(string $phone): ?Patients
+    {
+        return Patients::where('phone', $phone)->first();
+    }
+
+    public function find(int $id): ?Patients
+    {
+        return Patients::find($id);
+    }
+
     public function paginate(int $offset)
     {
         return Patients::orderBy('id', 'desc')->paginate($offset);

@@ -22,7 +22,7 @@ class CreateDoctorsTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
-            $table->enum('gender', [ 'female', 'male', 'others'])->nullable();
+            $table->enum('gender', ['female', 'male', 'others'])->nullable();
             $table->text('description')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use App\Exceptions\SentMessageErrorException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Response;
 
 class TurboSMS
 {

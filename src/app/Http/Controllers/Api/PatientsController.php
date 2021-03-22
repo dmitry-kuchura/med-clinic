@@ -48,34 +48,4 @@ class PatientsController extends Controller
 
         return $this->returnResponse(['updated' => true], Response::HTTP_OK);
     }
-
-    public function addTest(PatientAddTestRequest $request)
-    {
-        $file = null;
-
-        $data = $request->all();
-
-        if ($request->file('file')) {
-            $file = $request->file('file');
-
-            $uploadService = new AmazonS3();
-            $fileName = $uploadService->upload($request, $request->get('patient_id'));
-
-            $data['file'] = $fileName;
-        }
-
-        $patientTest = $this->patientAction->addPatientTest($data);
-
-
-        Mail::to($patientTest->patient->user->email)->send(new AddPatientTestMail($patientTest, $file));
-
-        return $this->returnResponse(['created' => true], Response::HTTP_CREATED);
-    }
-
-    public function listTest($id)
-    {
-        $result = $this->patientAction->listPatientTests($id);
-
-        return $this->returnResponse(['result' => $result], Response::HTTP_OK);
-    }
 }

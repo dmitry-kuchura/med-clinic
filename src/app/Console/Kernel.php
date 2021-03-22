@@ -13,8 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-//        Commands\SendSmsCommand::class,
-        Commands\ScheduledTask::class
+        Commands\SendSmsCommand::class,
     ];
 
     /**
@@ -25,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('scheduled:task')->everyMinute();
-//        $schedule->command('sms:send')->everyFiveMinutes();
+        $schedule->command('sms:send')->everyFiveMinutes();
     }
 
     /**
