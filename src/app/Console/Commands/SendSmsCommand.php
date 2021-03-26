@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Services\AppointmentService;
+use App\Services\MessageService;
 use App\Services\PatientService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 class SendSmsCommand extends Command
 {
@@ -21,14 +23,19 @@ class SendSmsCommand extends Command
     /** @var PatientService */
     private PatientService $patientService;
 
+    /** @var MessageService */
+    private MessageService $messageService;
+
     public function __construct(
         AppointmentService $appointmentService,
-        PatientService $patientService
+        PatientService $patientService,
+        MessageService $messageService
     )
     {
         parent::__construct();
         $this->appointmentService = $appointmentService;
         $this->patientService = $patientService;
+        $this->messageService = $messageService;
     }
 
     /**
@@ -38,30 +45,38 @@ class SendSmsCommand extends Command
      */
     public function handle()
     {
-        $lastAppointment = $this->appointmentService->getLastPatientsAppointment();
+        if ($this->checkIsAllowedSend()) {
+            $lastAppointment = $this->appointmentService->getLastPatientsAppointment();
 
-        if ($lastAppointment) {
-            $timestamp = Carbon::parse($lastAppointment->appointment_at)->format('Y-m-d H:i:s');
-            $external = $lastAppointment->external_id;
+            if ($lastAppointment) {
+                $timestamp = Carbon::parse($lastAppointment->appointment_at)->format('Y-m-d H:i:s');
+                $external = $lastAppointment->external_id;
 
-            $result = $this->appointmentService->getPatientsListForMessages($timestamp, $external);
-        } else {
-            $appointment = $this->getCurrentTime();
-            $result = $this->appointmentService->getPatientsListForMessages($appointment);
-        }
+                $result = $this->appointmentService->getPatientsListForMessages($timestamp, $external);
+            } else {
+                $appointment = $this->getCurrentTime();
+                $result = $this->appointmentService->getPatientsListForMessages($appointment);
+            }
 
-        foreach ($result as $record) {
-            $patient = $this->patientService->syncPatient($record);
+            foreach ($result as $record) {
+                try {
+                    $patient = $this->patientService->syncPatient($record);
 
-            if ($patient->phone) {
-                $text = $this->prepareMessage($record);
+                    $this->appointmentService->syncAppointment($record, $patient);
 
-                $this->patientService->sendMessage([
-//                    'phone' => $patient->phone,
-                    'phone' => '+380931106215',
-                    'patient_id' => $patient->id,
-                    'text' => $text
-                ]);
+                    if ($patient->phone) {
+                        $text = $this->prepareMessage($record);
+
+                        $this->messageService->sendMessage([
+                            //'phone' => $patient->phone,
+                            'phone' => '+380931106215',
+                            'patient_id' => $patient->id,
+                            'text' => $text
+                        ]);
+                    }
+                } catch (Throwable $throwable) {
+
+                }
             }
         }
 
@@ -70,7 +85,7 @@ class SendSmsCommand extends Command
 
     private function checkIsAllowedSend(): bool
     {
-        $now = (int)Carbon::now('Europe/Kiev')->format('H');
+        $now = (int)Carbon::now()->format('H');
 
         return $now > 06 && $now < 21;
     }

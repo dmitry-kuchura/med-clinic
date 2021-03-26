@@ -24,6 +24,7 @@ class CreatePatientsTable extends Migration
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('gender', [ 'female', 'male', 'others'])->nullable();
+            $table->bigInteger('external_id')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
 

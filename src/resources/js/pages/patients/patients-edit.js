@@ -76,6 +76,9 @@ class PatientsEdit extends React.Component {
                     props.dispatch(getPatientMessagesList(1, patientId));
                     props.dispatch(getPatientsTests(1, patientId));
                 })
+                .catch(error => {
+                    console.log(error)
+                })
         }
 
         this.handleChangePage = this.handleChangePage.bind(this);

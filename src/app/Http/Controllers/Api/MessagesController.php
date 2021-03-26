@@ -2,39 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\MessageAction;
-use App\Helpers\TurboSMS;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Messages\SendMessageRequest;
+use App\Services\MessageService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class MessagesController extends Controller
 {
-    private TurboSMS $service;
+    private MessageService $service;
 
-    private MessageAction $action;
-
-    public function __construct(MessageAction $action)
+    public function __construct(MessageService $service)
     {
-        $this->service = new TurboSMS();
-        $this->action = $action;
+        $this->service = $service;
     }
 
-    public function send(SendMessageRequest $request)
+    public function send(SendMessageRequest $request): JsonResponse
     {
         $requestData = $request->all();
         $requestData['patient_id'] = (int)$request->route('id');
 
-        $response = $this->service->send([$requestData['phone']], $requestData['text']);
-
-        $this->action->send($requestData, $response);
+        $this->service->sendMessage($requestData);
 
         return $this->returnResponse(['created' => true], Response::HTTP_CREATED);
     }
 
-    public function list(int $id)
+    public function list(int $id): JsonResponse
     {
-        $result = $this->action->list($id);
+        $result = $this->service->list($id);
 
         return $this->returnResponse(['result' => $result], Response::HTTP_OK);
     }

@@ -4577,6 +4577,8 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
       props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_9__.getPatientById)(patientId)).then(function (success) {
         props.dispatch((0,_services_patients_messages_service__WEBPACK_IMPORTED_MODULE_8__.getPatientMessagesList)(1, patientId));
         props.dispatch((0,_services_patients_tests_service__WEBPACK_IMPORTED_MODULE_10__.getPatientsTests)(1, patientId));
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
 
@@ -6304,6 +6306,7 @@ function getPatientById(param) {
         dispatch(_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__.getOnePatient(response.data.result));
         return resolve();
       })["catch"](function (err) {
+        console.log(err);
         var statusCode = err.response.status;
         var data = {
           error: null,
@@ -7011,7 +7014,7 @@ var applyPatient = function applyPatient(state, payload) {
       last_name: payload.last_name,
       address: payload.address,
       phone: payload.phone,
-      email: payload.user.email,
+      email: payload.user ? payload.user.email : null,
       gender: payload.gender,
       birthday: payload.birthday,
       createdAt: payload.createdAt,

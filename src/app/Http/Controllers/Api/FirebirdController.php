@@ -2,73 +2,42 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\TurboSMS;
 use App\Http\Controllers\Controller;
+use App\Repositories\Firebird\PatientVisitRepository;
 use App\Services\AppointmentService;
-use App\Services\PatientService;
 use Illuminate\Support\Carbon;
 
 class FirebirdController extends Controller
 {
+    /** @var PatientVisitRepository */
+    private PatientVisitRepository $patientVisitRepository;
+
     /** @var AppointmentService */
     private AppointmentService $appointmentService;
 
-    /** @var PatientService */
-    private PatientService $patientService;
-
-    private TurboSMS $smsSender;
-
     public function __construct(
         AppointmentService $appointmentService,
-        PatientService $patientService
+        PatientVisitRepository $patientVisitRepository
     )
     {
-        $this->smsSender = new TurboSMS();
         $this->appointmentService = $appointmentService;
-        $this->patientService = $patientService;
+        $this->patientVisitRepository = $patientVisitRepository;
     }
 
     public function list()
     {
-        $lastAppointment = $this->appointmentService->getLastPatientsAppointment();
+//        $result = $this->patientVisitRepository->getPatientVisit(68846);
+//
+//        $str = mb_convert_encoding(htmlspecialchars_decode($result[0]->data[0]->DATA), 'utf-8', 'windows-1251');
+//        $xml = str_replace(['windows-1251', 'windows-1250'], 'utf-8', $str);
+//        print_r($xml);
 
-        if ($lastAppointment) {
-            $timestamp = Carbon::parse($lastAppointment->appointment_at)->format('Y-m-d H:i:s');
-            $external = $lastAppointment->external_id;
-
-            $result = $this->appointmentService->getPatientsListForMessages($timestamp, $external);
-        } else {
-            $appointment = $this->getCurrentTime();
-            $result = $this->appointmentService->getPatientsListForMessages($appointment);
-        }
-
-        foreach ($result as $record) {
-            $patient = $this->patientService->syncPatient($record);
-
-            if ($patient->phone) {
-                $text = $this->prepareMessage($record);
-
-                $this->patientService->sendMessage([
-//                    'phone' => $patient->phone,
-                    'phone' => '+380931106215',
-                    'patient_id' => $patient->id,
-                    'text' => $text
-                ]);
-            }
-        }
+        $appointment = $this->getCurrentTime();
+        $result = $this->appointmentService->getPatientsListForMessages($appointment);
     }
 
     private function getCurrentTime(): string
     {
         return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
-    }
-
-    private function prepareMessage(array $record): string
-    {
-        $message = 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}';
-
-        $datetime = Carbon::parse($record['appointment_time']);
-
-        return str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $message);
     }
 }

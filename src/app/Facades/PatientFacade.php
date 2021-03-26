@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 
 class PatientFacade implements Facade
 {
-    const RECORDS_AT_PAGE = 10;
-
     /** @var PatientsRepository */
     private PatientsRepository $patientsRepository;
 
@@ -67,6 +65,7 @@ class PatientFacade implements Facade
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'middle_name' => $data['middle_name'],
+            'birthday' => $data['birthday'] ?? null,
             'gender' => $data['gender'],
             'phone' => $data['phone'] ? trim(str_replace(' ', '', $data['phone'])) : null,
             'address' => $data['address'] ?? null,
@@ -104,7 +103,7 @@ class PatientFacade implements Facade
 
     private function findPatient(int $id): ?Patient
     {
-        return $this->patientsRepository->find($id);
+        return $this->patientsRepository->get($id);
     }
 
     private function findPatientByPhone(string $phone): ?Patient

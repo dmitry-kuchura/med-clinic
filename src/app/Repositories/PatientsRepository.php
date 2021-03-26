@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Patient;
-use Illuminate\Database\Eloquent\Collection;
 
 class PatientsRepository implements Repository
 {
@@ -19,12 +18,7 @@ class PatientsRepository implements Repository
         })->first();
     }
 
-    public function find(int $id): ?Patient
-    {
-        return Patient::find($id);
-    }
-
-    public function paginate(int $offset): ?Collection
+    public function paginate(int $offset)
     {
         return Patient::orderBy('id', 'desc')->paginate($offset);
     }

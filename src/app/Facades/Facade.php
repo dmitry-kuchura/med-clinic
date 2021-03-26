@@ -4,6 +4,8 @@ namespace App\Facades;
 
 interface Facade
 {
+    const RECORDS_AT_PAGE = 10;
+
     public function find(int $id);
 
     public function create(array $data);

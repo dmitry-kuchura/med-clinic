@@ -2,13 +2,20 @@
 
 namespace App\Repositories;
 
-use App\Models\PatientsAppointments;
+use App\Models\PatientAppointment;
 
 class PatientsAppointmentsRepository implements Repository
 {
-    public function getLastPatient(): ?PatientsAppointments
+    public function search(string $timestamp, int $patient_id): ?PatientAppointment
     {
-        return PatientsAppointments::orderBy('id', 'desc')->first();
+        return PatientAppointment::where('appointment_at', $timestamp)
+            ->where('patient_id', $patient_id)
+            ->first();
+    }
+
+    public function getLastPatient(): ?PatientAppointment
+    {
+        return PatientAppointment::orderBy('id', 'desc')->first();
     }
 
     public function get(int $id)
@@ -23,7 +30,7 @@ class PatientsAppointmentsRepository implements Repository
 
     public function store(array $data)
     {
-        $model = new PatientsAppointments();
+        $model = new PatientAppointment();
 
         $model->appointment_at = $data['appointment_at'];
         $model->comment = $data['comment'];

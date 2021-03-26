@@ -58,7 +58,7 @@ const applyPatient = (state, payload) => {
             last_name: payload.last_name,
             address: payload.address,
             phone: payload.phone,
-            email: payload.user.email,
+            email: payload.user ? payload.user.email : null,
             gender: payload.gender,
             birthday: payload.birthday,
             createdAt: payload.createdAt,

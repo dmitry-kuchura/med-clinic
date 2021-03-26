@@ -22,6 +22,11 @@ class MessageFacade implements Facade
         $this->patientsMessagesRepository = $patientsMessagesRepository;
     }
 
+    public function paginate(int $id)
+    {
+        return $this->patientsMessagesRepository->paginate($id, self::RECORDS_AT_PAGE);
+    }
+
     public function find(int $id)
     {
         // TODO: Implement find() method.
@@ -42,7 +47,7 @@ class MessageFacade implements Facade
         // TODO: Implement delete() method.
     }
 
-    public function send(array $request, array $data)
+    public function send(array $request, array $data): void
     {
         $responseResult = $data['response_result'];
 

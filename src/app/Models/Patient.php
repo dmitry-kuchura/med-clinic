@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $phone
  * @property string $birthday
  * @property string $gender
+ * @property int $external_id
  *
  * @property string $created_at
  * @property string $updated_at

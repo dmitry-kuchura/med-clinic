@@ -86,6 +86,7 @@ export function getPatientById(param) {
                     return resolve();
                 })
                 .catch(err => {
+                    console.log(err)
                     const statusCode = err.response.status;
                     const data = {
                         error: null,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Patients\PatientCreateRequest;
 use App\Http\Requests\Patients\PatientUpdateRequest;
 use App\Services\PatientService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class PatientsController extends Controller
@@ -17,28 +18,28 @@ class PatientsController extends Controller
         $this->patientService = $patientService;
     }
 
-    public function list()
+    public function list(): JsonResponse
     {
         $result = $this->patientService->list();
 
         return $this->returnResponse(['result' => $result]);
     }
 
-    public function info($id)
+    public function info($id): JsonResponse
     {
         $result = $this->patientService->find($id);
 
         return $this->returnResponse(['result' => $result]);
     }
 
-    public function create(PatientCreateRequest $request)
+    public function create(PatientCreateRequest $request): JsonResponse
     {
         $this->patientService->create($request->all());
 
         return $this->returnResponse(['created' => true], Response::HTTP_CREATED);
     }
 
-    public function update(PatientUpdateRequest $request)
+    public function update(PatientUpdateRequest $request): JsonResponse
     {
         $this->patientService->update($request->all());
 
