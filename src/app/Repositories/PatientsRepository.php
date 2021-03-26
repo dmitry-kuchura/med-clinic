@@ -2,44 +2,51 @@
 
 namespace App\Repositories;
 
-use App\Models\Patients;
+use App\Models\Patient;
+use Illuminate\Database\Eloquent\Collection;
 
 class PatientsRepository implements Repository
 {
-
-    public function findByPhone(string $phone): ?Patients
+    public function findByPhone(string $phone): ?Patient
     {
-        return Patients::where('phone', $phone)->first();
+        return Patient::where('phone', $phone)->first();
     }
 
-    public function find(int $id): ?Patients
+    public function findByEmail(string $email): ?Patient
     {
-        return Patients::find($id);
+        return Patient::whereHas('user', function ($query) use ($email) {
+            return $query->where('email', $email);
+        })->first();
     }
 
-    public function paginate(int $offset)
+    public function find(int $id): ?Patient
     {
-        return Patients::orderBy('id', 'desc')->paginate($offset);
+        return Patient::find($id);
     }
 
-    public function get(int $id): ?Patients
+    public function paginate(int $offset): ?Collection
     {
-        return Patients::with('user')->find($id);
+        return Patient::orderBy('id', 'desc')->paginate($offset);
+    }
+
+    public function get(int $id): ?Patient
+    {
+        return Patient::with('user')->find($id);
     }
 
     public function all()
     {
-        return Patients::all();
+        return Patient::all();
     }
 
-    public function store(array $data): Patients
+    public function store(array $data): Patient
     {
-        return Patients::create($data);
+        return Patient::create($data);
     }
 
     public function update(array $data, int $id)
     {
-        return Patients::where('id', $id)->update($data);
+        return Patient::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

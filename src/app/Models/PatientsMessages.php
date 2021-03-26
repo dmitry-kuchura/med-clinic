@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Messages $message
- * @property Patients $patient
+ * @property Message $message
+ * @property Patient $patient
  */
 class PatientsMessages extends Model
 {
@@ -33,11 +33,11 @@ class PatientsMessages extends Model
 
     public function message()
     {
-        return $this->hasOne('App\Models\Messages', 'id', 'message_id');
+        return $this->hasOne('App\Models\Message', 'id', 'message_id');
     }
 
     public function patient()
     {
-        return $this->hasOne('App\Models\Patients', 'id', 'patient_id');
+        return $this->hasOne('App\Models\Patient', 'id', 'patient_id');
     }
 }

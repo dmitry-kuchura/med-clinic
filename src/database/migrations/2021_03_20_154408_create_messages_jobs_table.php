@@ -16,8 +16,9 @@ class CreateMessagesJobsTable extends Migration
         Schema::create('messages_jobs', function (Blueprint $table) {
             $table->id();
 
-            $table->timestamp('last_appointment_at');
-            $table->integer('count');
+            $table->string('message');
+            $table->string('recipient');
+            $table->enum('status', ['send', 'approve'])->default('send');
 
             $table->timestamps();
         });

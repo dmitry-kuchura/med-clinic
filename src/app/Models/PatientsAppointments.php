@@ -11,11 +11,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $appointment_at
  * @property string $comment
  * @property string $doctor_name
+ * @property int $external_id
  *
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Patients $patient
+ * @property Patient $patient
  */
 class PatientsAppointments extends Model
 {
@@ -36,6 +37,6 @@ class PatientsAppointments extends Model
 
     public function patient()
     {
-        return $this->hasOne('App\Models\Patients', 'id', 'patient_id');
+        return $this->hasOne('App\Models\Patient', 'id', 'patient_id');
     }
 }

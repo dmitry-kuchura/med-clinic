@@ -5,16 +5,15 @@ namespace App\Models\Firebird;
 use Firebird\Eloquent\Model;
 
 /**
- * Class AppointmentLog
- *
  * @property int $NR
  * @property string $TIMESTART
  * @property string $TIMEEND
  * @property string $COMMENT
+ * @property string $STAFFFIO
  * @property int $PAT_NR
  * @property string $PATNAME
  *
- * @property Patients $patient
+ * @property Patient $patient
  */
 class Appointment extends Model
 {
@@ -40,6 +39,6 @@ class Appointment extends Model
 
     public function patient()
     {
-        return $this->hasOne('App\Models\Firebird\Patients', 'NR', 'PAT_NR')->with('human');
+        return $this->hasOne('App\Models\Firebird\Patient', 'NR', 'PAT_NR')->with('human');
     }
 }

@@ -20,6 +20,7 @@ class CreatePatientsAppointmentsTemplatesTable extends Migration
             $table->string('comment')->nullable();
             $table->string('doctor_name')->nullable();
             $table->unsignedBigInteger('patient_id');
+            $table->bigInteger('external_id');
 
             $table->foreign('patient_id')->references('id')->on('patients');
 

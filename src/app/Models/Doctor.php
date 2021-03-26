@@ -21,9 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property User $user
  */
-class Patients extends Model
+class Doctor extends Model
 {
-    protected $table = 'patients';
+    protected $table = 'doctors';
 
     /**
      * @var array

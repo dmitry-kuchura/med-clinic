@@ -2,49 +2,38 @@
 
 namespace App\Services;
 
-use App\Actions\PatientAction;
 use App\Models\Firebird\Appointment;
+use App\Models\PatientsAppointments;
+use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientsAppointmentsRepository;
-use Illuminate\Support\Carbon;
 
 class AppointmentService
 {
     /** @var PatientsAppointmentsRepository */
     private PatientsAppointmentsRepository $repository;
 
-    /** @var PatientAction */
-    private PatientAction $action;
+    /** @var AppointmentRepository */
+    private AppointmentRepository $appointmentRepository;
 
     public function __construct(
         PatientsAppointmentsRepository $patientsAppointmentsRepository,
-        PatientAction $patientAction
+        AppointmentRepository $appointmentRepository
     )
     {
         $this->repository = $patientsAppointmentsRepository;
-        $this->action = $patientAction;
+        $this->appointmentRepository = $appointmentRepository;
     }
 
-    public function getLastAppointmentPatient(): ?string
+    public function getLastPatientsAppointment(): ?PatientsAppointments
     {
-        $patient = $this->repository->getLastPatient();
-
-        if (!$patient) {
-            return null;
-        }
-
-        return Carbon::parse($patient->appointment_at)->format('Y-m-d H:i:s');
+        return $this->repository->getLastPatient();
     }
 
-    public function getPatientsListForMessages($timestamp): ?array
+    public function getPatientsListForMessages(string $timestamp, ?int $external = null): ?array
     {
         $data = [];
 
-        $records = Appointment::select('APPOINTMENT_LOG.TIMESTART', 'APPOINTMENT_LOG.PAT_NR')
-            ->with('patient')
-            ->where('APPOINTMENT_LOG.TIMESTART', '>', $timestamp)
-            ->limit(10)
-            ->orderBy('NR', 'DESC')
-            ->get();
+        $records = $this->appointmentRepository->lastAppointment($timestamp, $external);
 
         /** @var Appointment $record */
         foreach ($records as $record) {
@@ -53,25 +42,17 @@ class AppointmentService
                 'last_name' => $record->patient->human->SURNAME,
                 'middle_name' => $record->patient->human->SECNAME,
                 'gender' => $record->patient->human->SEX === 1 ? 'male' : 'female',
-                'birthday' => $record->patient->human->DOB,
+                'birthday' => $record->patient->human->DOB ?? null,
                 'phone' => $record->patient->human->PHONE ?? null,
                 'address' => $record->patient->human->LIVEADDRESS ?? null,
+
                 'appointment_time' => $record->TIMESTART ?? null,
+                'external_id' => $record->NR ?? null,
+                'doctor_name' => $record->STAFFFIO ?? null,
+                'comment' => $record->COMMENT ?? null,
             ];
         }
 
         return $data;
-    }
-
-    public function syncPatients(array $patients): void
-    {
-        foreach ($patients as $patient) {
-            $this->action->create($patient);
-        }
-    }
-
-    private function checkNeedMessages()
-    {
-
     }
 }

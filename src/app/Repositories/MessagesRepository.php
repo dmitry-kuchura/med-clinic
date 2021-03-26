@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Messages;
+use App\Models\Message;
 
 class MessagesRepository implements Repository
 {
@@ -16,9 +16,9 @@ class MessagesRepository implements Repository
         // TODO: Implement all() method.
     }
 
-    public function store(array $data): Messages
+    public function store(array $data): Message
     {
-        $model = new Messages();
+        $model = new Message();
 
         $model->recipient = $data['recipient'];
         $model->text = $data['text'];

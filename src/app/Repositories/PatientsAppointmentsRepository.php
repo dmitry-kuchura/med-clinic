@@ -23,7 +23,15 @@ class PatientsAppointmentsRepository implements Repository
 
     public function store(array $data)
     {
-        // TODO: Implement store() method.
+        $model = new PatientsAppointments();
+
+        $model->appointment_at = $data['appointment_at'];
+        $model->comment = $data['comment'];
+        $model->doctor_name = $data['doctor_name'];
+        $model->patient_id = $data['patient_id'];
+        $model->external_id = $data['external_id'];
+
+        $model->save();
     }
 
     public function update(array $data, int $id)

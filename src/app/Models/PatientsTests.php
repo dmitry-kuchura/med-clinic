@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  *
  * @property Tests $test
- * @property Patients $patient
+ * @property Patient $patient
  */
 class PatientsTests extends Model
 {
@@ -47,6 +47,6 @@ class PatientsTests extends Model
 
     public function patient()
     {
-        return $this->hasOne('App\Models\Patients', 'id', 'patient_id');
+        return $this->hasOne('App\Models\Patient', 'id', 'patient_id');
     }
 }

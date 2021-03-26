@@ -5,20 +5,12 @@ namespace App\Models\Firebird;
 use Firebird\Eloquent\Model;
 
 /**
- * Class AppointmentLog
- *
  * @property int $NR
- * @property string $SURNAME
- * @property string $FIRSTNAME
- * @property string $SECNAME
- * @property string $EMAIL
- * @property string $PHONE
- * @property string $MOBPHONE
- * @property string $FULLNAME
- * @property int $SEX
- * @property string $DOB
+ * @property int $HUMAN_NR
+ *
+ * @property Human $human
  */
-class Humans extends Model
+class Patient extends Model
 {
     /**
      * @var string
@@ -28,7 +20,7 @@ class Humans extends Model
     /**
      * @var string
      */
-    protected $table = 'HUMANS';
+    protected $table = 'PATIENTS';
 
     /**
      * @var string
@@ -39,4 +31,9 @@ class Humans extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function human()
+    {
+        return $this->hasOne('App\Models\Firebird\Human', 'NR', 'HUMAN_NR');
+    }
 }
