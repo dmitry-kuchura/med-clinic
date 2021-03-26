@@ -8,6 +8,7 @@ use App\Models\Patient;
 use App\Models\PatientAppointment;
 use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientsAppointmentsRepository;
+use Illuminate\Support\Carbon;
 
 class AppointmentService
 {
@@ -38,9 +39,11 @@ class AppointmentService
 
     public function getPatientsListForMessages(string $timestamp, ?int $external = null): ?array
     {
+        $end = Carbon::parse($timestamp)->setHours(23)->setMinutes(59)->setSeconds(59)->format('Y-m-d H:i:s');
+
         $data = [];
 
-        $records = $this->appointmentRepository->lastAppointment($timestamp, $external);
+        $records = $this->appointmentRepository->lastAppointment($timestamp, $end, $external);
 
         /** @var Appointment $record */
         foreach ($records as $record) {

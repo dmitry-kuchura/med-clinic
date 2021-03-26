@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class AppointmentRepository
 {
-    public function lastAppointment(string $timestamp, ?int $external): ?Collection
+    public function lastAppointment(string $timestamp, string $end, ?int $external): ?Collection
     {
         return Appointment::select(
             'APPOINTMENT_LOG.NR',
@@ -18,7 +18,8 @@ class AppointmentRepository
         )
             ->with('patient')
             ->where('APPOINTMENT_LOG.TIMESTART', '>', $timestamp)
-            ->whereNotIn('APPOINTMENT_LOG.OPTYPE_NR', [3, 5])
+            ->where('APPOINTMENT_LOG.TIMESTART', '<', $end)
+            ->whereNotIn('APPOINTMENT_LOG.OPTYPE_NR', [3, 4, 6, 7])
             ->where(function ($query) use ($external) {
                 if ($external) {
                     $query->where('APPOINTMENT_LOG.NR', '>', $external);

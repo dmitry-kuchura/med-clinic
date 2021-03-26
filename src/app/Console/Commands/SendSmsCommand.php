@@ -68,8 +68,7 @@ class SendSmsCommand extends Command
                         $text = $this->prepareMessage($record);
 
                         $this->messageService->sendMessage([
-                            //'phone' => $patient->phone,
-                            'phone' => '+380931106215',
+                            'phone' => '+380930041540',
                             'patient_id' => $patient->id,
                             'text' => $text
                         ]);
@@ -87,7 +86,7 @@ class SendSmsCommand extends Command
     {
         $now = (int)Carbon::now()->format('H');
 
-        return $now > 06 && $now < 21;
+        return $now > 07 && $now < 21;
     }
 
     private function getCurrentTime(): string

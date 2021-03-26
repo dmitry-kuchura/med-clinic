@@ -16,10 +16,10 @@ class CreateMessagesTemplatesTable extends Migration
         Schema::create('messages_templates', function (Blueprint $table) {
             $table->id();
 
-            $table->string('language')->default('ua');
+            $table->enum('language', ['ua', 'ru', 'en'])->default('ua');
             $table->string('name');
+            $table->string('alias');
             $table->text('content')->nullable();
-            $table->text('params')->nullable();
 
             $table->timestamps();
         });
