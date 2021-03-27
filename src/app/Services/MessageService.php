@@ -31,8 +31,6 @@ class MessageService
 
     public function sendMessage(array $request)
     {
-        return true;
-
         $response = $this->smsSender->send([$request['phone']], $request['text']);
 
         $this->send($request, $response);

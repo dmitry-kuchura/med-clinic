@@ -19,7 +19,7 @@ class AppointmentRepository
             ->with('patient')
             ->where('APPOINTMENT_LOG.TIMESTART', '>', $timestamp)
             ->where('APPOINTMENT_LOG.TIMESTART', '<', $end)
-            ->whereNotIn('APPOINTMENT_LOG.OPTYPE_NR', [3, 4, 6, 7])
+            ->whereIn('APPOINTMENT_LOG.OPTYPE_NR', [1, 2])
             ->where(function ($query) use ($external) {
                 if ($external) {
                     $query->where('APPOINTMENT_LOG.NR', '>', $external);
