@@ -39,6 +39,7 @@ class Patient extends Model
         'phone',
         'birthday',
         'gender',
+        'external_id',
         'created_at',
         'updated_at',
     ];

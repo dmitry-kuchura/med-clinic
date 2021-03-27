@@ -6,14 +6,9 @@ use App\Models\Patient;
 
 class PatientsRepository implements Repository
 {
-    public function findByPhone(string $phone): ?Patient
+    public function findByExternalId(int $externalId): ?Patient
     {
-        return Patient::where('phone', $phone)->first();
-    }
-
-    public function findByBirthday(string $birthday): ?Patient
-    {
-        return Patient::where('birthday', $birthday)->first();
+        return Patient::where('external_id', $externalId)->first();
     }
 
     public function findByEmail(string $email): ?Patient

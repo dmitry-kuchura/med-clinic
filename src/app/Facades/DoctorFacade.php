@@ -5,7 +5,6 @@ namespace App\Facades;
 use App\Exceptions\UpdatePatientException;
 use App\Models\Doctor;
 use App\Repositories\DoctorsRepository;
-use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Str;
 
@@ -38,7 +37,7 @@ class DoctorFacade implements Facade
 
     public function create(array $data): Doctor
     {
-        $existDoctor = $this->findExistDoctor($data);
+        $existDoctor = $this->findExistDoctor($data['external_id']);
 
         if ($existDoctor) {
             return $existDoctor;
@@ -67,7 +66,7 @@ class DoctorFacade implements Facade
             'birthday' => $data['birthday'] ?? null,
             'gender' => $data['gender'],
             'phone' => $data['phone'] ? trim(str_replace(' ', '', $data['phone'])) : null,
-            'external_id' => $data['doctor_external_id'] ?? null,
+            'external_id' => $data['external_id'] ?? null,
             'user_id' => $user->id
         ];
 
@@ -100,33 +99,9 @@ class DoctorFacade implements Facade
         // TODO: Implement delete() method.
     }
 
-    private function findExistDoctor(array $data): ?Doctor
+    private function findExistDoctor(int $externalId): ?Doctor
     {
-        if (isset($data['phone']) && $data['phone']) {
-            $existByPhone = $this->findDoctorByPhone($data['phone']);
-
-            if ($existByPhone) {
-                return $existByPhone;
-            }
-        }
-
-        if (isset($data['email']) && $data['email']) {
-            $existByEmail = $this->findDoctorByEmail($data['email']);
-
-            if ($existByEmail) {
-                return $existByEmail;
-            }
-        }
-
-        if (isset($data['birthday']) && $data['birthday']) {
-            $existByBirthday = $this->findDoctorByBirthday($data['birthday']);
-
-            if ($existByBirthday) {
-                return $existByBirthday;
-            }
-        }
-
-        return null;
+        return $this->findDoctorByExternalId($externalId);
     }
 
     private function findDoctor(int $id): ?Doctor
@@ -134,19 +109,14 @@ class DoctorFacade implements Facade
         return $this->doctorsRepository->get($id);
     }
 
-    private function findDoctorByPhone(string $phone): ?Doctor
-    {
-        return $this->doctorsRepository->findByPhone($phone);
-    }
-
     private function findDoctorByEmail(string $email): ?Doctor
     {
         return $this->doctorsRepository->findByEmail($email);
     }
 
-    private function findDoctorByBirthday(string $birthday): ?Doctor
+    private function findDoctorByExternalId(int $externalId): ?Doctor
     {
-        return $this->doctorsRepository->findByBirthday($birthday);
+        return $this->doctorsRepository->findByExternalId($externalId);
     }
 
     private function generateTempEmail(): string

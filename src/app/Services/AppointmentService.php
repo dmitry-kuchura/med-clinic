@@ -54,7 +54,7 @@ class AppointmentService
                     'gender' => $record->patient->human->SEX === 1 ? 'male' : 'female',
                     'birthday' => $record->patient->human->DOB ?? null,
                     'phone' => $record->patient->human->PHONE ?? $record->patient->human->MOBPHONE,
-                    'patient_external_id' => $record->patient->NR,
+                    'external_id' => $record->patient->NR,
                 ],
                 'doctor' => [
                     'first_name' => $record->doctor->human->FIRSTNAME,
@@ -63,7 +63,7 @@ class AppointmentService
                     'gender' => $record->doctor->human->SEX === 1 ? 'male' : 'female',
                     'birthday' => $record->doctor->human->DOB ?? null,
                     'phone' => $record->doctor->human->PHONE ?? $record->doctor->human->MOBPHONE,
-                    'doctor_external_id' => $record->doctor->NR,
+                    'external_id' => $record->doctor->NR,
                 ],
                 'appointment' => [
                     'appointment_time' => $record->TIMESTART ?? null,

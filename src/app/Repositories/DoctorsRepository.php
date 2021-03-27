@@ -6,9 +6,9 @@ use App\Models\Doctor;
 
 class DoctorsRepository implements Repository
 {
-    public function findByPhone(string $phone): ?Doctor
+    public function findByExternalId(int $externalId): ?Doctor
     {
-        return Doctor::where('phone', $phone)->first();
+        return Doctor::where('external_id', $externalId)->first();
     }
 
     public function findByEmail(string $email): ?Doctor
@@ -16,11 +16,6 @@ class DoctorsRepository implements Repository
         return Doctor::whereHas('user', function ($query) use ($email) {
             return $query->where('email', $email);
         })->first();
-    }
-
-    public function findByBirthday(string $birthday): ?Doctor
-    {
-        return Doctor::where('birthday', $birthday)->first();
     }
 
     public function paginate(int $offset)
