@@ -64,7 +64,6 @@ class SyncAppointmentsCommand extends Command
             $result = $this->appointmentService->getPatientsListForMessages($appointment);
         }
 
-
         foreach ($result as $record) {
             try {
                 $patient = $this->patientService->syncPatient($record['patient']);

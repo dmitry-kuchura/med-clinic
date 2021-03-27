@@ -27,6 +27,7 @@ class PatientsAppointmentsRepository implements Repository
 
         $model->appointment_at = $data['appointment_at'];
         $model->comment = $data['comment'];
+        $model->type = $data['type'];
         $model->doctor_name = $data['doctor_name'];
         $model->patient_id = $data['patient_id'];
         $model->doctor_id = $data['doctor_id'];

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $comment
  * @property string $doctor_name
  * @property int $external_id
+ * @property int $type
  *
  * @property string $created_at
  * @property string $updated_at
@@ -33,6 +34,8 @@ class PatientAppointment extends Model
         'appointment_at',
         'comment',
         'doctor_name',
+        'external_id',
+        'type',
         'created_at',
         'updated_at',
     ];
