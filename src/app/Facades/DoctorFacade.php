@@ -3,50 +3,51 @@
 namespace App\Facades;
 
 use App\Exceptions\UpdatePatientException;
-use App\Models\Patient;
+use App\Models\Doctor;
+use App\Repositories\DoctorsRepository;
 use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Str;
 
-class PatientFacade implements Facade
+class DoctorFacade implements Facade
 {
-    /** @var PatientsRepository */
-    private PatientsRepository $patientsRepository;
+    /** @var DoctorsRepository */
+    private DoctorsRepository $doctorsRepository;
 
     /** @var UsersRepository */
     private UsersRepository $usersRepository;
 
     public function __construct(
-        PatientsRepository $patientsRepository,
+        DoctorsRepository $doctorsRepository,
         UsersRepository $usersRepository
     )
     {
-        $this->patientsRepository = $patientsRepository;
+        $this->doctorsRepository = $doctorsRepository;
         $this->usersRepository = $usersRepository;
     }
 
     public function list()
     {
-        return $this->patientsRepository->paginate(self::RECORDS_AT_PAGE);
+        return $this->doctorsRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
-    public function find(int $id): ?Patient
+    public function find(int $id): ?Doctor
     {
-        return $this->findPatient($id);
+        return $this->findDoctor($id);
     }
 
-    public function create(array $data): Patient
+    public function create(array $data): Doctor
     {
-        $existPatient = $this->findExistPatient($data);
+        $existDoctor = $this->findExistDoctor($data);
 
-        if ($existPatient) {
-            return $existPatient;
+        if ($existDoctor) {
+            return $existDoctor;
         }
 
         $existUser = null;
 
         if (isset($data['email']) && $data['email']) {
-            $existUser = $this->findPatientByEmail($data['email']);
+            $existUser = $this->findDoctorByEmail($data['email']);
         }
 
         if ($existUser) {
@@ -59,19 +60,18 @@ class PatientFacade implements Facade
             ]);
         }
 
-        $patientData = [
+        $doctorData = [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'middle_name' => $data['middle_name'],
             'birthday' => $data['birthday'] ?? null,
             'gender' => $data['gender'],
             'phone' => $data['phone'] ? trim(str_replace(' ', '', $data['phone'])) : null,
-            'address' => $data['address'] ?? null,
-            'external_id' => $data['patient_external_id'] ?? null,
+            'external_id' => $data['doctor_external_id'] ?? null,
             'user_id' => $user->id
         ];
 
-        return $this->patientsRepository->store($patientData);
+        return $this->doctorsRepository->store($doctorData);
     }
 
     public function update(array $data): void
@@ -85,11 +85,11 @@ class PatientFacade implements Facade
             'address' => $data['address'] ?? null,
         ];
 
-        $patient = $this->findPatient($data['id']);
+        $patient = $this->findDoctor($data['id']);
 
         try {
             $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
-            $this->patientsRepository->update($patientData, $data['id']);
+            $this->doctorsRepository->update($patientData, $data['id']);
         } catch (\Throwable $throwable) {
             throw new UpdatePatientException();
         }
@@ -100,10 +100,10 @@ class PatientFacade implements Facade
         // TODO: Implement delete() method.
     }
 
-    private function findExistPatient(array $data): ?Patient
+    private function findExistDoctor(array $data): ?Doctor
     {
         if (isset($data['phone']) && $data['phone']) {
-            $existByPhone = $this->findPatientByPhone($data['phone']);
+            $existByPhone = $this->findDoctorByPhone($data['phone']);
 
             if ($existByPhone) {
                 return $existByPhone;
@@ -111,7 +111,7 @@ class PatientFacade implements Facade
         }
 
         if (isset($data['email']) && $data['email']) {
-            $existByEmail = $this->findPatientByEmail($data['email']);
+            $existByEmail = $this->findDoctorByEmail($data['email']);
 
             if ($existByEmail) {
                 return $existByEmail;
@@ -119,7 +119,7 @@ class PatientFacade implements Facade
         }
 
         if (isset($data['birthday']) && $data['birthday']) {
-            $existByBirthday = $this->findPatientByBirthday($data['birthday']);
+            $existByBirthday = $this->findDoctorByBirthday($data['birthday']);
 
             if ($existByBirthday) {
                 return $existByBirthday;
@@ -127,7 +127,7 @@ class PatientFacade implements Facade
         }
 
         if (isset($data['first_name']) || isset($data['last_name']) || isset($data['middle_name'])) {
-            $existPatient = $this->findPatientByName($data);
+            $existPatient = $this->findDoctorByName($data);
 
             if ($existPatient) {
                 return $existPatient;
@@ -137,38 +137,38 @@ class PatientFacade implements Facade
         return null;
     }
 
-    private function findPatient(int $id): ?Patient
+    private function findDoctor(int $id): ?Doctor
     {
-        return $this->patientsRepository->get($id);
+        return $this->doctorsRepository->get($id);
     }
 
-    private function findPatientByPhone(string $phone): ?Patient
+    private function findDoctorByPhone(string $phone): ?Doctor
     {
-        return $this->patientsRepository->findByPhone($phone);
+        return $this->doctorsRepository->findByPhone($phone);
     }
 
-    private function findPatientByEmail(string $email): ?Patient
+    private function findDoctorByEmail(string $email): ?Doctor
     {
-        return $this->patientsRepository->findByEmail($email);
+        return $this->doctorsRepository->findByEmail($email);
     }
 
-    private function findPatientByBirthday(string $birthday): ?Patient
+    private function findDoctorByBirthday(string $birthday): ?Doctor
     {
-        return $this->patientsRepository->findByBirthday($birthday);
+        return $this->doctorsRepository->findByBirthday($birthday);
     }
 
-    private function findPatientByName(array $data): ?Patient
+    private function findDoctorByName(array $data): ?Doctor
     {
-        return $this->patientsRepository->findByName($data);
+        return $this->doctorsRepository->findByName($data);
     }
 
     private function generateTempEmail(): string
     {
         $temporaryEmail = 'temp_' . Str::random(10) . '@temporary.email';
 
-        $patient = $this->findPatientByEmail($temporaryEmail);
+        $doctor = $this->findDoctorByEmail($temporaryEmail);
 
-        if ($patient) {
+        if ($doctor) {
             return $this->generateTempEmail();
         }
 

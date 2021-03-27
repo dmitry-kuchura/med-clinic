@@ -32,6 +32,7 @@ class AppointmentFacade implements Facade
                 'appointment_at' => $data['appointment_time'],
                 'comment' => $data['comment'] ?? null,
                 'doctor_name' => $data['doctor_name'] ?? null,
+                'type' => $data['type'],
                 'patient_id' => $data['patient_id'],
                 'external_id' => $data['external_id'],
             ];

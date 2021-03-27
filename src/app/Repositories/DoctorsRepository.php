@@ -2,23 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\Patient;
+use App\Models\Doctor;
 
-class PatientsRepository implements Repository
+class DoctorsRepository implements Repository
 {
-    public function findByPhone(string $phone): ?Patient
+    public function findByPhone(string $phone): ?Doctor
     {
-        return Patient::where('phone', $phone)->first();
+        return Doctor::where('phone', $phone)->first();
     }
 
-    public function findByBirthday(string $birthday): ?Patient
+    public function findByEmail(string $email): ?Doctor
     {
-        return Patient::where('birthday', $birthday)->first();
+        return Doctor::whereHas('user', function ($query) use ($email) {
+            return $query->where('email', $email);
+        })->first();
     }
 
-    public function findByName(array $data): ?Patient
+    public function findByBirthday(string $birthday): ?Doctor
     {
-        return Patient::select('*')
+        return Doctor::where('birthday', $birthday)->first();
+    }
+
+    public function findByName(array $data): ?Doctor
+    {
+        return Doctor::select('*')
             ->where(function ($query) use ($data) {
                 if (!isset($data['first_name']) && $data['first_name']) {
                     $query->where('first_name', $data['first_name']);
@@ -37,36 +44,29 @@ class PatientsRepository implements Repository
             ->first();
     }
 
-    public function findByEmail(string $email): ?Patient
-    {
-        return Patient::whereHas('user', function ($query) use ($email) {
-            return $query->where('email', $email);
-        })->first();
-    }
-
     public function paginate(int $offset)
     {
-        return Patient::orderBy('id', 'desc')->paginate($offset);
+        return Doctor::orderBy('id', 'desc')->paginate($offset);
     }
 
-    public function get(int $id): ?Patient
+    public function get(int $id): ?Doctor
     {
-        return Patient::with('user')->find($id);
+        return Doctor::with('user')->find($id);
     }
 
     public function all()
     {
-        return Patient::all();
+        return Doctor::all();
     }
 
-    public function store(array $data): Patient
+    public function store(array $data): Doctor
     {
-        return Patient::create($data);
+        return Doctor::create($data);
     }
 
     public function update(array $data, int $id)
     {
-        return Patient::where('id', $id)->update($data);
+        return Doctor::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

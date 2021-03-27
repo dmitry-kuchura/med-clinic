@@ -19,10 +19,14 @@ class CreatePatientsAppointmentsTemplatesTable extends Migration
             $table->timestamp('appointment_at');
             $table->string('comment')->nullable();
             $table->string('doctor_name')->nullable();
-            $table->unsignedBigInteger('patient_id');
+            $table->tinyInteger('type')->default(1);
             $table->bigInteger('external_id');
+            $table->boolean('is_mark')->default(false);
 
+            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('doctor_id')->references('id')->on('doctors');
 
             $table->timestamps();
         });

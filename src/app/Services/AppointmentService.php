@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Facades\AppointmentFacade;
+use App\Models\Doctor;
 use App\Models\Firebird\Appointment;
 use App\Models\Patient;
 use App\Models\PatientAppointment;
@@ -16,7 +17,7 @@ class AppointmentService
     private AppointmentFacade $appointmentFacade;
 
     /** @var PatientsAppointmentsRepository */
-    private PatientsAppointmentsRepository $repository;
+    private PatientsAppointmentsRepository $patientsAppointmentsRepository;
 
     /** @var AppointmentRepository */
     private AppointmentRepository $appointmentRepository;
@@ -27,50 +28,62 @@ class AppointmentService
         AppointmentRepository $appointmentRepository
     )
     {
-        $this->repository = $patientsAppointmentsRepository;
+        $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
         $this->appointmentRepository = $appointmentRepository;
         $this->appointmentFacade = $appointmentFacade;
     }
 
     public function getLastPatientsAppointment(): ?PatientAppointment
     {
-        return $this->repository->getLastPatient();
+        return $this->patientsAppointmentsRepository->getLastPatient();
     }
 
     public function getPatientsListForMessages(string $timestamp, ?int $external = null): ?array
     {
-        $end = Carbon::parse($timestamp)->setHours(23)->setMinutes(59)->setSeconds(59)->format('Y-m-d H:i:s');
-
         $data = [];
 
-        $records = $this->appointmentRepository->lastAppointment($timestamp, $end, $external);
+        $records = $this->appointmentRepository->lastAppointment($timestamp, $external);
 
         /** @var Appointment $record */
         foreach ($records as $record) {
             $data[] = [
-                'first_name' => $record->patient->human->FIRSTNAME,
-                'last_name' => $record->patient->human->SURNAME,
-                'middle_name' => $record->patient->human->SECNAME,
-                'gender' => $record->patient->human->SEX === 1 ? 'male' : 'female',
-                'birthday' => $record->patient->human->DOB ?? null,
-                'phone' => $record->patient->human->PHONE ?? null,
-                'address' => $record->patient->human->LIVEADDRESS ?? null,
-                'patient_external_id' => $record->patient->NR,
-
-                'appointment_time' => $record->TIMESTART ?? null,
-                'external_id' => $record->NR ?? null,
-                'doctor_name' => $record->STAFFFIO ?? null,
-                'comment' => $record->COMMENT ?? null,
+                'patient' => [
+                    'first_name' => $record->patient->human->FIRSTNAME,
+                    'last_name' => $record->patient->human->SURNAME,
+                    'middle_name' => $record->patient->human->SECNAME,
+                    'gender' => $record->patient->human->SEX === 1 ? 'male' : 'female',
+                    'birthday' => $record->patient->human->DOB ?? null,
+                    'phone' => $record->patient->human->PHONE ?? null,
+                    'patient_external_id' => $record->patient->NR,
+                ],
+                'doctor' => [
+                    'first_name' => $record->doctor->human->FIRSTNAME,
+                    'last_name' => $record->doctor->human->SURNAME,
+                    'middle_name' => $record->doctor->human->SECNAME,
+                    'gender' => $record->doctor->human->SEX === 1 ? 'male' : 'female',
+                    'birthday' => $record->doctor->human->DOB ?? null,
+                    'phone' => $record->doctor->human->PHONE ?? null,
+                    'doctor_external_id' => $record->doctor->NR,
+                ],
+                'appointment' => [
+                    'appointment_time' => $record->TIMESTART ?? null,
+                    'doctor_name' => $record->STAFFFIO ?? null,
+                    'comment' => $record->COMMENT ?? null,
+                    'type' => $record->OPTYPE_NR,
+                    'external_id' => $record->NR ?? null,
+                ],
             ];
         }
 
         return $data;
     }
 
-    public function syncAppointment(array $data, Patient $patient)
+    public function syncAppointment(array $data, Patient $patient, Doctor $doctor)
     {
-        if ($patient) {
+        if ($patient && $doctor) {
             $data['patient_id'] = $patient->id;
+            $data['doctor_id'] = $doctor->id;
+
             $this->appointmentFacade->create($data);
         }
     }

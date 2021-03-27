@@ -12,8 +12,10 @@ use Firebird\Eloquent\Model;
  * @property string $STAFFFIO
  * @property int $PAT_NR
  * @property string $PATNAME
+ * @property int $OPTYPE_NR
  *
  * @property Patient $patient
+ * @property Doctor $doctor
  */
 class Appointment extends Model
 {
@@ -40,5 +42,10 @@ class Appointment extends Model
     public function patient()
     {
         return $this->hasOne('App\Models\Firebird\Patient', 'NR', 'PAT_NR')->with('human');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne('App\Models\Firebird\Doctor', 'NR', 'STAFF_NR')->with('human');
     }
 }

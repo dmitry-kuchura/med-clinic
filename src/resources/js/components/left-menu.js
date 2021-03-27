@@ -97,12 +97,14 @@ class LeftMenu extends React.Component {
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-chart-area"/>
                                 </div>
-                                Статистика</Link>
-                            <a className="nav-link" href="/settings">
+                                Статистика
+                            </Link>
+                            <Link to="/settings" className="nav-link" >
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-cogs"/>
                                 </div>
-                                Налаштування</a>
+                                Налаштування
+                            </Link>
                         </div>
                     </div>
 

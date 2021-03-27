@@ -18,12 +18,12 @@ class CreateDoctorsTable extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->string('first_name');
-            $table->string('specification');
             $table->string('last_name')->nullable();
+            $table->string('middle_name')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('gender', ['female', 'male', 'others'])->nullable();
-            $table->text('description')->nullable();
+            $table->bigInteger('external_id')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
 
