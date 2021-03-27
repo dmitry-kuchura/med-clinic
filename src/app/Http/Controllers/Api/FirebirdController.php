@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Console\Commands\SendSmsCommand;
+use App\Console\Commands\SyncAppointmentsCommand;
 use App\Http\Controllers\Controller;
 use App\Repositories\Firebird\PatientVisitRepository;
 use App\Services\AppointmentService;
@@ -16,11 +16,11 @@ class FirebirdController extends Controller
     /** @var AppointmentService */
     private AppointmentService $appointmentService;
 
-    /** @var SendSmsCommand */
-    private SendSmsCommand $command;
+    /** @var SyncAppointmentsCommand */
+    private SyncAppointmentsCommand $command;
 
     public function __construct(
-        SendSmsCommand $command,
+        SyncAppointmentsCommand $command,
         AppointmentService $appointmentService,
         PatientVisitRepository $patientVisitRepository
     )

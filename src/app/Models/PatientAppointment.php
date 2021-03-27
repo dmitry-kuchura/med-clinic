@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  *
  * @property int $patient_id
+ * @property int $doctor_id
  * @property string $appointment_at
  * @property string $comment
  * @property string $doctor_name
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  *
  * @property Patient $patient
+ * @property Doctor $doctor
  */
 class PatientAppointment extends Model
 {
@@ -38,5 +40,10 @@ class PatientAppointment extends Model
     public function patient()
     {
         return $this->hasOne('App\Models\Patient', 'id', 'patient_id');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne('App\Models\Doctor', 'id', 'doctor_id');
     }
 }

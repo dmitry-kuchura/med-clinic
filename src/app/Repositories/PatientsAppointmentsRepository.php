@@ -6,13 +6,6 @@ use App\Models\PatientAppointment;
 
 class PatientsAppointmentsRepository implements Repository
 {
-    public function search(string $timestamp, int $patient_id): ?PatientAppointment
-    {
-        return PatientAppointment::where('appointment_at', $timestamp)
-            ->where('patient_id', $patient_id)
-            ->first();
-    }
-
     public function getLastPatient(): ?PatientAppointment
     {
         return PatientAppointment::orderBy('id', 'desc')->first();
@@ -36,6 +29,7 @@ class PatientsAppointmentsRepository implements Repository
         $model->comment = $data['comment'];
         $model->doctor_name = $data['doctor_name'];
         $model->patient_id = $data['patient_id'];
+        $model->doctor_id = $data['doctor_id'];
         $model->external_id = $data['external_id'];
 
         $model->save();

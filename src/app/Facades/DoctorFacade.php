@@ -126,14 +126,6 @@ class DoctorFacade implements Facade
             }
         }
 
-        if (isset($data['first_name']) || isset($data['last_name']) || isset($data['middle_name'])) {
-            $existPatient = $this->findDoctorByName($data);
-
-            if ($existPatient) {
-                return $existPatient;
-            }
-        }
-
         return null;
     }
 
@@ -155,11 +147,6 @@ class DoctorFacade implements Facade
     private function findDoctorByBirthday(string $birthday): ?Doctor
     {
         return $this->doctorsRepository->findByBirthday($birthday);
-    }
-
-    private function findDoctorByName(array $data): ?Doctor
-    {
-        return $this->doctorsRepository->findByName($data);
     }
 
     private function generateTempEmail(): string
