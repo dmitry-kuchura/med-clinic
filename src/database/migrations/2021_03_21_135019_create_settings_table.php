@@ -17,6 +17,7 @@ class CreateSettingsTable extends Migration
             $table->id();
 
             $table->string('name');
+            $table->enum('type', ['input', 'textarea', 'radio', 'checkbox', 'select'])->default('input');
             $table->text('value')->nullable();
             $table->string('key')->unique();
 

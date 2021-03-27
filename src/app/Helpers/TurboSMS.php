@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Exceptions\MessageSenderErrorException;
 use App\Exceptions\SentMessageErrorException;
 use Illuminate\Support\Facades\Http;
 
@@ -46,6 +47,25 @@ class TurboSMS
             return $response->json();
         } else {
             throw new SentMessageErrorException();
+        }
+    }
+
+    public function balance()
+    {
+        $url = $this->baseUri . '/user/balance.json';
+
+        $response = Http::timeout(3)
+            ->retry(2, 200)
+            ->withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . trim($this->secret),
+                'Content-Type' => 'application/json',
+            ])->post($url, $this->body);
+
+        if ($response->successful()) {
+            return $response->json();
+        } else {
+            throw new MessageSenderErrorException();
         }
     }
 

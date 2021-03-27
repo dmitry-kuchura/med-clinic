@@ -35,4 +35,9 @@ class MessageService
 
         $this->send($request, $response);
     }
+
+    public function getBalance()
+    {
+        return $this->smsSender->balance();
+    }
 }

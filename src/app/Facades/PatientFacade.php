@@ -69,6 +69,7 @@ class PatientFacade implements Facade
             'gender' => $data['gender'],
             'phone' => $data['phone'] ? trim(str_replace(' ', '', $data['phone'])) : null,
             'address' => $data['address'] ?? null,
+            'external_id' => $data['patient_external_id'] ?? null,
             'user_id' => $user->id
         ];
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Repositories\Firebird\PatientVisitRepository;
 use App\Services\AppointmentService;
-use Illuminate\Support\Carbon;
 
 class FirebirdController extends Controller
 {
@@ -26,18 +25,18 @@ class FirebirdController extends Controller
 
     public function list()
     {
-//        $result = $this->patientVisitRepository->getPatientVisit(68846);
-//
-//        $str = mb_convert_encoding(htmlspecialchars_decode($result[0]->data[0]->DATA), 'utf-8', 'windows-1251');
-//        $xml = str_replace(['windows-1251', 'windows-1250'], 'utf-8', $str);
-//        print_r($xml);
+        $result = $this->patientVisitRepository->getPatientVisit(68846);
+        $string = htmlspecialchars_decode($result[0]->data[0]->DATA);
 
-        $appointment = $this->getCurrentTime();
-        $result = $this->appointmentService->getPatientsListForMessages($appointment);
-    }
+        $pattern = '#<rvxml\s*>(.*?)</rvxml\s*>#is';
+        preg_match($pattern, $string, $matches);
 
-    private function getCurrentTime(): string
-    {
-        return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
+        $text = $matches[0];
+
+        $text = str_replace(['<rvxml>', '</rvxml>'], '', $text);
+
+        return response($text, 200, [
+            'Content-Type' => 'application/html'
+        ]);
     }
 }

@@ -55,6 +55,7 @@ class AppointmentService
                 'birthday' => $record->patient->human->DOB ?? null,
                 'phone' => $record->patient->human->PHONE ?? null,
                 'address' => $record->patient->human->LIVEADDRESS ?? null,
+                'patient_external_id' => $record->patient->NR,
 
                 'appointment_time' => $record->TIMESTART ?? null,
                 'external_id' => $record->NR ?? null,

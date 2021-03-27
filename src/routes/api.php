@@ -57,6 +57,10 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [TestsController::class, 'info'])->name('api.tests.info')->where('id', '[0-9]+');
             Route::post('/create', [TestsController::class, 'create'])->name('api.tests.create');
         });
+
+        Route::prefix('messages')->group(function () {
+            Route::get('/balance', [MessagesController::class, 'balance'])->name('api.message.balance');
+        });
     });
 });
 //});

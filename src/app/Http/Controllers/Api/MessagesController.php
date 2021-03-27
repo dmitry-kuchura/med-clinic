@@ -33,4 +33,11 @@ class MessagesController extends Controller
 
         return $this->returnResponse(['result' => $result], Response::HTTP_OK);
     }
+
+    public function balance(): JsonResponse
+    {
+        $result = $this->service->getBalance();
+
+        return $this->returnResponse(['result' => $result], Response::HTTP_OK);
+    }
 }
