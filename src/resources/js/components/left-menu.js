@@ -28,9 +28,6 @@ class LeftMenu extends React.Component {
         event.preventDefault();
 
         switch (event.target.id) {
-            case 'tests':
-                this.setState({dropdownTests: !this.state.dropdownTests});
-                break;
             case 'patients':
                 this.setState({dropdownPatients: !this.state.dropdownPatients});
                 break;
@@ -69,25 +66,6 @@ class LeftMenu extends React.Component {
                                     <Link className="nav-link" to="/patients">Список пацієнтів</Link>
                                     <Link className="nav-link" to="/patients/create">Додати пацієнта</Link>
                                     <Link className="nav-link" to="/patients/tests">Аналізи пацієнта</Link>
-                                </nav>
-                            </div>
-
-                            <div className="sb-sidenav-menu-heading">Аналізи</div>
-
-                            <Link to="#" className="nav-link collapsed" id="tests" onClick={this.handleDropdown}>
-                                <div className="sb-nav-link-icon">
-                                    <i className="fas fa-book-open"/>
-                                </div>
-                                Аналізи
-                                <div className="sb-sidenav-collapse-arrow">
-                                    {this.state.dropdownTests ? <i className="fas fa-angle-right"/> :
-                                        <i className="fas fa-angle-down"/>}
-                                </div>
-                            </Link>
-                            <div className="collapse" style={this.state.dropdownTests ? closed : opened}>
-                                <nav className="sb-sidenav-menu-nested nav">
-                                    <Link className="nav-link" to="/tests">Список аналізів</Link>
-                                    <Link className="nav-link" to="/tests/create">Додати аналіз</Link>
                                 </nav>
                             </div>
 
