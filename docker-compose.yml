@@ -15,13 +15,12 @@ services:
 
   php: &app-service
     container_name: clinic_php
-    build: .docker/php
-#    build:
-#      args:
-#        user: clinic
-#        uid: 1000
-#      context: .
-#        dockerfile: .docker/php/Dockerfile
+    build:
+      args:
+        user: clinic
+        uid: 1000
+      context: .
+        dockerfile: .docker/php/Dockerfile
     volumes:
       - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
