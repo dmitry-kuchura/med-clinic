@@ -1,16 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import swal from 'sweetalert';
 import Modal from '../../utils/modal';
 import Pagination from '../../helpers/pagination';
-import PatientTestsList from './common/patient-tests-list';
+import PatientMessagesList from './common/patient-messages-list';
+import PatientAppointmentList from './common/patient-appointment-list';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
-import {getAllTestsList} from '../../services/tests-service';
+import {getPatientsAppointments} from '../../services/patients-appointments-service';
 import {getPatientMessagesList, sendPatientMessage} from '../../services/patients-messages-service';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
-import swal from 'sweetalert';
-import PatientMessagesList from "./common/patient-messages-list";
 
 const rules = {
     'first_name': ['required'],
@@ -35,19 +35,13 @@ class PatientsEdit extends React.Component {
                 gender: 'male',
             },
             test: {
-                test_id: null,
                 file: null,
-                result: null,
-                reference_values: null,
             },
             message: {
                 phone: '',
                 text: '',
             },
-            showSendEmailModal: false,
-            showSendSmsModal: false,
-            showAddTestModal: false,
-            patientTests: {
+            patientAppointment: {
                 from: null,
                 to: null,
                 perPage: null,
@@ -64,17 +58,19 @@ class PatientsEdit extends React.Component {
                 lastPage: null,
                 total: null,
                 list: [],
-            }
+            },
+            showSendEmailModal: false,
+            showSendSmsModal: false,
+            showAddTestModal: false,
         };
 
         const patientId = getParamFromUrl(props, 'id');
 
         if (patientId) {
-            props.dispatch(getAllTestsList());
             props.dispatch(getPatientById(patientId))
                 .then(success => {
                     props.dispatch(getPatientMessagesList(1, patientId));
-                    props.dispatch(getPatientsTests(1, patientId));
+                    props.dispatch(getPatientsAppointments(1, patientId));
                 })
                 .catch(error => {
                     console.log(error)
@@ -96,7 +92,7 @@ class PatientsEdit extends React.Component {
             this.setState({
                 patient: this.props.patient,
                 tests: this.props.tests.list,
-                patientTests: this.props.patientTests,
+                patientAppointment: this.props.patientAppointment,
                 patientMessages: this.props.patientMessages
             })
         }
@@ -139,7 +135,6 @@ class PatientsEdit extends React.Component {
             this.props.dispatch(updatePatient(this.state.patient))
                 .then(success => {
                     swal('Добре!', 'Профіль було оновлено!', 'success');
-                    self.props.history.push('/patients');
                 })
                 .catch(error => {
                     console.log(error);
@@ -149,7 +144,6 @@ class PatientsEdit extends React.Component {
             this.props.dispatch(createPatient(this.state.patient))
                 .then(success => {
                     swal('Добре!', 'Профіль було створено!', 'success');
-                    self.props.history.push('/patients');
                 })
                 .catch(error => {
                     console.log(error);
@@ -194,7 +188,7 @@ class PatientsEdit extends React.Component {
         this.props.dispatch(sendPatientMessage(this.state.patient.id, data))
             .then(success => {
                 this.handleHide();
-                this.clearTestState();
+                this.clearSmsState();
 
                 swal('Добре!', 'СМС повідомлення було надіслано!', 'success');
 
@@ -227,6 +221,14 @@ class PatientsEdit extends React.Component {
                 result: null,
                 reference_values: null,
             }
+        });
+    }
+
+    clearSmsState() {
+        this.setState({
+            message: {
+                text: null,
+            },
         });
     }
 
@@ -272,7 +274,6 @@ class PatientsEdit extends React.Component {
     }
 
     render() {
-        let tests = this.state.tests;
         let patient = this.state.patient;
         let placeholder = patient.gender === 'male' ? '/images/avatars/man.png' : '/images/avatars/woman.png';
 
@@ -282,7 +283,6 @@ class PatientsEdit extends React.Component {
                     <h1 className="mt-4">
                         {patient.id ? 'Редагування пацієнта' : 'Додавання нового пацієнта'}
                     </h1>
-
                     <form>
                         <div className="row gutters-sm">
                             <div className="col-md-4 mb-3">
@@ -353,7 +353,7 @@ class PatientsEdit extends React.Component {
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Ім'я</label>
                                                     <input type="text"
-                                                           className={validate("first_name", patient.first_name, rules['first_name']) ? "form-control is-invalid" : "form-control"}
+                                                           className={validate('first_name', patient.first_name, rules['first_name']) ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Ім'я"
                                                            name="first_name"
                                                            id="first_name"
@@ -366,27 +366,27 @@ class PatientsEdit extends React.Component {
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Прізвище</label>
                                                     <input type="text"
-                                                           className={validate("last_name", patient.last_name, rules['last_name']) ? "form-control is-invalid" : "form-control"}
+                                                           className={validate('last_name', patient.last_name, rules['last_name']) ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Прізвище"
                                                            name="last_name"
                                                            id="last_name"
                                                            onChange={this.handleChangeInput}
                                                            value={patient.last_name ? patient.last_name : ''}/>
                                                     <div
-                                                        className="invalid-feedback">{validate("last_name", patient.last_name, rules["last_name"])}</div>
+                                                        className="invalid-feedback">{validate('last_name', patient.last_name, rules['last_name'])}</div>
                                                 </div>
 
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">По батькові</label>
                                                     <input type="text"
-                                                           className={validate("middle_name", patient.middle_name, rules['middle_name']) ? "form-control is-invalid" : "form-control"}
+                                                           className={validate('middle_name', patient.middle_name, rules['middle_name']) ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="По батькові"
                                                            name="middle_name"
                                                            id="middle_name"
                                                            onChange={this.handleChangeInput}
                                                            value={patient.middle_name ? patient.middle_name : ''}/>
                                                     <div
-                                                        className="invalid-feedback">{validate("middle_name", patient.middle_name, rules["middle_name"])}</div>
+                                                        className="invalid-feedback">{validate('middle_name', patient.middle_name, rules['middle_name'])}</div>
                                                 </div>
 
                                                 <hr/>
@@ -394,27 +394,27 @@ class PatientsEdit extends React.Component {
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Телефон</label>
                                                     <input type="text"
-                                                           className={validate("phone", patient.phone, rules['phone']) ? "form-control is-invalid" : "form-control"}
+                                                           className={validate('phone', patient.phone, rules['phone']) ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Телефон. Наприклад: +380631234567 або 0631234567"
                                                            name="phone"
                                                            id="phone"
                                                            onChange={this.handleChangeInput}
                                                            value={patient.phone ? patient.phone : ''}/>
                                                     <div
-                                                        className="invalid-feedback">{validate("middle_name", patient.middle_name, rules["middle_name"])}</div>
+                                                        className="invalid-feedback">{validate('middle_name', patient.middle_name, rules['middle_name'])}</div>
                                                 </div>
 
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Email</label>
                                                     <input type="text"
-                                                           className={validate("email", patient.email, rules['email']) ? "form-control is-invalid" : "form-control"}
+                                                           className={validate('email', patient.email, rules['email']) ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Email"
                                                            name="email"
                                                            id="email"
                                                            onChange={this.handleChangeInput}
                                                            value={patient.email ? patient.email : ''}/>
                                                     <div
-                                                        className="invalid-feedback">{validate("email", patient.email, rules["email"])}</div>
+                                                        className="invalid-feedback">{validate('email', patient.email, rules['email'])}</div>
                                                 </div>
 
                                                 <div className="pull-right">
@@ -430,7 +430,6 @@ class PatientsEdit extends React.Component {
                                 </div>
                             </div>
                         </div>
-
                         <div className="row gutters-sm">
                             <div className="col-md-12">
                                 <div className="card mb-3">
@@ -438,18 +437,10 @@ class PatientsEdit extends React.Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="table-responsive">
-                                                    <div className="row float-right m-2">
-                                                        <button type="button" className="btn btn-primary"
-                                                                data-modal="test"
-                                                                onClick={this.handleShowModal}>
-                                                            Додати результат
-                                                        </button>
-                                                    </div>
-
-                                                    <PatientTestsList data={this.state.patientTests}/>
+                                                    <PatientAppointmentList data={this.state.patientAppointment}/>
                                                 </div>
 
-                                                <Pagination state={this.state.patientTests}
+                                                <Pagination state={this.state.patientAppointment}
                                                             handleChangePage={this.handleChangePage}/>
                                             </div>
                                         </div>
@@ -457,7 +448,6 @@ class PatientsEdit extends React.Component {
                                 </div>
                             </div>
                         </div>
-
                         <div className="row gutters-sm">
                             <div className="col-md-12">
                                 <div className="card mb-3">
@@ -508,7 +498,6 @@ class PatientsEdit extends React.Component {
                         </div>
                     </form>
                 </Modal>
-
                 <Modal show={this.state.showSendEmailModal} handleHide={this.handleHide} title="Відправка Email">
                     <form>
                         <div className="form-group">
@@ -521,36 +510,8 @@ class PatientsEdit extends React.Component {
                         </div>
                     </form>
                 </Modal>
-
                 <Modal show={this.state.showAddTestModal} handleHide={this.handleHide} title="Додаваня аналізу">
                     <form>
-                        <div className="form-group">
-                            <label htmlFor="test.test_id">Аналіз</label>
-                            <select name="test.test_id" className="form-control" id="test.test_id"
-                                    onChange={this.handleChangeInput} defaultValue={this.state.test.test_id}>
-                                <option>Не обрано</option>
-                                {tests && tests.length && tests.map(test => {
-                                        return <option key={test.id}
-                                                       value={test.id}>{test.name}</option>
-                                    }
-                                )};
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="message">Результат</label>
-                            <textarea className="form-control" id="test.result" name="test.result" rows="2"
-                                      onChange={this.handleChangeInput}
-                                      value={this.state.test.result ? this.state.test.result : ''}></textarea>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="message">Референтні значення</label>
-                            <textarea className="form-control" id="test.reference_values" name="test.reference_values"
-                                      rows="2" onChange={this.handleChangeInput}
-                                      value={this.state.test.reference_values ? this.state.test.reference_values : ''}></textarea>
-                        </div>
-
                         <div className="form-group">
                             <label htmlFor="test.file">Файл</label>
                             <input type="file" name="test.file" className="form-control" id="test.file"
@@ -576,7 +537,7 @@ const mapStateToProps = (state) => {
     return {
         patient: state.Patients.item,
         tests: state.Tests,
-        patientTests: state.PatientsTests,
+        patientAppointment: state.PatientAppointments,
         patientMessages: state.PatientsMessages,
     }
 };

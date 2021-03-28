@@ -14,6 +14,11 @@ class AppointmentFacade implements Facade
         $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
     }
 
+    public function list(int $id)
+    {
+        return $this->patientsAppointmentsRepository->paginate($id, self::RECORDS_AT_PAGE);
+    }
+
     public function find(int $id)
     {
         // TODO: Implement find() method.

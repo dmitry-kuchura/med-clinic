@@ -9,7 +9,6 @@ use App\Models\Patient;
 use App\Models\PatientAppointment;
 use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientsAppointmentsRepository;
-use Illuminate\Support\Carbon;
 
 class AppointmentService
 {
@@ -31,6 +30,11 @@ class AppointmentService
         $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
         $this->appointmentRepository = $appointmentRepository;
         $this->appointmentFacade = $appointmentFacade;
+    }
+
+    public function list()
+    {
+        return $this->appointmentFacade->list();
     }
 
     public function getLastPatientsAppointment(): ?PatientAppointment

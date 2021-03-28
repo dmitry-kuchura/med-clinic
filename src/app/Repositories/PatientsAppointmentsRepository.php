@@ -11,6 +11,11 @@ class PatientsAppointmentsRepository implements Repository
         return PatientAppointment::orderBy('id', 'desc')->first();
     }
 
+    public function paginate(int $id, int $offset)
+    {
+        return PatientAppointment::where('patient_id', $id)->with(['doctor', 'patient'])->orderBy('id', 'desc')->paginate($offset);
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.

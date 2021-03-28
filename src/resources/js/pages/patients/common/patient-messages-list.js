@@ -1,6 +1,5 @@
 import React from 'react';
-import {formatDate} from "../../../utils/date-format";
-import Pagination from "../../../helpers/pagination";
+import {formatDate} from '../../../utils/date-format';
 
 class PatientMessagesList extends React.Component {
     constructor(props) {

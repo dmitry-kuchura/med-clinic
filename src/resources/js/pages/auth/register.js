@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {register} from '../../services/auth-service';
+import swal from 'sweetalert';
 
 class Register extends React.Component {
     constructor(props) {
@@ -30,9 +31,14 @@ class Register extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        const self = this;
         const {credentials} = this.state;
 
         this.props.dispatch(register(credentials))
+            .then(() => {
+                swal('Добре!', 'Реєстрація в системі була успішна!', 'success');
+                self.props.history.push('/login');
+            })
             .catch(({error, statusCode}) => {
                 const responseError = {
                     isError: true,
@@ -47,7 +53,7 @@ class Register extends React.Component {
     }
 
     render() {
-        const {from} = this.props.location.state || {from: {pathname: '/admin/dashboard'}};
+        const {from} = this.props.location.state || {from: {pathname: '/dashboard'}};
         const {isAuthenticated} = this.props;
 
         if (isAuthenticated) {
@@ -65,19 +71,19 @@ class Register extends React.Component {
                                 <div className="col-lg-5">
                                     <div className="card shadow-lg border-0 rounded-lg mt-5">
                                         <div className="card-header">
-                                            <h3 className="text-center font-weight-light my-4">CodeBlog | Регистрация</h3>
+                                            <h3 className="text-center font-weight-light my-4">МедСервіс | Реєстрація</h3>
                                         </div>
                                         <div className="card-body">
                                             <form onSubmit={this.handleSubmit} method="POST">
                                                 <div className="form-group">
-                                                    <label className="small mb-1" htmlFor="name">Имя</label>
+                                                    <label className="small mb-1" htmlFor="name">Ім'я</label>
                                                     <input
                                                         className="form-control py-4"
                                                         id="name"
                                                         type="text"
                                                         name="name"
                                                         onChange={this.handleChange}
-                                                        placeholder="Введите ваше имя"/>
+                                                        placeholder="Введіть ваше ім'я"/>
 
                                                     {this.state.error &&
                                                     <p style={{color: 'red'}}>{this.state.error}</p>}
@@ -90,7 +96,7 @@ class Register extends React.Component {
                                                         type="email"
                                                         name="email"
                                                         onChange={this.handleChange}
-                                                        placeholder="Введите Email адрес"/>
+                                                        placeholder="Введіть Email адресу"/>
 
                                                     {this.state.error &&
                                                     <p style={{color: 'red'}}>{this.state.error}</p>}
@@ -104,28 +110,28 @@ class Register extends React.Component {
                                                         name="password"
                                                         type="password"
                                                         onChange={this.handleChange}
-                                                        placeholder="Введите пароль"/>
+                                                        placeholder="Введіть пароль"/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="small mb-1"
-                                                           htmlFor="password_confirmation">Повторите пароль</label>
+                                                           htmlFor="password_confirmation">Повторіть пароль</label>
                                                     <input
                                                         className="form-control py-4"
                                                         id="password_confirmation"
                                                         name="password_confirmation"
                                                         type="password"
                                                         onChange={this.handleChange}
-                                                        placeholder="Повторите пароль"/>
+                                                        placeholder="Повторіть пароль"/>
                                                 </div>
                                                 <div
                                                     className="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                    <button type="submit" className="btn btn-primary">Регистрация</button>
+                                                    <button type="submit" className="btn btn-primary">Реєстрація</button>
                                                 </div>
                                             </form>
                                         </div>
                                         <div className="card-footer text-center">
                                             <div className="small">
-                                                <Link to="/admin/login">Авторизация</Link>
+                                                <Link to="/login">Авторизація</Link>
                                             </div>
                                         </div>
                                     </div>

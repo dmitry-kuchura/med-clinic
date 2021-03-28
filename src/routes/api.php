@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\FirebirdController;
 use App\Http\Controllers\Api\MessagesController;
+use App\Http\Controllers\Api\PatientAppointmentsController;
 use App\Http\Controllers\Api\PatientsController;
 use App\Http\Controllers\Api\TestsController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,10 @@ Route::prefix('v1')->group(function () {
             Route::prefix('messages')->group(function () {
                 Route::post('/{id}/send', [MessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
                 Route::get('/{id}/list', [MessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
+            });
+
+            Route::prefix('appointments')->group(function () {
+                Route::get('/{id}/list', [PatientAppointmentsController::class, 'list'])->name('api.patients.appointments.list')->where('id', '[0-9]+');
             });
         });
 
