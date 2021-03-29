@@ -7,6 +7,7 @@ use App\Http\Requests\Patients\PatientCreateRequest;
 use App\Http\Requests\Patients\PatientUpdateRequest;
 use App\Services\PatientService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PatientsController extends Controller
@@ -43,6 +44,15 @@ class PatientsController extends Controller
     {
         $this->patientService->update($request->all());
 
-        return $this->returnResponse(['updated' => true], Response::HTTP_OK);
+        return $this->returnResponse(['updated' => true]);
+    }
+
+    public function search(Request $request): JsonResponse
+    {
+        $result = $this->patientService->search($request->get('query'));
+
+        return $this->returnResponse([
+            'result' => $result
+        ]);
     }
 }

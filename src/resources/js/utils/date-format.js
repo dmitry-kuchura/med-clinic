@@ -18,5 +18,9 @@ export function formatDate(date) {
         hour = '0' + hour;
     }
 
+    if (minutes.length < 2) {
+        minutes = '0' + minutes;
+    }
+
     return [hour, minutes].join(':') + ' ' + [day, month, year].join('/');
 }

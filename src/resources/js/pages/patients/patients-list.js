@@ -131,7 +131,7 @@ const List = (props) => {
 
     return (
         <tr>
-            <td colSpan="5">Нечего отображать!</td>
+            <td colSpan="6">Нечего отображать!</td>
         </tr>
     )
 };

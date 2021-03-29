@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatDate} from "../../../utils/date-format";
+import {formatDate} from '../../../utils/date-format';
 
 class PatientAppointmentList extends React.Component {
     constructor(props) {
@@ -26,6 +26,44 @@ class PatientAppointmentList extends React.Component {
         }
     }
 
+    getAppointmentType(type) {
+        switch (type) {
+            case 1:
+                return 'badge badge-primary';
+            case 2:
+                return 'badge badge-secondary';
+            case 3:
+                return 'badge badge-success';
+            case 4:
+                return 'badge badge-info';
+            case 5:
+                return 'badge badge-light';
+            case 6:
+                return 'badge badge-warning';
+            default:
+                return 'badge badge-light';
+        }
+    }
+
+    getAppointmentTypeName(type) {
+        switch (type) {
+            case 1:
+                return 'Добавление';
+            case 2:
+                return 'Редактирование';
+            case 3:
+                return 'Удаление';
+            case 4:
+                return 'Регистрация';
+            case 5:
+                return 'Установка отметки';
+            case 6:
+                return 'Запрет приёма';
+            default:
+                return 'Разрешение приёма';
+        }
+    }
+
     render() {
         return (
             <table className="table table-hover">
@@ -41,7 +79,7 @@ class PatientAppointmentList extends React.Component {
                 </thead>
                 <tbody>
 
-                <List data={this.state.data.list}/>
+                <List data={this.state.data.list} getType={this.getAppointmentType} getName={this.getAppointmentTypeName}/>
 
                 </tbody>
             </table>
@@ -61,7 +99,9 @@ const List = (props) => {
                     <td><p>{formatDate(item.appointment_at)}</p></td>
                     <td><p>{item.comment}</p></td>
                     <td><p>{item.doctor_name}</p></td>
-                    <td><p>{item.type}</p></td>
+                    <td>
+                        <span className={props.getType(item.type)}>{props.getName(item.type)}</span>
+                    </td>
                     <td><p>{formatDate(item.updated_at)}</p></td>
                 </tr>
             )

@@ -66,10 +66,12 @@ class SyncAppointmentsCommand extends Command
 
         foreach ($result as $record) {
             try {
-                $patient = $this->patientService->syncPatient($record['patient']);
-                $doctor = $this->doctorService->syncDoctor($record['doctor']);
+                if ($record['patient']['external_id'] !== 0) {
+                    $patient = $this->patientService->syncPatient($record['patient']);
+                    $doctor = $this->doctorService->syncDoctor($record['doctor']);
 
-                $this->appointmentService->syncAppointment($record['appointment'], $patient, $doctor);
+                    $this->appointmentService->syncAppointment($record['appointment'], $patient, $doctor);
+                }
             } catch (Throwable $throwable) {
                 throw new SyncErrorException();
             }

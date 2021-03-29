@@ -6,6 +6,7 @@ use App\Exceptions\UpdatePatientException;
 use App\Models\Patient;
 use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class PatientFacade implements Facade
@@ -33,6 +34,11 @@ class PatientFacade implements Facade
     public function find(int $id): ?Patient
     {
         return $this->findPatient($id);
+    }
+
+    public function search(string $query): ?Collection
+    {
+        return $this->patientsRepository->search($query);
     }
 
     public function create(array $data): Patient

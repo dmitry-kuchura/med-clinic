@@ -33,6 +33,28 @@ export function getPatientsList(page) {
     );
 }
 
+export function searchPatientsList(query) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/patients/search', {
+                query: query
+            })
+                .then(response => {
+                    dispatch(action.search());
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
 export function updatePatient(data) {
     let link = '/api/v1/patients/';
 

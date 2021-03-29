@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Patient;
+use Illuminate\Database\Eloquent\Collection;
 
 class PatientsRepository implements Repository
 {
@@ -16,6 +17,16 @@ class PatientsRepository implements Repository
         return Patient::whereHas('user', function ($query) use ($email) {
             return $query->where('email', $email);
         })->first();
+    }
+
+    public function search(string $query): ?Collection
+    {
+        return Patient::with('user')
+            ->where('first_name', 'like', '%' . $query . '%')
+            ->orWhere('last_name', 'like', '%' . $query . '%')
+            ->orWhere('middle_name', 'like', '%' . $query . '%')
+            ->limit(5)
+            ->get();
     }
 
     public function paginate(int $offset)

@@ -7,6 +7,12 @@ export function getPatients(payload) {
     }
 }
 
+export function search() {
+    return {
+        type: ActionTypes.PATIENT_SEARCH
+    }
+}
+
 export function getOnePatient(payload) {
     return {
         type: ActionTypes.PATIENT_INFO,

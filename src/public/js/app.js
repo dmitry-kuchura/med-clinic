@@ -2269,9 +2269,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _services_patients_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/patients-service */ "./resources/js/services/patients-service.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2299,6 +2300,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+var show = 'dropdown show';
+var hide = 'dropdown';
 var opened = {
   display: 'none'
 };
@@ -2319,9 +2324,13 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       authUser: null,
-      dropdownMenu: false
+      dropdownMenu: false,
+      showResult: false,
+      isLoading: false,
+      result: []
     };
     _this.handleDropdown = _this.handleDropdown.bind(_assertThisInitialized(_this));
+    _this.filterPatients = _this.filterPatients.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2335,6 +2344,24 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        showResult: false,
+        isLoading: false,
+        result: []
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.setState({
+        showResult: false,
+        isLoading: false,
+        result: []
+      });
+    }
+  }, {
     key: "handleDropdown",
     value: function handleDropdown(event) {
       event.preventDefault();
@@ -2343,76 +2370,167 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "filterPatients",
+    value: function filterPatients(event) {
+      event.preventDefault();
+      var self = this;
+      var query = event.target.value;
+      self.setState({
+        isLoading: query.length > 0
+      });
+      setTimeout(function () {
+        if (query.length) {
+          self.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_2__.searchPatientsList)(query)).then(function (success) {
+            self.setState({
+              isLoading: false,
+              result: success
+            });
+          })["catch"](function (error) {
+            self.setState({
+              showResult: false,
+              result: [],
+              query: ''
+            });
+          });
+        }
+      }, 3000);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("nav", {
-        className: "sb-topnav navbar navbar-expand navbar-dark bg-dark",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-          to: "/admin",
-          className: "navbar-brand",
-          children: "\u041C\u0435\u0434\u0421\u0435\u0440\u0432\u0456\u0441"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-          className: "btn btn-link btn-sm order-1 order-lg-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-            className: "fas fa-bars"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("form", {
-          className: "d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-            className: "input-group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-              className: "form-control",
-              type: "text",
-              placeholder: "\u041F\u043E\u0448\u0443\u043A.."
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-              className: "input-group-append",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                className: "btn btn-primary",
-                type: "button",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                  className: "fas fa-search"
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("nav", {
+          className: "sb-topnav navbar navbar-expand navbar-dark bg-dark",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+            to: "/admin",
+            className: "navbar-brand",
+            children: "\u041C\u0435\u0434\u0421\u0435\u0440\u0432\u0456\u0441"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+            className: "btn btn-link btn-sm order-1 order-lg-0",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+              className: "fas fa-bars"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "d-none d-md-inline-block ml-auto mr-0 mr-md-3 my-2 my-md-0 dropdown",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("form", {
+              className: "form-inline",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                className: "input-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                  className: "form-control",
+                  type: "text",
+                  onChange: this.filterPatients,
+                  placeholder: "\u041F\u043E\u0448\u0443\u043A.."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "input-group-append",
+                  children: [!this.state.isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+                    className: "btn btn-primary",
+                    type: "button",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                      className: "fas fa-search"
+                    })
+                  }), this.state.isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+                    className: "btn btn-primary",
+                    type: "button",
+                    disabled: true,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      className: "spinner-border spinner-border-sm",
+                      role: "status",
+                      "aria-hidden": "true"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      className: "sr-only",
+                      children: "Loading..."
+                    })]
+                  })]
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: this.state.showResult ? show : hide,
+              style: {
+                position: 'absolute',
+                left: '0px'
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(List, {
+                  list: this.state.result
                 })
               })
             })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-          className: "navbar-nav ml-auto ml-md-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
-            className: "nav-item dropdown",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-              className: "nav-link dropdown-toggle",
-              to: "#",
-              onClick: this.handleDropdown,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                className: "fas fa-user fa-fw"
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-              className: "dropdown-menu dropdown-menu-right",
-              style: this.state.dropdownMenu ? closed : opened,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                className: "dropdown-item",
-                to: "/settings",
-                children: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                className: "dropdown-item",
-                to: "/logs",
-                children: "\u041B\u043E\u0433\u0456"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-                className: "dropdown-divider"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                className: "dropdown-item",
-                to: "/logout",
-                children: "\u0412\u0438\u0445\u0456\u0434"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+            className: "navbar-nav ml-auto ml-md-0",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+              className: "nav-item dropdown",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                className: "nav-link dropdown-toggle",
+                to: "#",
+                onClick: this.handleDropdown,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                  className: "fas fa-user fa-fw"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                className: "dropdown-menu dropdown-menu-right",
+                style: this.state.dropdownMenu ? closed : opened,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                  className: "dropdown-item",
+                  to: "/settings",
+                  children: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                  className: "dropdown-item",
+                  to: "/logs",
+                  children: "\u041B\u043E\u0433\u0456"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "dropdown-divider"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                  className: "dropdown-item",
+                  to: "/logout",
+                  children: "\u0412\u0438\u0445\u0456\u0434"
+                })]
               })]
-            })]
-          })
-        })]
+            })
+          })]
+        })
       });
     }
   }]);
 
   return Navigation;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+var List = function List(props) {
+  var list = props.list;
+  var man = '/images/avatars/man.png';
+  var woman = '/images/avatars/woman.png';
+  var html;
+
+  if (list.length > 0) {
+    html = list.map(function (patient) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "card",
+        style: {
+          width: '17rem'
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "card-body",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: patient.gender === 'male' ? man : woman,
+            alt: "Avatar",
+            className: "rounded-circle",
+            width: "40"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+            to: '/patients/' + patient.id,
+            children: patient.first_name + ' ' + patient.last_name + ' ' + patient.middle_name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            className: "card-text",
+            children: patient.phone
+          })]
+        })
+      }, patient.id);
+    });
+    return html;
+  }
+
+  return null;
+};
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -4173,6 +4291,58 @@ var PatientAppointmentList = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "getAppointmentType",
+    value: function getAppointmentType(type) {
+      switch (type) {
+        case 1:
+          return 'badge badge-primary';
+
+        case 2:
+          return 'badge badge-secondary';
+
+        case 3:
+          return 'badge badge-success';
+
+        case 4:
+          return 'badge badge-info';
+
+        case 5:
+          return 'badge badge-light';
+
+        case 6:
+          return 'badge badge-warning';
+
+        default:
+          return 'badge badge-light';
+      }
+    }
+  }, {
+    key: "getAppointmentTypeName",
+    value: function getAppointmentTypeName(type) {
+      switch (type) {
+        case 1:
+          return 'Добавление';
+
+        case 2:
+          return 'Редактирование';
+
+        case 3:
+          return 'Удаление';
+
+        case 4:
+          return 'Регистрация';
+
+        case 5:
+          return 'Установка отметки';
+
+        case 6:
+          return 'Запрет приёма';
+
+        default:
+          return 'Разрешение приёма';
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
@@ -4201,7 +4371,9 @@ var PatientAppointmentList = /*#__PURE__*/function (_React$Component) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(List, {
-            data: this.state.data.list
+            data: this.state.data.list,
+            getType: this.getAppointmentType,
+            getName: this.getAppointmentTypeName
           })
         })]
       });
@@ -4235,8 +4407,9 @@ var List = function List(props) {
             children: item.doctor_name
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-            children: item.type
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: props.getType(item.type),
+            children: props.getName(item.type)
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
@@ -5371,7 +5544,7 @@ var List = function List(props) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tr", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
-      colSpan: "5",
+      colSpan: "6",
       children: "\u041D\u0435\u0447\u0435\u0433\u043E \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u044C!"
     })
   });
@@ -6196,6 +6369,7 @@ function getPatientMessagesList(page, id) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getPatientsList": () => (/* binding */ getPatientsList),
+/* harmony export */   "searchPatientsList": () => (/* binding */ searchPatientsList),
 /* harmony export */   "updatePatient": () => (/* binding */ updatePatient),
 /* harmony export */   "createPatient": () => (/* binding */ createPatient),
 /* harmony export */   "getPatientById": () => (/* binding */ getPatientById)
@@ -6222,6 +6396,25 @@ function getPatientsList(page) {
       _http__WEBPACK_IMPORTED_MODULE_1__.default.get(link).then(function (response) {
         dispatch(_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__.getPatients(response.data.result));
         return resolve();
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function searchPatientsList(query) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/patients/search', {
+        query: query
+      }).then(function (response) {
+        dispatch(_store_actions_patients_action__WEBPACK_IMPORTED_MODULE_0__.search());
+        return resolve(response.data.result);
       })["catch"](function (err) {
         var statusCode = err.response.status;
         var data = {
@@ -6515,6 +6708,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AUTH_LOGIN": () => (/* binding */ AUTH_LOGIN),
 /* harmony export */   "AUTH_CHECK": () => (/* binding */ AUTH_CHECK),
 /* harmony export */   "AUTH_LOGOUT": () => (/* binding */ AUTH_LOGOUT),
+/* harmony export */   "PATIENT_SEARCH": () => (/* binding */ PATIENT_SEARCH),
 /* harmony export */   "PATIENT_LIST": () => (/* binding */ PATIENT_LIST),
 /* harmony export */   "PATIENT_INFO": () => (/* binding */ PATIENT_INFO),
 /* harmony export */   "PATIENT_TESTS_LIST": () => (/* binding */ PATIENT_TESTS_LIST),
@@ -6527,6 +6721,7 @@ __webpack_require__.r(__webpack_exports__);
 var AUTH_LOGIN = 'AUTH_LOGIN';
 var AUTH_CHECK = 'AUTH_CHECK';
 var AUTH_LOGOUT = 'AUTH_LOGOUT';
+var PATIENT_SEARCH = 'PATIENT_SEARCH';
 var PATIENT_LIST = 'PATIENT_LIST';
 var PATIENT_INFO = 'PATIENT_INFO';
 var PATIENT_TESTS_LIST = 'PATIENT_TESTS_LIST';
@@ -6582,6 +6777,7 @@ function authCheck() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getPatients": () => (/* binding */ getPatients),
+/* harmony export */   "search": () => (/* binding */ search),
 /* harmony export */   "getOnePatient": () => (/* binding */ getOnePatient)
 /* harmony export */ });
 /* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
@@ -6590,6 +6786,11 @@ function getPatients(payload) {
   return {
     type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_LIST,
     payload: payload
+  };
+}
+function search() {
+  return {
+    type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_SEARCH
   };
 }
 function getOnePatient(payload) {
@@ -7346,6 +7547,10 @@ function formatDate(date) {
 
   if (hour.length < 2) {
     hour = '0' + hour;
+  }
+
+  if (minutes.length < 2) {
+    minutes = '0' + minutes;
   }
 
   return [hour, minutes].join(':') + ' ' + [day, month, year].join('/');

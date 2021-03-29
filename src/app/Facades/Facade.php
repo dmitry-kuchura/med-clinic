@@ -4,7 +4,7 @@ namespace App\Facades;
 
 interface Facade
 {
-    const RECORDS_AT_PAGE = 10;
+    const RECORDS_AT_PAGE = 30;
 
     public function find(int $id);
 

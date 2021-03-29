@@ -36,6 +36,11 @@ class PatientService
         return $this->patientFacade->create($data);
     }
 
+    public function search(string $query)
+    {
+        return $this->patientFacade->search($query);
+    }
+
     public function syncPatient(array $data): ?Patient
     {
         $data['phone'] = PhoneNumber::prepare($data['phone']);

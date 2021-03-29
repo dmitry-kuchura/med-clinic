@@ -1,6 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {searchPatientsList} from '../services/patients-service';
+
+const show = 'dropdown show';
+const hide = 'dropdown';
 
 const opened = {display: 'none'};
 const closed = {display: 'block'};
@@ -11,10 +15,14 @@ class Navigation extends React.Component {
 
         this.state = {
             authUser: null,
-            dropdownMenu: false
+            dropdownMenu: false,
+            showResult: false,
+            isLoading: false,
+            result: []
         };
 
         this.handleDropdown = this.handleDropdown.bind(this);
+        this.filterPatients = this.filterPatients.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -23,6 +31,21 @@ class Navigation extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            showResult: false,
+            isLoading: false,
+            result: []
+        })
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            showResult: false,
+            isLoading: false,
+            result: []
+        })
+    }
 
     handleDropdown(event) {
         event.preventDefault();
@@ -30,41 +53,125 @@ class Navigation extends React.Component {
         this.setState({dropdownMenu: !this.state.dropdownMenu})
     }
 
+    filterPatients(event) {
+        event.preventDefault();
+        let self = this;
+        let query = event.target.value;
+
+        self.setState({
+            isLoading: query.length > 0
+        })
+
+        setTimeout(function () {
+            if (query.length) {
+                self.props.dispatch(searchPatientsList(query))
+                    .then(success => {
+                        self.setState({
+                            isLoading: false,
+                            result: success
+                        })
+                    })
+                    .catch(error => {
+                        self.setState({
+                            showResult: false,
+                            result: [],
+                            query: ''
+                        })
+                    })
+            }
+        }, 3000);
+    }
+
     render() {
         return (
-            <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <Link to="/admin" className="navbar-brand">МедСервіс</Link>
-                <button className="btn btn-link btn-sm order-1 order-lg-0">
-                    <i className="fas fa-bars"/>
-                </button>
+            <>
+                <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                    <Link to="/admin" className="navbar-brand">МедСервіс</Link>
+                    <button className="btn btn-link btn-sm order-1 order-lg-0">
+                        <i className="fas fa-bars"/>
+                    </button>
 
-                <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                    <div className="input-group">
-                        <input className="form-control" type="text" placeholder="Пошук.."/>
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" type="button"><i className="fas fa-search"/></button>
+                    <div className="d-none d-md-inline-block ml-auto mr-0 mr-md-3 my-2 my-md-0 dropdown">
+                        <form className="form-inline">
+                            <div className="input-group">
+                                <input className="form-control"
+                                       type="text"
+                                       onChange={this.filterPatients}
+                                       placeholder="Пошук.."/>
+                                <div className="input-group-append">
+                                    {!this.state.isLoading &&
+                                    <button className="btn btn-primary" type="button"><i className="fas fa-search"/>
+                                    </button>
+                                    }
+
+                                    {this.state.isLoading &&
+                                    <button className="btn btn-primary" type="button" disabled>
+                                            <span className="spinner-border spinner-border-sm" role="status"
+                                                  aria-hidden="true"></span>
+                                        <span className="sr-only">Loading...</span>
+                                    </button>
+                                    }
+                                </div>
+                            </div>
+                        </form>
+                        <div className={this.state.showResult ? show : hide}
+                             style={{position: 'absolute', left: '0px'}}>
+                            <div>
+                                <List list={this.state.result}/>
+                            </div>
                         </div>
                     </div>
-                </form>
 
-                <ul className="navbar-nav ml-auto ml-md-0">
-                    <li className="nav-item dropdown">
-                        <Link className="nav-link dropdown-toggle" to="#" onClick={this.handleDropdown}>
-                            <i className="fas fa-user fa-fw"/>
-                        </Link>
+                    <ul className="navbar-nav ml-auto ml-md-0">
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle" to="#" onClick={this.handleDropdown}>
+                                <i className="fas fa-user fa-fw"/>
+                            </Link>
 
-                        <div className="dropdown-menu dropdown-menu-right" style={this.state.dropdownMenu ? closed : opened }>
-                            <Link className="dropdown-item" to="/settings">Налаштування</Link>
-                            <Link className="dropdown-item" to="/logs">Логі</Link>
-                            <div className="dropdown-divider"/>
-                            <Link className="dropdown-item" to="/logout">Вихід</Link>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+                            <div className="dropdown-menu dropdown-menu-right"
+                                 style={this.state.dropdownMenu ? closed : opened}>
+                                <Link className="dropdown-item" to="/settings">Налаштування</Link>
+                                <Link className="dropdown-item" to="/logs">Логі</Link>
+                                <div className="dropdown-divider"/>
+                                <Link className="dropdown-item" to="/logout">Вихід</Link>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </>
         );
     }
 }
+
+const List = (props) => {
+    let list = props.list;
+    let man = '/images/avatars/man.png';
+    let woman = '/images/avatars/woman.png';
+    let html;
+
+    if (list.length > 0) {
+        html = list.map(function (patient) {
+            return (
+                <div className="card" style={{width: '17rem'}} key={patient.id}>
+                    <div className="card-body">
+                        <img src={patient.gender === 'male' ? man : woman} alt="Avatar" className="rounded-circle"
+                             width="40"/>
+
+                        <Link to={'/patients/' + patient.id}>
+                            {patient.first_name + ' ' + patient.last_name + ' ' + patient.middle_name}
+                        </Link>
+
+                        <p className="card-text">{patient.phone}</p>
+                    </div>
+                </div>
+            )
+        });
+
+        return html;
+    }
+
+    return null;
+};
 
 const mapStateToProps = (state) => {
     return {
