@@ -12,6 +12,7 @@ import TestsList from '../pages/tests/tests-list';
 import DoctorsList from '../pages/doctors/doctors-list';
 import DoctorsEdit from '../pages/doctors/doctors-edit';
 import MessagesTemplatesList from '../pages/messages-templates/messages-templates-list';
+import MessagesTemplatesEdit from '../pages/messages-templates/messages-templates-edit';
 
 const routes = [
     {
@@ -84,6 +85,11 @@ const routes = [
         exact: true,
         auth: true,
         component: MessagesTemplatesList
+    }, {
+        path: '/messages-templates/:id',
+        exact: true,
+        auth: true,
+        component: MessagesTemplatesEdit
     }, {
         path: '',
         exact: true,

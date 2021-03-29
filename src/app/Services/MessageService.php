@@ -53,4 +53,9 @@ class MessageService
     {
         return $this->messageTemplatesFacade->paginate();
     }
+
+    public function getMessageTemplate(int $id)
+    {
+        return $this->messageTemplatesFacade->find($id);
+    }
 }

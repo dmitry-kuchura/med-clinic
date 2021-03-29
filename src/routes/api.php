@@ -78,6 +78,7 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('messages-templates')->group(function () {
             Route::get('/', [MessagesTemplatesController::class, 'list'])->name('api.messages-templates.list');
+            Route::get('/{id}', [MessagesTemplatesController::class, 'info'])->name('api.messages-templates.info')->where('id', '[0-9]+');
             Route::post('/create', [MessagesTemplatesController::class, 'create'])->name('api.messages-templates.create');
             Route::put('/', [MessagesTemplatesController::class, 'update'])->name('api.messages-templates.update');
         });

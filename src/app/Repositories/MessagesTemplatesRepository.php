@@ -13,7 +13,7 @@ class MessagesTemplatesRepository implements Repository
 
     public function get(int $id)
     {
-        // TODO: Implement get() method.
+        return MessageTemplate::find($id);
     }
 
     public function all()

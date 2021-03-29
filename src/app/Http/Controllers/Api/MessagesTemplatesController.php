@@ -21,4 +21,11 @@ class MessagesTemplatesController extends Controller
 
         return $this->returnResponse(['result' => $result]);
     }
+
+    public function info(int $id): JsonResponse
+    {
+        $result = $this->service->getMessageTemplate($id);
+
+        return $this->returnResponse(['result' => $result]);
+    }
 }

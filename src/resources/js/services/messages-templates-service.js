@@ -32,3 +32,26 @@ export function getMessagesTemplatesList(page) {
         })
     );
 }
+
+export function getMessageTemplateById(id) {
+    let link = '/api/v1/messages-templates/' + id;
+
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get(link)
+                .then(response => {
+                    dispatch(action.getMessageTemplate(response.data.result));
+                    return resolve();
+                })
+                .catch(err => {
+                    console.log(err)
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
