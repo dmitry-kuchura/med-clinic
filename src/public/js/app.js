@@ -2329,6 +2329,7 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
       isLoading: false,
       result: []
     };
+    _this.handleClose = _this.handleClose.bind(_assertThisInitialized(_this));
     _this.handleDropdown = _this.handleDropdown.bind(_assertThisInitialized(_this));
     _this.filterPatients = _this.filterPatients.bind(_assertThisInitialized(_this));
     return _this;
@@ -2367,6 +2368,15 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
       event.preventDefault();
       this.setState({
         dropdownMenu: !this.state.dropdownMenu
+      });
+    }
+  }, {
+    key: "handleClose",
+    value: function handleClose() {
+      this.setState({
+        showResult: false,
+        isLoading: false,
+        result: []
       });
     }
   }, {
@@ -2452,7 +2462,8 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
               },
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(List, {
-                  list: this.state.result
+                  list: this.state.result,
+                  handleClose: this.handleClose
                 })
               })
             })]
@@ -2518,6 +2529,7 @@ var List = function List(props) {
             width: "40"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
             to: '/patients/' + patient.id,
+            onClick: props.handleClose,
             children: patient.first_name + ' ' + patient.last_name + ' ' + patient.middle_name
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             className: "card-text",
@@ -4740,6 +4752,10 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
   _createClass(PatientsEdit, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
+      if (prevProps.location !== this.props.location) {
+        this.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_11__.getPatientById)((0,_helpers_url_params__WEBPACK_IMPORTED_MODULE_7__.getParamFromUrl)(this.props, 'id')));
+      }
+
       if (prevProps !== this.props) {
         this.setState({
           patient: this.props.patient,

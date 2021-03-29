@@ -21,6 +21,7 @@ class Navigation extends React.Component {
             result: []
         };
 
+        this.handleClose = this.handleClose.bind(this);
         this.handleDropdown = this.handleDropdown.bind(this);
         this.filterPatients = this.filterPatients.bind(this);
     }
@@ -51,6 +52,14 @@ class Navigation extends React.Component {
         event.preventDefault();
 
         this.setState({dropdownMenu: !this.state.dropdownMenu})
+    }
+
+    handleClose() {
+        this.setState({
+            showResult: false,
+            isLoading: false,
+            result: []
+        })
     }
 
     filterPatients(event) {
@@ -100,8 +109,7 @@ class Navigation extends React.Component {
                                        placeholder="Пошук.."/>
                                 <div className="input-group-append">
                                     {!this.state.isLoading &&
-                                    <button className="btn btn-primary" type="button"><i className="fas fa-search"/>
-                                    </button>
+                                    <button className="btn btn-primary" type="button"><i className="fas fa-search"/></button>
                                     }
 
                                     {this.state.isLoading &&
@@ -117,7 +125,7 @@ class Navigation extends React.Component {
                         <div className={this.state.showResult ? show : hide}
                              style={{position: 'absolute', left: '0px'}}>
                             <div>
-                                <List list={this.state.result}/>
+                                <List list={this.state.result} handleClose={this.handleClose}/>
                             </div>
                         </div>
                     </div>
@@ -157,7 +165,7 @@ const List = (props) => {
                         <img src={patient.gender === 'male' ? man : woman} alt="Avatar" className="rounded-circle"
                              width="40"/>
 
-                        <Link to={'/patients/' + patient.id}>
+                        <Link to={'/patients/' + patient.id} onClick={props.handleClose}>
                             {patient.first_name + ' ' + patient.last_name + ' ' + patient.middle_name}
                         </Link>
 

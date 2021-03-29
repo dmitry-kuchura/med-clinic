@@ -88,6 +88,9 @@ class PatientsEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (prevProps.location !== this.props.location) {
+            this.props.dispatch(getPatientById(getParamFromUrl(this.props, 'id')))
+        }
         if (prevProps !== this.props) {
             this.setState({
                 patient: this.props.patient,
