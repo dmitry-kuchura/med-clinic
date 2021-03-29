@@ -16,3 +16,5 @@ export const PATIENT_MESSAGES_LIST = 'PATIENT_MESSAGES_LIST';
 export const TEST_ALL = 'TEST_ALL';
 export const TEST_LIST = 'TEST_LIST';
 export const TEST_INFO = 'TEST_INFO';
+
+export const MESSAGES_TEMPLATES_LIST = 'MESSAGES_TEMPLATES_LIST';

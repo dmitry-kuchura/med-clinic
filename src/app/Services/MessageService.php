@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Facades\MessageFacade;
+use App\Facades\MessageTemplatesFacade;
 use App\Helpers\TurboSMS;
 
 class MessageService
@@ -13,13 +14,20 @@ class MessageService
     /** @var MessageFacade */
     private MessageFacade $messageFacade;
 
-    public function __construct(MessageFacade $messageFacade)
+    /** @var MessageTemplatesFacade */
+    private MessageTemplatesFacade $messageTemplatesFacade;
+
+    public function __construct(
+        MessageFacade $messageFacade,
+        MessageTemplatesFacade $messageTemplatesFacade
+    )
     {
         $this->smsSender = new TurboSMS();
         $this->messageFacade = $messageFacade;
+        $this->messageTemplatesFacade = $messageTemplatesFacade;
     }
 
-    public function list(int $id)
+    public function getPatientMessageList(int $id)
     {
         return $this->messageFacade->paginate($id);
     }
@@ -29,15 +37,20 @@ class MessageService
         $this->messageFacade->send($request, $response);
     }
 
-    public function sendMessage(array $request)
+    public function sendPatientMessage(array $request)
     {
         $response = $this->smsSender->send([$request['phone']], $request['text']);
 
         $this->send($request, $response);
     }
 
-    public function getBalance()
+    public function getBalance(): array
     {
         return $this->smsSender->balance();
+    }
+
+    public function listTemplates()
+    {
+        return $this->messageTemplatesFacade->paginate();
     }
 }

@@ -11,6 +11,7 @@ import NoMatch from '../pages/404'
 import TestsList from '../pages/tests/tests-list';
 import DoctorsList from '../pages/doctors/doctors-list';
 import DoctorsEdit from '../pages/doctors/doctors-edit';
+import MessagesTemplatesList from '../pages/messages-templates/messages-templates-list';
 
 const routes = [
     {
@@ -73,11 +74,16 @@ const routes = [
         exact: true,
         auth: true,
         component: DoctorsList
-    },  {
+    }, {
         path: '/doctors/:id',
         exact: true,
         auth: true,
         component: DoctorsEdit
+    }, {
+        path: '/messages-templates/',
+        exact: true,
+        auth: true,
+        component: MessagesTemplatesList
     }, {
         path: '',
         exact: true,

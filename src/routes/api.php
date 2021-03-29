@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\DoctorsController;
 use App\Http\Controllers\Api\FirebirdController;
 use App\Http\Controllers\Api\MessagesController;
+use App\Http\Controllers\Api\MessagesTemplatesController;
+use App\Http\Controllers\Api\PatientsMessagesController;
 use App\Http\Controllers\Api\PatientAppointmentsController;
 use App\Http\Controllers\Api\PatientsController;
 use App\Http\Controllers\Api\TestsController;
@@ -53,8 +55,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('id', '[0-9]+');
 
             Route::prefix('messages')->group(function () {
-                Route::post('/{id}/send', [MessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
-                Route::get('/{id}/list', [MessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
+                Route::post('/{id}/send', [PatientsMessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
+                Route::get('/{id}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
             });
 
             Route::prefix('appointments')->group(function () {
@@ -72,6 +74,12 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('messages')->group(function () {
             Route::get('/balance', [MessagesController::class, 'balance'])->name('api.message.balance');
+        });
+
+        Route::prefix('messages-templates')->group(function () {
+            Route::get('/', [MessagesTemplatesController::class, 'list'])->name('api.messages-templates.list');
+            Route::post('/create', [MessagesTemplatesController::class, 'create'])->name('api.messages-templates.create');
+            Route::put('/', [MessagesTemplatesController::class, 'update'])->name('api.messages-templates.update');
         });
     });
 });

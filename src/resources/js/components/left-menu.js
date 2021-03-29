@@ -88,13 +88,13 @@ class LeftMenu extends React.Component {
                             <div className="collapse" style={this.state.dropdownDoctors ? closed : opened}>
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/doctors">Список лікарів</Link>
-                                    <Link className="nav-link" to="/doctors/exclude">Сповіщати про прийом</Link>
+                                    <Link className="nav-link" to="/doctors/exclude">Виключити зі сповіщень</Link>
                                 </nav>
                             </div>
 
                             <div className="sb-sidenav-menu-heading">Додатково</div>
 
-                            <Link to="/charts" className="nav-link">
+                            <Link to="/messages-templates" className="nav-link">
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-envelope-open"></i>
                                 </div>

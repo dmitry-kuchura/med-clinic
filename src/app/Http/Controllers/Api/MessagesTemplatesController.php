@@ -15,9 +15,9 @@ class MessagesTemplatesController extends Controller
         $this->service = $service;
     }
 
-    public function list(int $id): JsonResponse
+    public function list(): JsonResponse
     {
-        $result = $this->service->list($id);
+        $result = $this->service->listTemplates();
 
         return $this->returnResponse(['result' => $result]);
     }
