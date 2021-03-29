@@ -34,7 +34,7 @@ export function getDoctorsList(page) {
 }
 
 
-export function updatePatient(data) {
+export function updateDoctor(data) {
     let link = '/api/v1/doctors/';
 
     return dispatch => (
@@ -55,14 +55,14 @@ export function updatePatient(data) {
     );
 }
 
-export function getPatientById(param) {
+export function getDoctorById(param) {
     let link = '/api/v1/doctors/' + param;
 
     return dispatch => (
         new Promise((resolve, reject) => {
             Http.get(link)
                 .then(response => {
-                    dispatch(action.getOnePatient(response.data.result));
+                    dispatch(action.getOneDoctor(response.data.result));
                     return resolve();
                 })
                 .catch(err => {

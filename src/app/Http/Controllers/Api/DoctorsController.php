@@ -21,4 +21,11 @@ class DoctorsController extends Controller
 
         return $this->returnResponse(['result' => $result]);
     }
+
+    public function info($id): JsonResponse
+    {
+        $result = $this->doctorService->find($id);
+
+        return $this->returnResponse(['result' => $result]);
+    }
 }

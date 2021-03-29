@@ -50,6 +50,7 @@ const applyDoctors = (state, payload) => {
 };
 
 const applyDoctor = (state, payload) => {
+    console.log(payload)
     state = Object.assign({}, state, {
         item: {
             id: payload.id,

@@ -9,8 +9,8 @@ const patient = {
     email: null,
     gender: 'male',
     birthday: null,
-    createdAt: null,
-    updatedAt: null
+    created_at: null,
+    updated_at: null
 };
 
 const initialState = {
@@ -61,8 +61,8 @@ const applyPatient = (state, payload) => {
             email: payload.user ? payload.user.email : null,
             gender: payload.gender,
             birthday: payload.birthday,
-            createdAt: payload.createdAt,
-            updatedAt: payload.updatedAt,
+            created_at: payload.created_at,
+            updated_at: payload.updated_at,
             tests: [],
         }
     });

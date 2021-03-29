@@ -11,7 +11,6 @@ import {getPatientsAppointments} from '../../services/patients-appointments-serv
 import {getPatientMessagesList, sendPatientMessage} from '../../services/patients-messages-service';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
-import Loader from '../../helpers/loader';
 
 const rules = {
     'first_name': ['required'],
