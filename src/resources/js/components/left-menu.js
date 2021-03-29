@@ -73,9 +73,9 @@ class LeftMenu extends React.Component {
 
                             <Link to="/charts" className="nav-link">
                                 <div className="sb-nav-link-icon">
-                                    <i className="fas fa-chart-area"/>
+                                    <i className="fas fa-envelope-open"></i>
                                 </div>
-                                Статистика
+                                Шаблони
                             </Link>
                             <Link to="/settings" className="nav-link" >
                                 <div className="sb-nav-link-icon">

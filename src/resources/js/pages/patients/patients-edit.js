@@ -11,6 +11,7 @@ import {getPatientsAppointments} from '../../services/patients-appointments-serv
 import {getPatientMessagesList, sendPatientMessage} from '../../services/patients-messages-service';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
+import Loader from '../../helpers/loader';
 
 const rules = {
     'first_name': ['required'],
@@ -61,7 +62,7 @@ class PatientsEdit extends React.Component {
             },
             showSendEmailModal: false,
             showSendSmsModal: false,
-            showAddTestModal: false,
+            showAddTestModal: false
         };
 
         const patientId = getParamFromUrl(props, 'id');
@@ -85,11 +86,13 @@ class PatientsEdit extends React.Component {
         this.handleSubmitPatientTest = this.handleSubmitPatientTest.bind(this);
         this.handleSubmitSms = this.handleSubmitSms.bind(this);
         this.clearTestState = this.clearTestState.bind(this);
+        this.isTempEmail = this.isTempEmail.bind(this);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.location !== this.props.location) {
-            this.props.dispatch(getPatientById(getParamFromUrl(this.props, 'id')))
+            this.props.dispatch(getPatientById(getParamFromUrl(this.props, 'id')));
+
         }
         if (prevProps !== this.props) {
             this.setState({
@@ -216,6 +219,18 @@ class PatientsEdit extends React.Component {
         return true;
     }
 
+    isTempEmail() {
+        let patient = this.state.patient;
+
+        if (patient && patient.email) {
+            let email = patient.email.split('@');
+
+            return email[1] === 'temporary.email';
+        }
+
+        return false;
+    }
+
     clearTestState() {
         this.setState({
             test: {
@@ -306,7 +321,7 @@ class PatientsEdit extends React.Component {
                                                         СМС</button>
                                                     : null}
 
-                                                {patient.id ?
+                                                {patient.id && !this.isTempEmail() ?
                                                     <button type="button" className="btn btn-outline-secondary m-1"
                                                             data-modal="email"
                                                             onClick={this.handleShowModal}>Надіслати
@@ -342,6 +357,31 @@ class PatientsEdit extends React.Component {
                                                                id="genderFemale"/>
                                                         <label className="form-check-label">Жінка</label>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card mt-3">
+                                    <div className="card-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="custom-control custom-switch">
+                                                    <input type="checkbox" className="custom-control-input"
+                                                           checked={true}
+                                                           id="per-day"/>
+                                                    <label className="custom-control-label" htmlFor="per-day">
+                                                        Нагадування за добу
+                                                    </label>
+                                                </div>
+
+                                                <div className="custom-control custom-switch">
+                                                    <input type="checkbox" className="custom-control-input"
+                                                           checked={true}
+                                                           id="day-on-day"/>
+                                                    <label className="custom-control-label" htmlFor="day-on-day">
+                                                        Нагадування день в день
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
