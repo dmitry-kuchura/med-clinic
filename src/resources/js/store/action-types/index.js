@@ -2,14 +2,15 @@ export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_CHECK = 'AUTH_CHECK';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
+export const DOCTOR_SEARCH = 'DOCTOR_SEARCH';
+export const DOCTOR_LIST = 'DOCTOR_LIST';
+export const DOCTOR_INFO = 'DOCTOR_INFO';
+
 export const PATIENT_SEARCH = 'PATIENT_SEARCH';
 export const PATIENT_LIST = 'PATIENT_LIST';
 export const PATIENT_INFO = 'PATIENT_INFO';
-
 export const PATIENT_TESTS_LIST = 'PATIENT_TESTS_LIST';
-
 export const PATIENT_APPOINTMENTS_LIST = 'PATIENT_APPOINTMENTS_LIST';
-
 export const PATIENT_MESSAGES_LIST = 'PATIENT_MESSAGES_LIST';
 
 export const TEST_ALL = 'TEST_ALL';

@@ -12,7 +12,8 @@ class LeftMenu extends React.Component {
         this.state = {
             authUser: null,
             dropdownTests: false,
-            dropdownPatients: false
+            dropdownPatients: false,
+            dropdownDoctors: false
         };
 
         this.handleDropdown = this.handleDropdown.bind(this);
@@ -30,6 +31,9 @@ class LeftMenu extends React.Component {
         switch (event.target.id) {
             case 'patients':
                 this.setState({dropdownPatients: !this.state.dropdownPatients});
+                break;
+            case 'doctors':
+                this.setState({dropdownDoctors: !this.state.dropdownDoctors});
                 break;
         }
     }
@@ -69,6 +73,25 @@ class LeftMenu extends React.Component {
                                 </nav>
                             </div>
 
+                            <div className="sb-sidenav-menu-heading">Лікарі</div>
+
+                            <Link to="#" className="nav-link collapsed" id="doctors" onClick={this.handleDropdown}>
+                                <div className="sb-nav-link-icon">
+                                    <i className="fas fa-hospital"/>
+                                </div>
+                                Лікарі
+                                <div className="sb-sidenav-collapse-arrow">
+                                    {this.state.dropdownDoctors ? <i className="fas fa-angle-right"/> :
+                                        <i className="fas fa-angle-down"/>}
+                                </div>
+                            </Link>
+                            <div className="collapse" style={this.state.dropdownDoctors ? closed : opened}>
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/doctors">Список лікарів</Link>
+                                    <Link className="nav-link" to="/doctors/exclude">Сповіщати про прийом</Link>
+                                </nav>
+                            </div>
+
                             <div className="sb-sidenav-menu-heading">Додатково</div>
 
                             <Link to="/charts" className="nav-link">
@@ -77,7 +100,7 @@ class LeftMenu extends React.Component {
                                 </div>
                                 Шаблони
                             </Link>
-                            <Link to="/settings" className="nav-link" >
+                            <Link to="/settings" className="nav-link">
                                 <div className="sb-nav-link-icon">
                                     <i className="fas fa-cogs"/>
                                 </div>

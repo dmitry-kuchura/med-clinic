@@ -9,6 +9,7 @@ import PatientsList from '../pages/patients/patients-list';
 import Settings from '../pages/settings';
 import NoMatch from '../pages/404'
 import TestsList from '../pages/tests/tests-list';
+import DoctorsList from '../pages/doctors/doctors-list';
 
 const routes = [
     {
@@ -66,6 +67,11 @@ const routes = [
         exact: true,
         auth: true,
         component: TestsList
+    }, {
+        path: '/doctors',
+        exact: true,
+        auth: true,
+        component: DoctorsList
     }, {
         path: '',
         exact: true,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\UpdatePasswordController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\DoctorsController;
 use App\Http\Controllers\Api\FirebirdController;
 use App\Http\Controllers\Api\MessagesController;
 use App\Http\Controllers\Api\PatientAppointmentsController;
@@ -36,6 +37,11 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['bearer'])->group(function () {
         Route::get('/logout', [LogoutController::class, 'logout'])->name('api.logout');
         Route::get('/profile', [ProfileController::class, 'profile'])->name('api.profile');
+
+        Route::prefix('doctors')->group(function () {
+            Route::get('/', [DoctorsController::class, 'list'])->name('api.doctors.list');
+            Route::get('/{id}', [DoctorsController::class, 'info'])->name('api.doctors.info')->where('id', '[0-9]+');
+        });
 
         Route::prefix('patients')->group(function () {
             Route::get('/', [PatientsController::class, 'list'])->name('api.patients.list');
