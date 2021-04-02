@@ -10,7 +10,8 @@ class Pagination extends React.Component {
             currentPage: 0,
             perPage: 0,
             to: 0,
-            total: 0
+            total: 0,
+            list: []
         };
     }
 
@@ -45,13 +46,13 @@ class Pagination extends React.Component {
                     <div style={{float: 'right'}}>
                         <ul className="pagination">
 
-                            <li className={this.state.currentPage === 1 ? "page-item previous disabled" : "page-item previous"}>
+                            <li className={this.state.currentPage === 1 ? 'page-item previous disabled' : 'page-item previous'}>
                                 <a href="#" className="page-link">«</a>
                             </li>
 
                             <Pages state={this.state} handleChangePage={this.props.handleChangePage}/>
 
-                            <li className={this.state.lastPage === 1 ? "page-item next disabled" : "page-item next"}>
+                            <li className={this.state.lastPage === 1 ? 'page-item next disabled' : 'page-item next'}>
                                 <a href="#" className="page-link">»</a>
                             </li>
 
@@ -74,7 +75,7 @@ const Pages = (props) => {
     if (pages.length) {
         return pages.map(function (page) {
             return (
-                <li className={state.currentPage === page ? "page-item active" : "page-item"} key={page}>
+                <li className={state.currentPage === page ? 'page-item active' : 'page-item'} key={page}>
                     <a href="#" className="page-link" onClick={props.handleChangePage} id={page}>{page}</a>
                 </li>
             )

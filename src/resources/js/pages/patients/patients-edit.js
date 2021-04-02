@@ -33,6 +33,8 @@ class PatientsEdit extends React.Component {
                 phone: null,
                 middle_name: null,
                 gender: 'male',
+                day_on_day: true,
+                before_day: true
             },
             test: {
                 file: null,
@@ -104,8 +106,6 @@ class PatientsEdit extends React.Component {
     }
 
     handleChangeInput(event) {
-        event.preventDefault();
-
         let type = event.target.type;
         let input = event.target.name;
         let value = event.target.value;
@@ -367,7 +367,8 @@ class PatientsEdit extends React.Component {
                                             <div className="col-md-12">
                                                 <div className="custom-control custom-switch">
                                                     <input type="checkbox" className="custom-control-input"
-                                                           checked={true}
+                                                           checked={patient.day_on_day}
+                                                           onChange={this.handleChangeInput}
                                                            id="per-day"/>
                                                     <label className="custom-control-label" htmlFor="per-day">
                                                         Нагадування за добу
@@ -376,7 +377,8 @@ class PatientsEdit extends React.Component {
 
                                                 <div className="custom-control custom-switch">
                                                     <input type="checkbox" className="custom-control-input"
-                                                           checked={true}
+                                                           checked={patient.before_day}
+                                                           onChange={this.handleChangeInput}
                                                            id="day-on-day"/>
                                                     <label className="custom-control-label" htmlFor="day-on-day">
                                                         Нагадування день в день

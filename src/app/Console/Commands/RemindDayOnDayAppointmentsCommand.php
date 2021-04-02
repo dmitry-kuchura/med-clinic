@@ -5,18 +5,19 @@ namespace App\Console\Commands;
 use App\Exceptions\SyncErrorException;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
+use App\Services\MessageService;
 use App\Services\PatientService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Throwable;
 
-class SyncAppointmentsCommand extends Command
+class RemindDayOnDayAppointmentsCommand extends Command
 {
     /** @var string */
-    protected $signature = 'sync:appointments';
+    protected $signature = 'reminder:day-on-day';
 
     /** @var string */
-    protected $description = 'Sync appointments.';
+    protected $description = 'Scheduler send SMS messages.';
 
     /** @var AppointmentService */
     private AppointmentService $appointmentService;
@@ -27,16 +28,21 @@ class SyncAppointmentsCommand extends Command
     /** @var DoctorService */
     private DoctorService $doctorService;
 
+    /** @var MessageService */
+    private MessageService $messageService;
+
     public function __construct(
         AppointmentService $appointmentService,
         PatientService $patientService,
-        DoctorService $doctorService
+        DoctorService $doctorService,
+        MessageService $messageService
     )
     {
         parent::__construct();
         $this->appointmentService = $appointmentService;
         $this->patientService = $patientService;
         $this->doctorService = $doctorService;
+        $this->messageService = $messageService;
     }
 
     /**
@@ -77,5 +83,14 @@ class SyncAppointmentsCommand extends Command
     private function getCurrentTime(): string
     {
         return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
+    }
+
+    private function prepareMessage(array $record): string
+    {
+        $message = 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}';
+
+        $datetime = Carbon::parse($record['appointment_time']);
+
+        return str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $message);
     }
 }

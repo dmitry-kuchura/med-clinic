@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\PatientAppointment;
 use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientsAppointmentsRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class AppointmentService
 {
@@ -32,17 +33,17 @@ class AppointmentService
         $this->appointmentFacade = $appointmentFacade;
     }
 
-    public function list()
-    {
-        return $this->appointmentFacade->list();
-    }
-
     public function getLastPatientsAppointment(): ?PatientAppointment
     {
         return $this->patientsAppointmentsRepository->getLastPatient();
     }
 
-    public function getPatientsListForMessages(string $timestamp, ?int $external = null): ?array
+    public function getFirstPatientsAppointment(): ?PatientAppointment
+    {
+        return $this->patientsAppointmentsRepository->getFirstPatient();
+    }
+
+    public function getPatientsListForSync(string $timestamp, ?int $external = null): ?array
     {
         $data = [];
 
@@ -90,5 +91,15 @@ class AppointmentService
 
             $this->appointmentFacade->create($data);
         }
+    }
+
+    public function findPatientAppointmentHistory(PatientAppointment $appointment): Collection
+    {
+        return $this->appointmentFacade->findHistory($appointment);
+    }
+
+    public function markedPatientAppointmentHistory(Collection $appointment)
+    {
+        $this->appointmentFacade->markedWithHistory($appointment);
     }
 }

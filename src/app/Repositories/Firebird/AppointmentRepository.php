@@ -29,7 +29,7 @@ class AppointmentRepository
                     $query->where('APPOINTMENT_LOG.NR', '>', $external);
                 }
             })
-            ->limit(15)
+            ->limit(20)
             ->orderBy('APPOINTMENT_LOG.NR', 'ASC')
             ->get();
     }

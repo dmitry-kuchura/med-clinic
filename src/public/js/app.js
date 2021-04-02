@@ -2653,7 +2653,8 @@ var Pagination = /*#__PURE__*/function (_React$Component) {
       currentPage: 0,
       perPage: 0,
       to: 0,
-      total: 0
+      total: 0,
+      list: []
     };
     return _this;
   }
@@ -2700,7 +2701,7 @@ var Pagination = /*#__PURE__*/function (_React$Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
               className: "pagination",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-                className: this.state.currentPage === 1 ? "page-item previous disabled" : "page-item previous",
+                className: this.state.currentPage === 1 ? 'page-item previous disabled' : 'page-item previous',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
                   href: "#",
                   className: "page-link",
@@ -2710,7 +2711,7 @@ var Pagination = /*#__PURE__*/function (_React$Component) {
                 state: this.state,
                 handleChangePage: this.props.handleChangePage
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-                className: this.state.lastPage === 1 ? "page-item next disabled" : "page-item next",
+                className: this.state.lastPage === 1 ? 'page-item next disabled' : 'page-item next',
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
                   href: "#",
                   className: "page-link",
@@ -2738,7 +2739,7 @@ var Pages = function Pages(props) {
   if (pages.length) {
     return pages.map(function (page) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-        className: state.currentPage === page ? "page-item active" : "page-item",
+        className: state.currentPage === page ? 'page-item active' : 'page-item',
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
           href: "#",
           className: "page-link",
@@ -5987,7 +5988,9 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
         email: null,
         phone: null,
         middle_name: null,
-        gender: 'male'
+        gender: 'male',
+        day_on_day: true,
+        before_day: true
       },
       test: {
         file: null
@@ -6060,7 +6063,6 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleChangeInput",
     value: function handleChangeInput(event) {
-      event.preventDefault();
       var type = event.target.type;
       var input = event.target.name;
       var value = event.target.value;
@@ -6357,7 +6359,8 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
                             type: "checkbox",
                             className: "custom-control-input",
-                            checked: true,
+                            checked: patient.day_on_day,
+                            onChange: this.handleChangeInput,
                             id: "per-day"
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                             className: "custom-control-label",
@@ -6369,7 +6372,8 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
                             type: "checkbox",
                             className: "custom-control-input",
-                            checked: true,
+                            checked: patient.before_day,
+                            onChange: this.handleChangeInput,
                             id: "day-on-day"
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                             className: "custom-control-label",
