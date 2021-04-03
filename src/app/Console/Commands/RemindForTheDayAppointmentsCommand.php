@@ -6,7 +6,6 @@ use App\Exceptions\RemindForTheDayErrorException;
 use App\Services\AppointmentService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Throwable;
 
 class RemindForTheDayAppointmentsCommand extends Command
@@ -15,7 +14,7 @@ class RemindForTheDayAppointmentsCommand extends Command
     protected $signature = 'reminder:before-day';
 
     /** @var string */
-    protected $description = 'Scheduler send SMS messages.';
+    protected $description = 'Reminder before day by SMS message.';
 
     /** @var AppointmentService */
     private AppointmentService $appointmentService;
@@ -46,6 +45,7 @@ class RemindForTheDayAppointmentsCommand extends Command
 
         try {
             $patientsAppointment = $history->first();
+            // TODO send message
             $this->messageService->remindBeforeDay($patientsAppointment);
 
             $this->appointmentService->markedPatientAppointmentHistory($history);

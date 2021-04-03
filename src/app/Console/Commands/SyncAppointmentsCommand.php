@@ -54,18 +54,16 @@ class SyncAppointmentsCommand extends Command
 
             $result = $this->appointmentService->getPatientsListForSync($timestamp, $external);
         } else {
-            $appointment = $this->getCurrentTime();
-            $result = $this->appointmentService->getPatientsListForSync($appointment);
+            $timestamp = $this->getCurrentTime();
+            $result = $this->appointmentService->getPatientsListForSync($timestamp);
         }
 
         foreach ($result as $record) {
             try {
-                if ($record['patient']['external_id'] !== 0) {
-                    $patient = $this->patientService->syncPatient($record['patient']);
-                    $doctor = $this->doctorService->syncDoctor($record['doctor']);
+                $patient = $this->patientService->syncPatient($record['patient']);
+                $doctor = $this->doctorService->syncDoctor($record['doctor']);
 
-                    $this->appointmentService->syncAppointment($record['appointment'], $patient, $doctor);
-                }
+                $this->appointmentService->syncAppointment($record['appointment'], $patient, $doctor);
             } catch (Throwable $throwable) {
                 throw new SyncErrorException();
             }

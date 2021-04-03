@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\PatientAppointment;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
 
 class PatientsAppointmentsRepository implements Repository
 {

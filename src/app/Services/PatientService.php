@@ -2,49 +2,137 @@
 
 namespace App\Services;
 
-use App\Facades\PatientFacade;
+use App\Exceptions\UpdatePatientException;
+use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Patient;
+use App\Repositories\PatientsRepository;
+use App\Repositories\UsersRepository;
+use Illuminate\Support\Str;
 
 class PatientService
 {
-    /** @var PatientFacade */
-    private PatientFacade $patientFacade;
+    const RECORDS_AT_PAGE = 30;
 
-    public function __construct(PatientFacade $patientFacade)
+    /** @var PatientsRepository */
+    private PatientsRepository $patientsRepository;
+
+    /** @var UsersRepository */
+    private UsersRepository $usersRepository;
+
+    /** @var GenerateTempEmail */
+    private GenerateTempEmail $helper;
+
+    public function __construct(
+        PatientsRepository $patientsRepository,
+        UsersRepository $usersRepository
+    )
     {
-        $this->patientFacade = $patientFacade;
+        $this->helper = new GenerateTempEmail($patientsRepository);
+        $this->patientsRepository = $patientsRepository;
+        $this->usersRepository = $usersRepository;
     }
 
     public function list()
     {
-        return $this->patientFacade->list();
+        return $this->patientsRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
     public function find(int $id): ?Patient
     {
-        return $this->patientFacade->find($id);
+        return $this->findPatient($id);
     }
 
     public function update(array $data): void
     {
-        $this->patientFacade->update($data);
+        $patientData = [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
+            'gender' => $data['gender'],
+            'phone' => $data['phone'] ?? null,
+            'address' => $data['address'] ?? null,
+        ];
+
+        $patient = $this->findPatient($data['id']);
+
+        try {
+            $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
+            $this->patientsRepository->update($patientData, $data['id']);
+        } catch (\Throwable $throwable) {
+            throw new UpdatePatientException();
+        }
     }
 
     public function create(array $data): ?Patient
     {
-        return $this->patientFacade->create($data);
+        $existPatient = $this->findExistPatient($data['external_id']);
+
+        if ($existPatient) {
+            return $existPatient;
+        }
+
+        $existUser = null;
+
+        if (isset($data['email']) && $data['email']) {
+            $existUser = $this->findPatientByEmail($data['email']);
+        }
+
+        if ($existUser) {
+            $user = $existUser;
+        } else {
+            $user = $this->usersRepository->store([
+                'email' => isset($data['email']) ? $data['email'] : $this->helper->generateTempEmail(),
+                'name' => $data['first_name'] . ' ' . $data['last_name'],
+                'password' => bcrypt(Str::random(9)),
+            ]);
+        }
+
+
+        $patientData = [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
+            'birthday' => $data['birthday'] ?? null,
+            'gender' => $data['gender'],
+            'phone' => $data['phone'] ? trim(str_replace(' ', '', $data['phone'])) : null,
+            'address' => $data['address'] ?? null,
+            'external_id' => $data['external_id'] ?? null,
+            'user_id' => $user->id
+        ];
+
+        return $this->patientsRepository->store($patientData);
     }
 
     public function search(string $query)
     {
-        return $this->patientFacade->search($query);
+        return $this->patientsRepository->search($query);
     }
 
     public function syncPatient(array $data): ?Patient
     {
         $data['phone'] = PhoneNumber::prepare($data['phone']);
 
-        return $this->patientFacade->create($data);
+        return $this->create($data);
+    }
+
+    private function findExistPatient(int $externalId): ?Patient
+    {
+        return $this->findPatientByExternalId($externalId);
+    }
+
+    private function findPatient(int $id): ?Patient
+    {
+        return $this->patientsRepository->get($id);
+    }
+
+    private function findPatientByEmail(string $email): ?Patient
+    {
+        return $this->patientsRepository->findByEmail($email);
+    }
+
+    private function findPatientByExternalId(string $externalId): ?Patient
+    {
+        return $this->patientsRepository->findByExternalId($externalId);
     }
 }

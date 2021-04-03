@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Facades\AppointmentFacade;
 use App\Http\Controllers\Controller;
+use App\Services\AppointmentService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class PatientAppointmentsController extends Controller
 {
-    private AppointmentFacade $facade;
+    private AppointmentService $service;
 
-    public function __construct(AppointmentFacade $facade)
+    public function __construct(AppointmentService $service)
     {
-        $this->facade = $facade;
+        $this->service = $service;
     }
 
     public function list(int $id): JsonResponse
     {
-        $result = $this->facade->list($id);
+        $result = $this->service->list($id);
 
-        return $this->returnResponse(['result' => $result], Response::HTTP_OK);
+        return $this->returnResponse(['result' => $result]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Facades\AppointmentFacade;
 use App\Models\Doctor;
 use App\Models\Firebird\Appointment;
 use App\Models\Patient;
@@ -10,11 +9,11 @@ use App\Models\PatientAppointment;
 use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientsAppointmentsRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 class AppointmentService
 {
-    /** @var AppointmentFacade */
-    private AppointmentFacade $appointmentFacade;
+    const RECORDS_AT_PAGE = 30;
 
     /** @var PatientsAppointmentsRepository */
     private PatientsAppointmentsRepository $patientsAppointmentsRepository;
@@ -23,14 +22,17 @@ class AppointmentService
     private AppointmentRepository $appointmentRepository;
 
     public function __construct(
-        AppointmentFacade $appointmentFacade,
         PatientsAppointmentsRepository $patientsAppointmentsRepository,
         AppointmentRepository $appointmentRepository
     )
     {
         $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
         $this->appointmentRepository = $appointmentRepository;
-        $this->appointmentFacade = $appointmentFacade;
+    }
+
+    public function list(int $id)
+    {
+        return $this->patientsAppointmentsRepository->paginate($id, self::RECORDS_AT_PAGE);
     }
 
     public function getLastPatientsAppointment(): ?PatientAppointment
@@ -89,17 +91,39 @@ class AppointmentService
             $data['patient_id'] = $patient->id;
             $data['doctor_id'] = $doctor->id;
 
-            $this->appointmentFacade->create($data);
+            $appointmentData = [
+                'appointment_at' => $data['appointment_time'],
+                'comment' => $data['comment'] ?? null,
+                'doctor_name' => $data['doctor_name'] ?? null,
+                'type' => $data['type'],
+                'patient_id' => $data['patient_id'],
+                'doctor_id' => $data['doctor_id'],
+                'external_id' => $data['external_id'],
+            ];
+
+            $this->patientsAppointmentsRepository->store($appointmentData);
         }
     }
 
     public function findPatientAppointmentHistory(PatientAppointment $appointment): Collection
     {
-        return $this->appointmentFacade->findHistory($appointment);
+        $patient = $appointment->patient->id;
+        $doctor = $appointment->doctor->id;
+        $date_from = Carbon::parse($appointment->appointment_at)->subDays(2)->format('Y-m-d 00:00:00');
+        $date_to = Carbon::parse($appointment->appointment_at)->addDays(2)->format('Y-m-d 23:59:59');
+
+        return $this->patientsAppointmentsRepository->findHistory($patient, $doctor, $date_from, $date_to);
     }
 
-    public function markedPatientAppointmentHistory(Collection $appointment)
+    public function markedPatientAppointmentHistory(Collection $appointments)
     {
-        $this->appointmentFacade->markedWithHistory($appointment);
+        $ids = [];
+
+        /** @var PatientAppointment $appointment */
+        foreach ($appointments as $appointment) {
+            $ids[] = $appointment->id;
+        }
+
+        $this->patientsAppointmentsRepository->markedWithHistory($ids);
     }
 }
