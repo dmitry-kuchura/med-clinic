@@ -56,6 +56,13 @@ class Handler extends ExceptionHandler
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        if (($e instanceof UpdateDoctorException || $e instanceof UpdatePatientException) && $request->wantsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
         return parent::render($request, $e);
     }
 }
