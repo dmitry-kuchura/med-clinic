@@ -8,7 +8,9 @@ use App\Helpers\PhoneNumber;
 use App\Models\Patient;
 use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Throwable;
 
 class PatientService
 {
@@ -59,7 +61,7 @@ class PatientService
         try {
             $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
             $this->patientsRepository->update($patientData, $data['id']);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             throw new UpdatePatientException();
         }
     }
@@ -104,7 +106,7 @@ class PatientService
         return $this->patientsRepository->store($patientData);
     }
 
-    public function search(string $query)
+    public function search(string $query): ?Collection
     {
         return $this->patientsRepository->search($query);
     }

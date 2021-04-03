@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
-use App\Exceptions\UpdatePatientException;
+use App\Exceptions\UpdateDoctorException;
 use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Doctor;
 use App\Repositories\DoctorsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Support\Str;
+use Throwable;
 
 class DoctorService
 {
@@ -59,8 +60,8 @@ class DoctorService
         try {
             $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
             $this->doctorsRepository->update($patientData, $data['id']);
-        } catch (\Throwable $throwable) {
-            throw new UpdatePatientException();
+        } catch (Throwable $throwable) {
+            throw new UpdateDoctorException();
         }
     }
 
