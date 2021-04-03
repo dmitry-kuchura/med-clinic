@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Exceptions\NotAddPatientTestException;
-use App\Models\PatientsTests;
+use App\Models\PatientTest;
 use App\Repositories\PatientsTestsRepository;
 
 class PatientTestsAction
@@ -17,7 +17,7 @@ class PatientTestsAction
         $this->patientsTestsRepository = $patientsTestsRepository;
     }
 
-    public function addPatientTest(array $data): PatientsTests
+    public function addPatientTest(array $data): PatientTest
     {
         $testData = [
             'test_id' => $data['test_id'],

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Message $message
  * @property Patient $patient
  */
-class PatientsMessages extends Model
+class PatientMessage extends Model
 {
     protected $table = 'patients_messages';
 

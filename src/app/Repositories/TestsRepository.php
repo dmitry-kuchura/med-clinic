@@ -4,33 +4,33 @@ namespace App\Repositories;
 
 namespace App\Repositories;
 
-use App\Models\Tests;
+use App\Models\Test;
 
 class TestsRepository implements Repository
 {
     public function paginate(int $offset)
     {
-        return Tests::orderBy('id', 'desc')->paginate($offset);
+        return Test::orderBy('id', 'desc')->paginate($offset);
     }
 
     public function get(int $id)
     {
-        return Tests::with('user')->find($id);
+        return Test::with('user')->find($id);
     }
 
     public function all()
     {
-        return Tests::all();
+        return Test::all();
     }
 
-    public function store(array $data): Tests
+    public function store(array $data): Test
     {
-        return Tests::create($data);
+        return Test::create($data);
     }
 
     public function update(array $data, int $id)
     {
-        return Tests::where('id', $id)->update($data);
+        return Test::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

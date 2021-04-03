@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\PatientsTests;
+use App\Models\PatientTest;
 
 class PatientsTestsRepository implements Repository
 {
     public function get(int $id)
     {
-        return PatientsTests::with(['patient', 'patient.user', 'test'])->find($id);
+        return PatientTest::with(['patient', 'patient.user', 'test'])->find($id);
     }
 
     public function paginate(int $id, int $offset)
     {
-        return PatientsTests::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->orderBy('id', 'desc')->paginate($offset);
+        return PatientTest::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->orderBy('id', 'desc')->paginate($offset);
     }
 
     public function find(int $id)
     {
-        return PatientsTests::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->get();
+        return PatientTest::where('patient_id', $id)->with(['patient', 'patient.user', 'test'])->get();
     }
 
     public function all()
     {
-        return PatientsTests::all();
+        return PatientTest::all();
     }
 
-    public function store(array $data): PatientsTests
+    public function store(array $data): PatientTest
     {
-        return PatientsTests::create($data);
+        return PatientTest::create($data);
     }
 
     public function update(array $data, int $id)
     {
-        return PatientsTests::where('id', $id)->update($data);
+        return PatientTest::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

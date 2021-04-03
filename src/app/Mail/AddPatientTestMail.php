@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\PatientsTests;
+use App\Models\PatientTest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Mail\Mailable;
@@ -13,11 +13,11 @@ class AddPatientTestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public PatientsTests $patientsTest;
+    public PatientTest $patientsTest;
 
     public ?UploadedFile $file;
 
-    public function __construct(PatientsTests $patientsTest, ?UploadedFile $file)
+    public function __construct(PatientTest $patientsTest, ?UploadedFile $file)
     {
         $this->patientsTest = $patientsTest;
         $this->file = $file;

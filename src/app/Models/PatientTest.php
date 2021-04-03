@@ -18,10 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Tests $test
+ * @property Test $test
  * @property Patient $patient
  */
-class PatientsTests extends Model
+class PatientTest extends Model
 {
     protected $table = 'patients_tests';
 
@@ -42,7 +42,7 @@ class PatientsTests extends Model
 
     public function test()
     {
-        return $this->hasOne('App\Models\Tests', 'id', 'test_id');
+        return $this->hasOne('App\Models\Test', 'id', 'test_id');
     }
 
     public function patient()

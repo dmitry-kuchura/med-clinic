@@ -7,6 +7,7 @@ use App\Models\Firebird\Appointment;
 use App\Models\Patient;
 use App\Models\PatientAppointment;
 use App\Repositories\Firebird\AppointmentRepository;
+use App\Repositories\PatientAppointmentReminderRepository;
 use App\Repositories\PatientsAppointmentsRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -15,19 +16,23 @@ class AppointmentService
 {
     const RECORDS_AT_PAGE = 30;
 
-    /** @var PatientsAppointmentsRepository */
-    private PatientsAppointmentsRepository $patientsAppointmentsRepository;
-
     /** @var AppointmentRepository */
     private AppointmentRepository $appointmentRepository;
 
+    /** @var PatientsAppointmentsRepository */
+    private PatientsAppointmentsRepository $patientsAppointmentsRepository;
+
+    private PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository;
+
     public function __construct(
+        AppointmentRepository $appointmentRepository,
         PatientsAppointmentsRepository $patientsAppointmentsRepository,
-        AppointmentRepository $appointmentRepository
+        PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository
     )
     {
-        $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
         $this->appointmentRepository = $appointmentRepository;
+        $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
+        $this->patientsAppointmentsReminderRepository = $patientsAppointmentsReminderRepository;
     }
 
     public function list(int $id)
@@ -125,5 +130,15 @@ class AppointmentService
         }
 
         $this->patientsAppointmentsRepository->markedWithHistory($ids);
+    }
+
+    public function addAppointmentReminder(PatientAppointment $appointment)
+    {
+        $data = [];
+
+        $data['appointment_at'] = Carbon::parse($appointment->appointment_at)->format('Y-m-d H:i:s');
+        $data['patient_id'] = $appointment->patient_id;
+
+        $this->patientsAppointmentsReminderRepository->store($data);
     }
 }

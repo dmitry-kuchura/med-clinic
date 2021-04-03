@@ -45,8 +45,10 @@ class RemindForTheDayAppointmentsCommand extends Command
 
         try {
             $patientsAppointment = $history->first();
-            // TODO send message
+
             $this->messageService->remindBeforeDay($patientsAppointment);
+
+            $this->appointmentService->addAppointmentReminder($patientsAppointment);
 
             $this->appointmentService->markedPatientAppointmentHistory($history);
         } catch (Throwable $throwable) {

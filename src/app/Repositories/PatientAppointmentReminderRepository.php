@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\PatientMessage;
+use App\Models\PatientAppointmentReminder;
 
-class PatientsMessagesRepository implements Repository
+class PatientAppointmentReminderRepository implements Repository
 {
     public function paginate(int $id, int $offset)
     {
-        return PatientMessage::where('patient_id', $id)->with(['message', 'patient'])->orderBy('id', 'desc')->paginate($offset);
+        return PatientAppointmentReminder::where('patient_id', $id)->with(['patient'])->orderBy('id', 'desc')->paginate($offset);
     }
 
     public function get(int $id)
@@ -23,9 +23,9 @@ class PatientsMessagesRepository implements Repository
 
     public function store(array $data)
     {
-        $model = new PatientMessage();
+        $model = new PatientAppointmentReminder();
 
-        $model->message_id = $data['message_id'];
+        $model->appointment_at = $data['appointment_at'];
         $model->patient_id = $data['patient_id'];
 
         $model->save();
@@ -33,7 +33,7 @@ class PatientsMessagesRepository implements Repository
 
     public function update(array $data, int $id)
     {
-        // TODO: Implement update() method.
+        return PatientAppointmentReminder::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)
