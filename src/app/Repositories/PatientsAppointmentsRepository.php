@@ -16,7 +16,7 @@ class PatientsAppointmentsRepository implements Repository
     {
         return PatientAppointment::where('appointment_at', '>', $timestamp)
             ->where('is_mark', false)
-            ->limit(25)
+            ->limit(50)
             ->orderBy('appointment_at', 'asc')
             ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
             ->get();
@@ -34,13 +34,15 @@ class PatientsAppointmentsRepository implements Repository
 
     public function markedWithHistory(array $ids): void
     {
-        PatientAppointment::whereIn('id', $ids)
-            ->update(['is_mark' => true]);
+        PatientAppointment::whereIn('id', $ids)->update(['is_mark' => true]);
     }
 
     public function paginate(int $id, int $offset)
     {
-        return PatientAppointment::where('patient_id', $id)->with(['doctor', 'patient'])->orderBy('id', 'desc')->paginate($offset);
+        return PatientAppointment::where('patient_id', $id)
+            ->with(['doctor', 'patient'])
+            ->orderBy('id', 'desc')
+            ->paginate($offset);
     }
 
     public function get(int $id)

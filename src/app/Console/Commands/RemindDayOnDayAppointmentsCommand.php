@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
 use App\Services\AppointmentService;
 use App\Services\MessageService;
 use App\Services\PatientService;
 use Illuminate\Console\Command;
+use Throwable;
 
 class RemindDayOnDayAppointmentsCommand extends Command
 {
@@ -45,7 +47,18 @@ class RemindDayOnDayAppointmentsCommand extends Command
     public function handle()
     {
         if ((int)Date::getCurrentHour() > 9 && (int)Date::getCurrentHour() < 21) {
+            try {
+                $timestamp = Date::getTomorrowMorningTime();
 
+                $reminders = $this->appointmentService->getReminders($timestamp);
+
+                foreach ($reminders as $reminder) {
+                    $this->messageService->remindDayOnDay($reminder);
+                    $this->appointmentService->markedPatientAppointmentReminder($reminder);
+                }
+            } catch (Throwable $throwable) {
+                throw new RemindForTheDayErrorException();
+            }
         }
 
         return true;

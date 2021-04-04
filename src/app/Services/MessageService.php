@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\TurboSMS;
 use App\Models\PatientAppointment;
+use App\Models\PatientAppointmentReminder;
 use App\Repositories\MessagesRepository;
 use App\Repositories\MessagesTemplatesRepository;
 use App\Repositories\PatientsMessagesRepository;
@@ -89,6 +90,12 @@ class MessageService
     }
 
     public function remindBeforeDay(PatientAppointment $patientAppointment)
+    {
+//        $response = $this->smsSender->send([$request['phone']], $request['text']);
+//        $this->send($request, $response);
+    }
+
+    public function remindDayOnDay(PatientAppointmentReminder $patientAppointmentReminder)
     {
 //        $response = $this->smsSender->send([$request['phone']], $request['text']);
 //        $this->send($request, $response);

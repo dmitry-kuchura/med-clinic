@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\SyncAppointmentsCommand::class,
         Commands\RemindForTheDayAppointmentsCommand::class,
+        Commands\RemindDayOnDayAppointmentsCommand::class,
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sync:appointments')->everyFiveMinutes();
         $schedule->command('reminder:before-day')->everyTenMinutes();
+        $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use App\Models\Firebird\Appointment;
 use App\Models\Patient;
 use App\Models\PatientAppointment;
+use App\Models\PatientAppointmentReminder;
 use App\Repositories\Firebird\AppointmentRepository;
 use App\Repositories\PatientAppointmentReminderRepository;
 use App\Repositories\PatientsAppointmentsRepository;
@@ -120,7 +121,7 @@ class AppointmentService
         return $this->patientsAppointmentsRepository->findHistory($patient, $doctor, $date_from, $date_to);
     }
 
-    public function markedPatientAppointmentHistory(Collection $appointments)
+    public function markedPatientAppointmentHistory(Collection $appointments): void
     {
         $ids = [];
 
@@ -140,5 +141,15 @@ class AppointmentService
         $data['patient_id'] = $appointment->patient_id;
 
         $this->patientsAppointmentsReminderRepository->store($data);
+    }
+
+    public function getReminders(string $timestamp): Collection
+    {
+        return $this->patientsAppointmentsReminderRepository->getForRemind($timestamp);
+    }
+
+    public function markedPatientAppointmentReminder(PatientAppointmentReminder $reminder): void
+    {
+        $this->patientsAppointmentsReminderRepository->marked($reminder);
     }
 }
