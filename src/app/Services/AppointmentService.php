@@ -45,9 +45,9 @@ class AppointmentService
         return $this->patientsAppointmentsRepository->getLastPatient();
     }
 
-    public function getFirstPatientsAppointment(): ?PatientAppointment
+    public function getPatientsForRemind(string $timestamp): ?Collection
     {
-        return $this->patientsAppointmentsRepository->getFirstPatient();
+        return $this->patientsAppointmentsRepository->getPatientsForRemind($timestamp);
     }
 
     public function getPatientsListForSync(string $timestamp, ?int $external = null): ?array

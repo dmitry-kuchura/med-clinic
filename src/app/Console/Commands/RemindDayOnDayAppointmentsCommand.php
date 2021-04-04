@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Date;
 use App\Services\AppointmentService;
 use App\Services\MessageService;
 use App\Services\PatientService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 
 class RemindDayOnDayAppointmentsCommand extends Command
 {
@@ -44,13 +44,10 @@ class RemindDayOnDayAppointmentsCommand extends Command
      */
     public function handle()
     {
+        if ((int)Date::getCurrentHour() > 9 && (int)Date::getCurrentHour() < 21) {
 
+        }
 
         return true;
-    }
-
-    private function getCurrentTime(): string
-    {
-        return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
     }
 }

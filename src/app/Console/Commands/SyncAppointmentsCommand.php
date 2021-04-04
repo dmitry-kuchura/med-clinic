@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\SyncErrorException;
+use App\Helpers\Date;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
 use App\Services\LogService;
@@ -60,7 +61,7 @@ class SyncAppointmentsCommand extends Command
 
             $result = $this->appointmentService->getPatientsListForSync($timestamp, $external);
         } else {
-            $timestamp = $this->getCurrentTime();
+            $timestamp = Date::getCurrentTime();
             $result = $this->appointmentService->getPatientsListForSync($timestamp);
         }
 
@@ -78,10 +79,5 @@ class SyncAppointmentsCommand extends Command
         $this->logService->info('Synced: ' . count($result) . ' rows.');
 
         return true;
-    }
-
-    private function getCurrentTime(): string
-    {
-        return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
     }
 }

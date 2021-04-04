@@ -3,7 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\RemindForTheDayErrorException;
+use App\Helpers\Date;
+use App\Models\PatientAppointment;
 use App\Services\AppointmentService;
+use App\Services\DoctorService;
+use App\Services\LogService;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
 use Throwable;
@@ -22,14 +26,24 @@ class RemindForTheDayAppointmentsCommand extends Command
     /** @var MessageService */
     private MessageService $messageService;
 
+    /** @var DoctorService */
+    private DoctorService $doctorService;
+
+    /** @var LogService */
+    private LogService $logService;
+
     public function __construct(
         AppointmentService $appointmentService,
-        MessageService $messageService
+        MessageService $messageService,
+        DoctorService $doctorService,
+        LogService $logService
     )
     {
         parent::__construct();
         $this->appointmentService = $appointmentService;
         $this->messageService = $messageService;
+        $this->doctorService = $doctorService;
+        $this->logService = $logService;
     }
 
     /**
@@ -39,20 +53,30 @@ class RemindForTheDayAppointmentsCommand extends Command
      */
     public function handle()
     {
-        $appointment = $this->appointmentService->getFirstPatientsAppointment();
+        if ((int)Date::getCurrentHour() > 15) {
+            $timestamp = Date::getTomorrowMorningTime();
 
-        $history = $this->appointmentService->findPatientAppointmentHistory($appointment);
+            try {
+                $appointments = $this->appointmentService->getPatientsForRemind($timestamp);
 
-        try {
-            $patientsAppointment = $history->first();
+                foreach ($appointments as $appointment) {
+                    $history = $this->appointmentService->findPatientAppointmentHistory($appointment);
 
-            $this->messageService->remindBeforeDay($patientsAppointment);
+                    /** @var PatientAppointment $lastAppointment */
+                    $lastAppointment = $history->first();
 
-            $this->appointmentService->addAppointmentReminder($patientsAppointment);
+                    if (!$this->doctorService->doctorIsExcluded($lastAppointment->doctor_id)) {
+                        $this->messageService->remindBeforeDay($lastAppointment);
+                        $this->appointmentService->addAppointmentReminder($lastAppointment);
+                    }
 
-            $this->appointmentService->markedPatientAppointmentHistory($history);
-        } catch (Throwable $throwable) {
-            throw new RemindForTheDayErrorException();
+                    $this->appointmentService->markedPatientAppointmentHistory($history);
+                }
+            } catch (Throwable $throwable) {
+                throw new RemindForTheDayErrorException();
+            }
+
+            $this->logService->info('Reminded: ' . count($appointments) . ' patients.');
         }
 
         return true;

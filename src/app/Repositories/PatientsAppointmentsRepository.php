@@ -12,9 +12,14 @@ class PatientsAppointmentsRepository implements Repository
         return PatientAppointment::orderBy('id', 'desc')->first();
     }
 
-    public function getFirstPatient(): ?PatientAppointment
+    public function getPatientsForRemind(string $timestamp): ?Collection
     {
-        return PatientAppointment::orderBy('id', 'asc')->first();
+        return PatientAppointment::where('appointment_at', '>', $timestamp)
+            ->where('is_mark', false)
+            ->limit(25)
+            ->orderBy('appointment_at', 'asc')
+            ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
+            ->get();
     }
 
     public function findHistory(int $patient, int $doctor, string $date_from, string $date_to): ?Collection
