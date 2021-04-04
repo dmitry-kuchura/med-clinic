@@ -30,7 +30,7 @@ class AppointmentRepository
                 }
             })
             ->where('APPOINTMENT_LOG.PAT_NR', '>', 0)
-            ->limit(30)
+            ->limit(50)
             ->orderBy('APPOINTMENT_LOG.NR', 'ASC')
             ->get();
     }
