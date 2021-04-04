@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Exceptions\SyncErrorException;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
+use App\Services\LogService;
 use App\Services\PatientService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
@@ -27,16 +28,21 @@ class SyncAppointmentsCommand extends Command
     /** @var DoctorService */
     private DoctorService $doctorService;
 
+    /** @var LogService */
+    private LogService $logService;
+
     public function __construct(
         AppointmentService $appointmentService,
         PatientService $patientService,
-        DoctorService $doctorService
+        DoctorService $doctorService,
+        LogService $logService
     )
     {
         parent::__construct();
         $this->appointmentService = $appointmentService;
         $this->patientService = $patientService;
         $this->doctorService = $doctorService;
+        $this->logService = $logService;
     }
 
     /**
@@ -68,6 +74,8 @@ class SyncAppointmentsCommand extends Command
                 throw new SyncErrorException();
             }
         }
+
+        $this->logService->info('Synced: ' . count($result) . ' rows.');
 
         return true;
     }

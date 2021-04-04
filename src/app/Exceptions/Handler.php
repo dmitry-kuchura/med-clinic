@@ -2,6 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Services\AppointmentService;
+use App\Services\DoctorService;
+use App\Services\LogService;
+use App\Services\PatientService;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
@@ -28,6 +33,15 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    /** @var LogService */
+    private LogService $logService;
+
+    public function __construct(Container $container, LogService $logService)
+    {
+        parent::__construct($container);
+        $this->logService = $logService;
+    }
+
     /**
      * Register the exception handling callbacks for the application.
      *
@@ -42,6 +56,8 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        $this->logService->exception($e->getMessage());
+
         if ($e instanceof ModelNotFoundException && $request->wantsJson()) {
             return response()->json([
                 'success' => false,
