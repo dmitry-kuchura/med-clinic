@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\App;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,9 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sync:appointments')->everyMinute();
-//        $schedule->command('reminder:before-day')->everyTenMinutes();
-//        $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
+        if (App::environment('production')) {
+            $schedule->command('sync:appointments')->everyFiveMinutes();
+            $schedule->command('reminder:before-day')->everyTenMinutes();
+            $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
+        }
     }
 
     /**
