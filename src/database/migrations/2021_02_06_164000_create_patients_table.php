@@ -25,6 +25,8 @@ class CreatePatientsTable extends Migration
             $table->date('birthday')->nullable();
             $table->enum('gender', [ 'female', 'male', 'others'])->nullable();
             $table->bigInteger('external_id')->nullable();
+            $table->boolean('day_on_day')->default(true);
+            $table->boolean('per_day')->default(true);
 
             $table->foreign('user_id')->references('id')->on('users');
 
