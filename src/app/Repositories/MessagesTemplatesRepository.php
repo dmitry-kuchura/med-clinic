@@ -11,7 +11,7 @@ class MessagesTemplatesRepository implements Repository
         return MessageTemplate::orderBy('id', 'desc')->paginate($offset);
     }
 
-    public function get(int $id)
+    public function get(int $id): ?MessageTemplate
     {
         return MessageTemplate::find($id);
     }

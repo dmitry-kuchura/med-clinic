@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $birthday
  * @property string $gender
  * @property int $external_id
+ * @property bool $day_on_day
+ * @property bool $per_day
  *
  * @property string $created_at
  * @property string $updated_at
@@ -40,6 +42,8 @@ class Patient extends Model
         'birthday',
         'gender',
         'external_id',
+        'day_on_day',
+        'per_day',
         'created_at',
         'updated_at',
     ];

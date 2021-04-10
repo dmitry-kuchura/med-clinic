@@ -69,7 +69,6 @@ class LeftMenu extends React.Component {
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/patients">Список пацієнтів</Link>
                                     <Link className="nav-link" to="/patients/create">Додати пацієнта</Link>
-                                    <Link className="nav-link" to="/patients/tests">Аналізи пацієнта</Link>
                                 </nav>
                             </div>
 

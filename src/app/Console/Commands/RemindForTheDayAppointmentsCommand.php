@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
+use App\Helpers\Settings;
 use App\Models\PatientAppointment;
 use App\Services\AppointmentService;
 use App\Services\DoctorService;
@@ -53,7 +54,7 @@ class RemindForTheDayAppointmentsCommand extends Command
      */
     public function handle()
     {
-        if ((int)Date::getCurrentHour() > 15) {
+        if ($this->isCorrectTime(Date::getCurrentHour())) {
             $timestamp = Date::getTomorrowMorningTime();
 
             try {
@@ -66,8 +67,13 @@ class RemindForTheDayAppointmentsCommand extends Command
                     $lastAppointment = $history->first();
 
                     if (!$this->doctorService->doctorIsExcluded($lastAppointment->doctor_id)) {
-                        $this->messageService->remindBeforeDay($lastAppointment);
-                        $this->appointmentService->addAppointmentReminder($lastAppointment);
+                        if ($lastAppointment->patient->per_day) {
+                            $this->messageService->remindBeforeDay($lastAppointment);
+
+                            if ($lastAppointment->patient->day_on_day) {
+                                $this->appointmentService->addAppointmentReminder($lastAppointment);
+                            }
+                        }
                     }
 
                     $this->appointmentService->markedPatientAppointmentHistory($history);
@@ -80,5 +86,18 @@ class RemindForTheDayAppointmentsCommand extends Command
         }
 
         return true;
+    }
+
+    public function isCorrectTime(string $current): bool
+    {
+        $param = Settings::getParam('reminder-time-per-day');
+
+        if (!$param) {
+            return false;
+        }
+
+        $hours = explode(':', $param);
+
+        return (int)$current > (int)$hours[0];
     }
 }

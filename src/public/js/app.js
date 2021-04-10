@@ -2210,10 +2210,6 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                     className: "nav-link",
                     to: "/patients/create",
                     children: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0430"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-                    className: "nav-link",
-                    to: "/patients/tests",
-                    children: "\u0410\u043D\u0430\u043B\u0456\u0437\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0430"
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {

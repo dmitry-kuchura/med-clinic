@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SettingsRepository implements Repository
 {
+    public function find(string $param): ?string
+    {
+        /** @var Settings $settings */
+        $settings = Settings::where('key', $param)->first();
+
+        return $settings ? $settings->value : null;
+    }
+
+    public function paginate(int $id)
+    {
+        // TODO: Implement get() method.
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.

@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use App\Exceptions\SentMessageErrorException;
 use App\Helpers\TurboSMS;
+use App\Models\MessageTemplate;
 use App\Models\PatientAppointment;
 use App\Models\PatientAppointmentReminder;
 use App\Repositories\MessagesRepository;
 use App\Repositories\MessagesTemplatesRepository;
 use App\Repositories\PatientsMessagesRepository;
+use Illuminate\Support\Carbon;
+use Throwable;
 
 class MessageService
 {
@@ -84,20 +88,54 @@ class MessageService
         return $this->messageTemplatesRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
-    public function getMessageTemplate(int $id)
+    public function getMessageTemplate(int $id): ?MessageTemplate
     {
         return $this->messageTemplatesRepository->get($id);
     }
 
-    public function remindBeforeDay(PatientAppointment $patientAppointment)
+    public function sendMessageReminder(array $request): void
     {
 //        $response = $this->smsSender->send([$request['phone']], $request['text']);
 //        $this->send($request, $response);
     }
 
+    public function remindBeforeDay(PatientAppointment $patientAppointment)
+    {
+        $request = [];
+
+        try {
+            $template = $this->getMessageTemplate(1);
+
+            $datetime = Carbon::parse($patientAppointment->appointment_at);
+
+            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
+
+            $request['phone'] = '+380931106215';
+            $request['text'] = $text;
+
+            $this->sendMessageReminder($request);
+        } catch (Throwable $throwable) {
+            throw new SentMessageErrorException($throwable->getMessage());
+        }
+    }
+
     public function remindDayOnDay(PatientAppointmentReminder $patientAppointmentReminder)
     {
-//        $response = $this->smsSender->send([$request['phone']], $request['text']);
-//        $this->send($request, $response);
+        $request = [];
+
+        try {
+            $template = $this->getMessageTemplate(3);
+
+            $datetime = Carbon::parse($patientAppointmentReminder->appointment_at);
+
+            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
+
+            $request['phone'] = '+380931106215';
+            $request['text'] = $text;
+
+            $this->sendMessageReminder($request);
+        } catch (Throwable $throwable) {
+            throw new SentMessageErrorException($throwable->getMessage());
+        }
     }
 }
