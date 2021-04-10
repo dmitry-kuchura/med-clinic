@@ -34,7 +34,6 @@ services:
   scheduler:
     <<: *app-service
     container_name: clinic_scheduler
-    user: clinic
     restart: always
     command: /scheduler/scheduler.sh
 

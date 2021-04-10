@@ -34,7 +34,10 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 RUN docker-php-ext-install pdo_firebird
 
 # Copy command scheduler
-COPY --chown=$user ./scheduler.sh /scheduler/scheduler.sh
+COPY ./scheduler.sh /scheduler/scheduler.sh
+
+# Permisson for scheduler
+RUN chmod a+rx /scheduler/scheduler.sh
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
