@@ -26,32 +26,32 @@ class MessagesTemplatesSeeder extends Seeder
             [
                 'language' => 'ua',
                 'name' => 'Запис на прийом',
-                'alias' => 'patient-appointment-ua',
-                'content' => 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}',
+                'alias' => 'patient-appointment',
+                'content' => 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}. Якщо Ви бажаєте відмінити візит, будь ласка, повідомте нам за телефоном (або Viber) 0996606624',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ], [
-                'language' => 'ru',
-                'name' => 'Запис на прийом (русский)',
-                'alias' => 'patient-appointment-ru',
-                'content' => 'Вы записаны на приём в Детский Медицинский Центр "Your Baby" {date} в {time}',
+                'language' => 'ua',
+                'name' => 'Запис на прийом LAB',
+                'alias' => 'patient-appointment-lab',
+                'content' => 'Ви записані на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}. Чекаємо за адресою м. Харків, вуд. Пушкінська 14. Про будь які зміни повідомте нам за телефоном (або Viber) 0996606624',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ], [
                 'language' => 'ua',
                 'name' => 'Нагадування про запис на прийом',
-                'alias' => 'patient-appointment-reminder-ua',
-                'content' => 'Нагадуємо про запис на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}',
+                'alias' => 'patient-appointment-reminder',
+                'content' => 'Нагадуємо про запис на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}. Якщо Ви бажаєте відмінити візит, будь ласка, повідомте нам за телефоном (або Viber) 0996606624',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ], [
-                'language' => 'ru',
-                'name' => 'Нагадування про запис на прийом (русский)',
-                'alias' => 'patient-appointment-reminder-ru',
-                'content' => 'Напоминаем про запись на приём в Детский Медицинский Центр "Your Baby" {date} в {time}',
+                'language' => 'ua',
+                'name' => 'Нагадування про запис на прийом LAB',
+                'alias' => 'patient-appointment-reminder-lab',
+                'content' => 'Нагадуємо про запис на прийом в Дитячий Медичний Центр "Your Baby" {date} на {time}. Чекаємо за адресою м. Харків, вуд. Пушкінська 14. Про будь які зміни повідомте нам за телефоном (або Viber) 0996606624',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ]
+            ],
         ];
     }
 }

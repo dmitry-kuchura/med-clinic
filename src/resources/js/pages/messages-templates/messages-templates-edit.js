@@ -119,16 +119,6 @@ class MessagesTemplatesEdit extends React.Component {
                                                 </div>
 
                                                 <div className="form-group">
-                                                    <label htmlFor="formGroupExampleInput">Мова повідомлення</label>
-                                                    <select className={validate('name', messageTemplate.name, rules['name']) ? 'form-control is-invalid' : 'form-control'}>
-                                                        <option value="ru" selected={messageTemplate.language === 'ru'}>Російська</option>
-                                                        <option value="ua" selected={messageTemplate.language === 'ua'}>Українська</option>
-                                                    </select>
-                                                    <div
-                                                        className="invalid-feedback">{validate('content', messageTemplate.content, rules['content'])}</div>
-                                                </div>
-
-                                                <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Текст повідомлення</label>
                                                     <textarea rows="5"
                                                               className={validate('content', messageTemplate.content, rules['content']) ? 'form-control is-invalid' : 'form-control'}

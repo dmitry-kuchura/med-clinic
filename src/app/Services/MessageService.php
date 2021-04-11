@@ -98,6 +98,11 @@ class MessageService
         return $this->messageTemplatesRepository->get($id);
     }
 
+    public function getMessageTemplateByAlias(string $alias): ?MessageTemplate
+    {
+        return $this->messageTemplatesRepository->find($alias);
+    }
+
     public function sendMessageReminder(array $request): void
     {
 //        $response = $this->smsSender->send([$request['phone']], $request['text']);
@@ -109,7 +114,11 @@ class MessageService
         $request = [];
 
         try {
-            $template = $this->getMessageTemplate(1);
+            if ($patientAppointment->doctor->is_lab) {
+                $template = $this->getMessageTemplateByAlias('patient-appointment-lab');
+            } else {
+                $template = $this->getMessageTemplateByAlias('patient-appointment');
+            }
 
             $datetime = Carbon::parse($patientAppointment->appointment_at);
 
@@ -129,7 +138,7 @@ class MessageService
         $request = [];
 
         try {
-            $template = $this->getMessageTemplate(3);
+            $template = $this->getMessageTemplateByAlias('patient-appointment-reminder');
 
             $datetime = Carbon::parse($patientAppointmentReminder->appointment_at);
 
