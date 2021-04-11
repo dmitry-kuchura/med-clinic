@@ -137,7 +137,7 @@ class DoctorService
         return $this->create($data);
     }
 
-    public function doctorHasTemplate(int $doctorId): ?DoctorApproved
+    public function doctorIsApprove(int $doctorId): ?DoctorApproved
     {
         return $this->doctorsExcludesRepository->find($doctorId);
     }

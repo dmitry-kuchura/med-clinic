@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
     {
         if (App::environment('production')) {
             $schedule->command('sync:appointments')->everyFiveMinutes();
-            $schedule->command('reminder:before-day')->everyTenMinutes();
-            $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
+//            $schedule->command('reminder:before-day')->everyTenMinutes();
+//            $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
         }
     }
 
