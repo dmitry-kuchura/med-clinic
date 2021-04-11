@@ -109,12 +109,6 @@ const List = (props) => {
 
                         <span> </span>
 
-                        <Link to={'/doctors/view/' + item.id} className="btn btn-warning btn-sm">
-                            <i className="fas fa-eye"/>
-                        </Link>
-
-                        <span> </span>
-
                         <Link to={'/doctors/delete/' + item.id} className="btn btn-danger btn-sm">
                             <i className="fas fa-trash"/>
                         </Link>

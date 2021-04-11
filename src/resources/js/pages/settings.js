@@ -116,7 +116,7 @@ class Settings extends React.Component {
                                             <i className="fas fa-user"></i>
                                         </span>
                                     </div>
-                                    <input type="text" className="form-control" value="Your baby" required/>
+                                    <input type="text" className="form-control" value="IT Alarm" required/>
                                 </div>
                             </div>
                         </div>
