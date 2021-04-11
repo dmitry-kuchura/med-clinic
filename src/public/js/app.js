@@ -5355,19 +5355,18 @@ var MessagesTemplatesEdit = /*#__PURE__*/function (_React$Component) {
         return;
       }
 
-      this.props.dispatch(updateDoctor(this.state.doctor)).then(function (success) {
+      this.props.dispatch((0,_services_messages_templates_service__WEBPACK_IMPORTED_MODULE_5__.updateMessageTemplate)(this.state.messageTemplate)).then(function (success) {
         sweetalert__WEBPACK_IMPORTED_MODULE_2___default()('Добре!', 'Профіль було оновлено!', 'success');
       })["catch"](function (error) {
-        console.log(error);
         sweetalert__WEBPACK_IMPORTED_MODULE_2___default()('Погано!', 'Щось пішло не за планом!', 'error');
       });
     }
   }, {
     key: "valid",
     value: function valid() {
-      var patient = this.state.patient;
+      var messageTemplate = this.state.messageTemplate;
 
-      for (var _i = 0, _Object$entries = Object.entries(patient); _i < _Object$entries.length; _i++) {
+      for (var _i = 0, _Object$entries = Object.entries(messageTemplate); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
             key = _Object$entries$_i[0],
             value = _Object$entries$_i[1];
@@ -5426,13 +5425,14 @@ var MessagesTemplatesEdit = /*#__PURE__*/function (_React$Component) {
                             htmlFor: "formGroupExampleInput",
                             children: "\u041C\u043E\u0432\u0430 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F"
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
-                            defaultValue: messageTemplate.language,
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)('name', messageTemplate.name, rules['name']) ? 'form-control is-invalid' : 'form-control',
                             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
                               value: "ru",
+                              selected: messageTemplate.language === 'ru',
                               children: "\u0420\u043E\u0441\u0456\u0439\u0441\u044C\u043A\u0430"
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
                               value: "ua",
+                              selected: messageTemplate.language === 'ua',
                               children: "\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"
                             })]
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
@@ -8145,7 +8145,8 @@ function getLogsList(page) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getMessagesTemplatesList": () => (/* binding */ getMessagesTemplatesList),
-/* harmony export */   "getMessageTemplateById": () => (/* binding */ getMessageTemplateById)
+/* harmony export */   "getMessageTemplateById": () => (/* binding */ getMessageTemplateById),
+/* harmony export */   "updateMessageTemplate": () => (/* binding */ updateMessageTemplate)
 /* harmony export */ });
 /* harmony import */ var _store_actions_messages_templates_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions/messages-templates-action */ "./resources/js/store/actions/messages-templates-action.js");
 /* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http */ "./resources/js/http.js");
@@ -8189,6 +8190,23 @@ function getMessageTemplateById(id) {
         return resolve();
       })["catch"](function (err) {
         console.log(err);
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function updateMessageTemplate(data) {
+  var link = '/api/v1/messages-templates/';
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.put(link, data).then(function (response) {
+        return resolve(response);
+      })["catch"](function (err) {
         var statusCode = err.response.status;
         var data = {
           error: null,

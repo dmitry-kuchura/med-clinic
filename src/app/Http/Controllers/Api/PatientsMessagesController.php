@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Messages\SendMessageRequest;
+use App\Http\Requests\Messages\updateMessageTemplateRequest;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -17,7 +17,7 @@ class PatientsMessagesController extends Controller
         $this->service = $service;
     }
 
-    public function send(SendMessageRequest $request): JsonResponse
+    public function send(updateMessageTemplateRequest $request): JsonResponse
     {
         $requestData = $request->all();
         $requestData['patient_id'] = (int)$request->route('id');

@@ -28,7 +28,9 @@ class MessagesTemplatesRepository implements Repository
 
     public function update(array $data, int $id)
     {
-        // TODO: Implement update() method.
+        unset($data['id']);
+
+        return MessageTemplate::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

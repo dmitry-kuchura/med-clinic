@@ -33,7 +33,6 @@ export function getDoctorsList(page) {
     );
 }
 
-
 export function updateDoctor(data) {
     let link = '/api/v1/doctors/';
 

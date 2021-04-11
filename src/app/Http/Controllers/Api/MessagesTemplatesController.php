@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MessagesTemplates\UpdateMessageTemplateRequest;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
 
@@ -27,5 +28,12 @@ class MessagesTemplatesController extends Controller
         $result = $this->service->getMessageTemplate($id);
 
         return $this->returnResponse(['result' => $result]);
+    }
+
+    public function update(UpdateMessageTemplateRequest $request): JsonResponse
+    {
+        $this->service->update($request->all());
+
+        return $this->returnResponse(['updated' => true]);
     }
 }

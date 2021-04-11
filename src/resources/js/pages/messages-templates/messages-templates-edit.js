@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import swal from 'sweetalert';
 import {getParamFromUrl} from '../../helpers/url-params';
 import {validate} from '../../helpers/validation';
-import {getMessageTemplateById} from '../../services/messages-templates-service';
+import {getMessageTemplateById, updateMessageTemplate} from '../../services/messages-templates-service';
 
 const rules = {
     'name': ['required'],
@@ -66,20 +66,19 @@ class MessagesTemplatesEdit extends React.Component {
             return;
         }
 
-        this.props.dispatch(updateDoctor(this.state.doctor))
+        this.props.dispatch(updateMessageTemplate(this.state.messageTemplate))
             .then(success => {
                 swal('Добре!', 'Профіль було оновлено!', 'success');
             })
             .catch(error => {
-                console.log(error);
                 swal('Погано!', 'Щось пішло не за планом!', 'error');
             })
     }
 
     valid() {
-        let patient = this.state.patient;
+        let messageTemplate = this.state.messageTemplate;
 
-        for (const [key, value] of Object.entries(patient)) {
+        for (const [key, value] of Object.entries(messageTemplate)) {
             if (rules.hasOwnProperty(key)) {
                 let valid = validate(key, value, rules[key]);
 
@@ -121,10 +120,9 @@ class MessagesTemplatesEdit extends React.Component {
 
                                                 <div className="form-group">
                                                     <label htmlFor="formGroupExampleInput">Мова повідомлення</label>
-                                                    <select defaultValue={messageTemplate.language}
-                                                        className={validate('name', messageTemplate.name, rules['name']) ? 'form-control is-invalid' : 'form-control'}>
-                                                        <option value="ru">Російська</option>
-                                                        <option value="ua">Українська</option>
+                                                    <select className={validate('name', messageTemplate.name, rules['name']) ? 'form-control is-invalid' : 'form-control'}>
+                                                        <option value="ru" selected={messageTemplate.language === 'ru'}>Російська</option>
+                                                        <option value="ua" selected={messageTemplate.language === 'ua'}>Українська</option>
                                                     </select>
                                                     <div
                                                         className="invalid-feedback">{validate('content', messageTemplate.content, rules['content'])}</div>

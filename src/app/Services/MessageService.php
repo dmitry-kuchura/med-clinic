@@ -46,6 +46,11 @@ class MessageService
         return $this->patientsMessagesRepository->paginate($id, self::RECORDS_AT_PAGE);
     }
 
+    public function update(array $data)
+    {
+        $this->messageTemplatesRepository->update($data, $data['id']);
+    }
+
     public function send(array $request, array $response)
     {
         $result = $response['response_result'];

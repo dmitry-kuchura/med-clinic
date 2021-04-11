@@ -55,3 +55,24 @@ export function getMessageTemplateById(id) {
         })
     );
 }
+
+export function updateMessageTemplate(data) {
+    let link = '/api/v1/messages-templates/';
+
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.put(link, data)
+                .then(response => {
+                    return resolve(response);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
