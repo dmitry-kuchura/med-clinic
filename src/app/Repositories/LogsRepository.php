@@ -8,6 +8,11 @@ use App\Models\Log;
 
 class LogsRepository implements Repository
 {
+    public function paginate(int $offset)
+    {
+        return Log::orderBy('id', 'desc')->paginate($offset);
+    }
+
     public function get(int $id)
     {
         return Log::with('user')->find($id);

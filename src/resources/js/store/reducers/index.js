@@ -4,6 +4,7 @@ import Patients from './patients-reducer'
 import Doctors from './doctors-reducer';
 import persistStore from './persist-store'
 import Tests from './tests-reducer';
+import Logs from './logs-reducer';
 import PatientsTests from './patients-tests-reducer';
 import PatientsMessages from './patients-messages-reducer';
 import PatientAppointments from './patients-appointments-reducer';
@@ -17,6 +18,7 @@ const RootReducer = combineReducers({
     PatientAppointments,
     PatientsMessages,
     Tests,
+    Logs,
     MessagesTemplates,
     persistStore
 });

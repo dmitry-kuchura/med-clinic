@@ -13,6 +13,7 @@ import DoctorsList from '../pages/doctors/doctors-list';
 import DoctorsEdit from '../pages/doctors/doctors-edit';
 import MessagesTemplatesList from '../pages/messages-templates/messages-templates-list';
 import MessagesTemplatesEdit from '../pages/messages-templates/messages-templates-edit';
+import Logs from '../pages/logs';
 
 const routes = [
     {
@@ -20,6 +21,11 @@ const routes = [
         exact: true,
         auth: true,
         component: Dashboard
+    }, {
+        path: '/logs',
+        exact: true,
+        auth: true,
+        component: Logs
     }, {
         path: '/login',
         exact: true,

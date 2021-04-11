@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\DoctorsController;
 use App\Http\Controllers\Api\FirebirdController;
+use App\Http\Controllers\Api\LogsController;
 use App\Http\Controllers\Api\MessagesController;
 use App\Http\Controllers\Api\MessagesTemplatesController;
 use App\Http\Controllers\Api\PatientsMessagesController;
@@ -74,6 +75,10 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('messages')->group(function () {
             Route::get('/balance', [MessagesController::class, 'balance'])->name('api.message.balance');
+        });
+
+        Route::prefix('logs')->group(function () {
+            Route::get('/', [LogsController::class, 'list'])->name('api.logs.list');
         });
 
         Route::prefix('messages-templates')->group(function () {

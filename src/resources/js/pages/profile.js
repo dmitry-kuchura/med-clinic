@@ -9,7 +9,7 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <main>>
+            <main>
                 <div className="container p-2 mx-auto flex flex-col">
                     <h1>This is Profile page</h1>
                 </div>

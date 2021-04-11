@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class LogService
 {
+    const RECORDS_AT_PAGE = 30;
+
     /** @var LogsRepository */
     private LogsRepository $logsRepository;
 
@@ -27,6 +29,11 @@ class LogService
         $this->data = [];
 
         $this->prepareData();
+    }
+
+    public function list()
+    {
+        return $this->logsRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
     public function info(string $message, array $context = [])
