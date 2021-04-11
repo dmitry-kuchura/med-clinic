@@ -68,7 +68,7 @@ class MessagesTemplatesEdit extends React.Component {
 
         this.props.dispatch(updateMessageTemplate(this.state.messageTemplate))
             .then(success => {
-                swal('Добре!', 'Профіль було оновлено!', 'success');
+                swal('Добре!', 'Шаблон було оновлено!', 'success');
             })
             .catch(error => {
                 swal('Погано!', 'Щось пішло не за планом!', 'error');

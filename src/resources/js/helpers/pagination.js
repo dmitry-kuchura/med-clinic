@@ -1,5 +1,24 @@
 import React from 'react';
 
+const LEFT_PAGE = 'LEFT';
+const RIGHT_PAGE = 'RIGHT';
+
+/**
+ * Helper method for creating a range of numbers
+ * range(1, 5) => [1, 2, 3, 4, 5]
+ */
+const range = (from, to, step = 1) => {
+    let i = from;
+    const range = [];
+
+    while (i <= to) {
+        range.push(i);
+        i += step;
+    }
+
+    return range;
+}
+
 class Pagination extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +32,8 @@ class Pagination extends React.Component {
             total: 0,
             list: []
         };
+
+        this.fetchPageNumbers = this.fetchPageNumbers.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -29,10 +50,38 @@ class Pagination extends React.Component {
         }
     }
 
+    fetchPageNumbers() {
+        const totalPages = this.state.lastPage;
+        const currentPage = this.state.currentPage;
+        const pageNeighbours = 2;
+
+        /**
+         * totalNumbers: the total page numbers to show on the control
+         * totalBlocks: totalNumbers + 2 to cover for the left(<) and right(>) controls
+         */
+        const totalNumbers = 3;
+        const totalBlocks = totalNumbers + 2;
+
+        if (totalPages > totalBlocks) {
+            const startPage = Math.max(2, currentPage - pageNeighbours);
+            const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours);
+
+            let pages = range(startPage, endPage);
+
+            pages = [LEFT_PAGE, ...pages, RIGHT_PAGE];
+
+            return [1, ...pages, totalPages];
+        }
+
+        return range(1, totalPages);
+    }
+
     render() {
         if (this.state.total === null || this.state.total === 0 || this.state.lastPage === 1) {
             return null;
         }
+
+        const pages = this.fetchPageNumbers();
 
         return (
             <div className="row">
@@ -45,17 +94,33 @@ class Pagination extends React.Component {
                 <div className="col-md-7">
                     <div style={{float: 'right'}}>
                         <ul className="pagination">
+                            {pages.map((page, index) => {
+                                if (page === LEFT_PAGE) return (
+                                    <li key={index} className="page-item">
+                                        <a className="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span className="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                );
 
-                            <li className={this.state.currentPage === 1 ? 'page-item previous disabled' : 'page-item previous'}>
-                                <a href="#" className="page-link">«</a>
-                            </li>
+                                if (page === RIGHT_PAGE) return (
+                                    <li key={index} className="page-item">
+                                        <a className="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span className="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                );
 
-                            <Pages state={this.state} handleChangePage={this.props.handleChangePage}/>
-
-                            <li className={this.state.lastPage === 1 ? 'page-item next disabled' : 'page-item next'}>
-                                <a href="#" className="page-link">»</a>
-                            </li>
-
+                                return (
+                                    <li key={index}
+                                        className={this.state.currentPage === page ? 'page-item active' : 'page-item'}>
+                                        <a className="page-link" href="#" onClick={this.props.handleChangePage}
+                                           id={page}>{page}</a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                 </div>
@@ -63,26 +128,5 @@ class Pagination extends React.Component {
         );
     }
 }
-
-const Pages = (props) => {
-    let {state} = props;
-    let pages = [];
-
-    for (let i = 1; i <= state.lastPage; i++) {
-        pages.push(i)
-    }
-
-    if (pages.length) {
-        return pages.map(function (page) {
-            return (
-                <li className={state.currentPage === page ? 'page-item active' : 'page-item'} key={page}>
-                    <a href="#" className="page-link" onClick={props.handleChangePage} id={page}>{page}</a>
-                </li>
-            )
-        });
-    }
-
-    return null;
-};
 
 export default Pagination;
