@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
                 <div className="container-fluid">
                     <h1 className="mt-4">Панель администрирования</h1>
                     <div className="row">
-                        <div className="col-xl-3 col-md-6">
+                        <div className="col-md-6">
                             <div className="card bg-primary text-white mb-4">
                                 <div className="card-body">Список пацієнтів</div>
                                 <div className="card-footer d-flex align-items-center justify-content-between">
@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-xl-3 col-md-6">
+                        <div className="col-md-6">
                             <div className="card bg-success text-white mb-4">
                                 <div className="card-body">Список лікарів</div>
                                 <div className="card-footer d-flex align-items-center justify-content-between">
