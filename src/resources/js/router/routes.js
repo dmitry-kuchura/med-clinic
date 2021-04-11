@@ -14,6 +14,7 @@ import DoctorsEdit from '../pages/doctors/doctors-edit';
 import MessagesTemplatesList from '../pages/messages-templates/messages-templates-list';
 import MessagesTemplatesEdit from '../pages/messages-templates/messages-templates-edit';
 import Logs from '../pages/logs';
+import DoctorsApprovedList from '../pages/doctors/doctors-approved-list';
 
 const routes = [
     {
@@ -81,6 +82,11 @@ const routes = [
         exact: true,
         auth: true,
         component: DoctorsList
+    }, {
+        path: '/doctors/approved',
+        exact: true,
+        auth: true,
+        component: DoctorsApprovedList
     }, {
         path: '/doctors/:id',
         exact: true,

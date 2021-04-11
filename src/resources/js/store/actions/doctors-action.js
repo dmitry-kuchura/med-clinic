@@ -7,6 +7,13 @@ export function getDoctors(payload) {
     }
 }
 
+export function getDoctorsApproved(payload) {
+    return {
+        type: ActionTypes.DOCTOR_APPROVED_LIST,
+        payload
+    }
+}
+
 export function search() {
     return {
         type: ActionTypes.DOCTOR_SEARCH

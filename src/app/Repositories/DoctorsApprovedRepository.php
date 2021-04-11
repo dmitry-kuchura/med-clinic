@@ -4,8 +4,13 @@ namespace App\Repositories;
 
 use App\Models\DoctorApproved;
 
-class DoctorsExcludesRepository implements Repository
+class DoctorsApprovedRepository implements Repository
 {
+    public function paginate(int $offset)
+    {
+        return DoctorApproved::with('doctor')->orderBy('id', 'desc')->paginate($offset);
+    }
+
     public function find(int $doctorId): ?DoctorApproved
     {
         return DoctorApproved::where('doctor_id', $doctorId)->first();

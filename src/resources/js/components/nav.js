@@ -71,24 +71,22 @@ class Navigation extends React.Component {
             isLoading: query.length > 0
         })
 
-        setTimeout(function () {
-            if (query.length) {
-                self.props.dispatch(searchPatientsList(query))
-                    .then(success => {
-                        self.setState({
-                            isLoading: false,
-                            result: success
-                        })
+        if (query.length) {
+            self.props.dispatch(searchPatientsList(query))
+                .then(success => {
+                    self.setState({
+                        isLoading: false,
+                        result: success
                     })
-                    .catch(error => {
-                        self.setState({
-                            showResult: false,
-                            result: [],
-                            query: ''
-                        })
+                })
+                .catch(error => {
+                    self.setState({
+                        showResult: false,
+                        result: [],
+                        query: ''
                     })
-            }
-        }, 3000);
+                })
+        }
     }
 
     render() {
@@ -105,11 +103,12 @@ class Navigation extends React.Component {
                             <div className="input-group">
                                 <input className="form-control"
                                        type="text"
-                                       onChange={this.filterPatients}
+                                       onBlur={this.filterPatients}
                                        placeholder="Пошук.."/>
                                 <div className="input-group-append">
                                     {!this.state.isLoading &&
-                                    <button className="btn btn-primary" type="button"><i className="fas fa-search"/></button>
+                                    <button className="btn btn-primary" type="button"><i className="fas fa-search"/>
+                                    </button>
                                     }
 
                                     {this.state.isLoading &&

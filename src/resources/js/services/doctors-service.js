@@ -11,6 +11,38 @@ function preparePaginateLink(page) {
     return link;
 }
 
+function prepareApprovedPaginateLink(page) {
+    let link = '/api/v1/doctors/approved';
+
+    if (page > 1) {
+        link = '/api/v1/doctors/approved?page=' + page;
+    }
+
+    return link;
+}
+
+export function getDoctorsApprovedList(page) {
+    let link = prepareApprovedPaginateLink(page);
+
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get(link)
+                .then(response => {
+                    dispatch(action.getDoctorsApproved(response.data.result));
+                    return resolve();
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
 export function getDoctorsList(page) {
     let link = preparePaginateLink(page);
 
@@ -66,6 +98,28 @@ export function getDoctorById(param) {
                 })
                 .catch(err => {
                     console.log(err)
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
+export function searchDoctorsList(query) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/doctors/search', {
+                query: query
+            })
+                .then(response => {
+                    dispatch(action.search());
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
                     const statusCode = err.response.status;
                     const data = {
                         error: null,

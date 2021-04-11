@@ -2244,8 +2244,8 @@ var LeftMenu = /*#__PURE__*/function (_React$Component) {
                     children: "\u0421\u043F\u0438\u0441\u043E\u043A \u043B\u0456\u043A\u0430\u0440\u0456\u0432"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                     className: "nav-link",
-                    to: "/doctors/exclude",
-                    children: "\u0412\u0438\u043A\u043B\u044E\u0447\u0438\u0442\u0438 \u0437\u0456 \u0441\u043F\u043E\u0432\u0456\u0449\u0435\u043D\u044C"
+                    to: "/doctors/approved",
+                    children: "\u0421\u043F\u0438\u0441\u043E\u043A \u0437\u0456 \u0441\u043F\u043E\u0432\u0456\u0449\u0435\u043D\u044F\u043C"
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -2427,22 +2427,21 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
       self.setState({
         isLoading: query.length > 0
       });
-      setTimeout(function () {
-        if (query.length) {
-          self.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_2__.searchPatientsList)(query)).then(function (success) {
-            self.setState({
-              isLoading: false,
-              result: success
-            });
-          })["catch"](function (error) {
-            self.setState({
-              showResult: false,
-              result: [],
-              query: ''
-            });
+
+      if (query.length) {
+        self.props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_2__.searchPatientsList)(query)).then(function (success) {
+          self.setState({
+            isLoading: false,
+            result: success
           });
-        }
-      }, 3000);
+        })["catch"](function (error) {
+          self.setState({
+            showResult: false,
+            result: [],
+            query: ''
+          });
+        });
+      }
     }
   }, {
     key: "render",
@@ -2468,7 +2467,7 @@ var Navigation = /*#__PURE__*/function (_React$Component) {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                   className: "form-control",
                   type: "text",
-                  onChange: this.filterPatients,
+                  onBlur: this.filterPatients,
                   placeholder: "\u041F\u043E\u0448\u0443\u043A.."
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                   className: "input-group-append",
@@ -4189,6 +4188,337 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/doctors/doctors-approved-list.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/pages/doctors/doctors-approved-list.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers_pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/pagination */ "./resources/js/helpers/pagination.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _utils_date_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/date-format */ "./resources/js/utils/date-format.js");
+/* harmony import */ var _services_doctors_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/doctors-service */ "./resources/js/services/doctors-service.js");
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/modal */ "./resources/js/utils/modal.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+
+var show = 'dropdown show';
+var hide = 'dropdown';
+
+var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
+  _inherits(DoctorsApprovedList, _React$Component);
+
+  var _super = _createSuper(DoctorsApprovedList);
+
+  function DoctorsApprovedList(props) {
+    var _this;
+
+    _classCallCheck(this, DoctorsApprovedList);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      showAddDoctor: false,
+      from: null,
+      to: null,
+      perPage: null,
+      currentPage: 1,
+      lastPage: null,
+      total: null,
+      list: [],
+      result: []
+    };
+    props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.getDoctorsApprovedList)(_this.state.currentPage));
+    _this.handleChangePage = _this.handleChangePage.bind(_assertThisInitialized(_this));
+    _this.handleChangeInput = _this.handleChangeInput.bind(_assertThisInitialized(_this));
+    _this.handleHide = _this.handleHide.bind(_assertThisInitialized(_this));
+    _this.handleShowModal = _this.handleShowModal.bind(_assertThisInitialized(_this));
+    _this.handleSubmitAddDoctor = _this.handleSubmitAddDoctor.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(DoctorsApprovedList, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.doctors !== this.props.doctors) {
+        this.setState({
+          from: this.props.doctors.from,
+          to: this.props.doctors.to,
+          perPage: this.props.doctors.perPage,
+          currentPage: this.props.doctors.currentPage,
+          lastPage: this.props.doctors.lastPage,
+          total: this.props.doctors.total,
+          list: this.props.doctors.list
+        });
+      }
+    }
+  }, {
+    key: "handleChangePage",
+    value: function handleChangePage(event) {
+      event.preventDefault();
+      this.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.getDoctorsApprovedList)(parseInt(event.target.id)));
+    }
+  }, {
+    key: "handleChangeInput",
+    value: function handleChangeInput() {
+      event.preventDefault();
+      var self = this;
+      var query = event.target.value;
+      console.log(query);
+
+      if (query.length) {
+        self.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.searchDoctorsList)(query)).then(function (success) {
+          self.setState({
+            result: success
+          });
+        })["catch"](function (error) {
+          self.setState({
+            result: []
+          });
+        });
+      }
+    }
+  }, {
+    key: "handleHide",
+    value: function handleHide() {
+      this.setState({
+        showAddDoctor: false
+      });
+    }
+  }, {
+    key: "handleShowModal",
+    value: function handleShowModal(event) {
+      var param = event.target.getAttribute('data-modal');
+      this.handleHide();
+      this.setState({
+        showAddDoctor: true
+      });
+    }
+  }, {
+    key: "handleSubmitAddDoctor",
+    value: function handleSubmitAddDoctor() {
+      this.setState({
+        showAddDoctor: false
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("main", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "container-fluid",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
+            className: "mt-4",
+            children: "\u0421\u043F\u0438\u0441\u043E\u043A \u043B\u0456\u043A\u0430\u0440\u0456\u0432 \u0437 \u0421\u041C\u0421 \u043D\u0430\u0433\u0430\u0434\u0443\u0432\u0430\u043D\u043D\u044F\u043C"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "card mb-4",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "card-body",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                  type: "button",
+                  className: "btn btn-outline-primary m-1",
+                  onClick: this.handleShowModal,
+                  children: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043B\u0456\u043A\u0430\u0440\u044F"
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "table-responsive",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("table", {
+                  className: "table table-bordered",
+                  id: "dataTable",
+                  width: "100%",
+                  cellSpacing: "0",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0406\u043C'\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0414\u0456\u0457"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tfoot", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "#"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0406\u043C'\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                        children: "\u0414\u0456\u0457"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tbody", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(List, {
+                      state: this.state.list
+                    })
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_2__.default, {
+                state: this.state,
+                handleChangePage: this.handleChangePage
+              })]
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_5__.default, {
+            show: this.state.showAddDoctor,
+            handleHide: this.handleHide,
+            title: "\u0414\u043E\u0434\u0430\u0432\u0430\u043D\u044F \u043B\u0456\u043A\u0430\u0440\u044F \u0434\u043E \u0441\u043F\u0438\u0441\u043A\u0443",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                  htmlFor: "doctor",
+                  children: "\u041B\u0456\u043A\u0430\u0440"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                  type: "text",
+                  name: "doctor",
+                  className: "form-control",
+                  id: "doctor",
+                  onChange: this.handleChangeInput
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "list-group",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(SearchList, {
+                  result: this.state.result
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                className: "form-group",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+                  className: "float-right",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                    type: "button",
+                    className: "btn btn-success",
+                    onClick: this.handleSubmitAddDoctor,
+                    children: "\u0414\u043E\u0434\u0430\u0442\u0438"
+                  })
+                })
+              })]
+            })
+          })]
+        })
+      });
+    }
+  }]);
+
+  return DoctorsApprovedList;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+var List = function List(props) {
+  var list = props.state;
+  var html;
+
+  if (list.length > 0) {
+    html = list.map(function (item) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+            children: item.id
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+            children: item.doctor.first_name.length ? item.doctor.first_name + ' ' + item.doctor.last_name : 'N/A'
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_3__.formatDate)(item.updated_at)
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+            to: '/doctors/delete/' + item.id,
+            className: "btn btn-danger btn-sm",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              className: "fas fa-trash"
+            })
+          })
+        })]
+      }, item.id);
+    });
+    return html;
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tr", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+      colSpan: "5",
+      children: "\u041D\u0435\u0447\u0435\u0433\u043E \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u044C!"
+    })
+  });
+};
+
+var SearchList = function SearchList(props) {
+  var list = props.result;
+  var html;
+
+  if (list.length > 0) {
+    html = list.map(function (item) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+        className: "list-group-item d-flex justify-content-between align-items-center",
+        children: [item.first_name + ' ' + item.last_name + ' ' + item.middle_name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "badge badge-primary badge-pill",
+          style: {
+            cursor: 'pointer'
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+            className: "fas fa-plus"
+          })
+        })]
+      }, item.id);
+    });
+    return html;
+  }
+
+  return null;
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    authUser: state.Auth.user,
+    doctors: state.DoctorsApproved
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(DoctorsApprovedList));
+
+/***/ }),
+
 /***/ "./resources/js/pages/doctors/doctors-edit.js":
 /*!****************************************************!*\
   !*** ./resources/js/pages/doctors/doctors-edit.js ***!
@@ -5475,26 +5805,6 @@ var MessagesTemplatesEdit = /*#__PURE__*/function (_React$Component) {
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)('name', messageTemplate.name, rules['name'])
-                          })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                          className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-                            htmlFor: "formGroupExampleInput",
-                            children: "\u041C\u043E\u0432\u0430 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
-                            className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)('name', messageTemplate.name, rules['name']) ? 'form-control is-invalid' : 'form-control',
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
-                              value: "ru",
-                              selected: messageTemplate.language === 'ru',
-                              children: "\u0420\u043E\u0441\u0456\u0439\u0441\u044C\u043A\u0430"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
-                              value: "ua",
-                              selected: messageTemplate.language === 'ua',
-                              children: "\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"
-                            })]
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                            className: "invalid-feedback",
-                            children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_4__.validate)('content', messageTemplate.content, rules['content'])
                           })]
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                           className: "form-group",
@@ -7828,6 +8138,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_messages_templates_messages_templates_list__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../pages/messages-templates/messages-templates-list */ "./resources/js/pages/messages-templates/messages-templates-list.js");
 /* harmony import */ var _pages_messages_templates_messages_templates_edit__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../pages/messages-templates/messages-templates-edit */ "./resources/js/pages/messages-templates/messages-templates-edit.js");
 /* harmony import */ var _pages_logs__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../pages/logs */ "./resources/js/pages/logs.js");
+/* harmony import */ var _pages_doctors_doctors_approved_list__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../pages/doctors/doctors-approved-list */ "./resources/js/pages/doctors/doctors-approved-list.js");
+
 
 
 
@@ -7909,6 +8221,11 @@ var routes = [{
   exact: true,
   auth: true,
   component: _pages_doctors_doctors_list__WEBPACK_IMPORTED_MODULE_11__.default
+}, {
+  path: '/doctors/approved',
+  exact: true,
+  auth: true,
+  component: _pages_doctors_doctors_approved_list__WEBPACK_IMPORTED_MODULE_16__.default
 }, {
   path: '/doctors/:id',
   exact: true,
@@ -8069,9 +8386,11 @@ function register(credentials) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getDoctorsApprovedList": () => (/* binding */ getDoctorsApprovedList),
 /* harmony export */   "getDoctorsList": () => (/* binding */ getDoctorsList),
 /* harmony export */   "updateDoctor": () => (/* binding */ updateDoctor),
-/* harmony export */   "getDoctorById": () => (/* binding */ getDoctorById)
+/* harmony export */   "getDoctorById": () => (/* binding */ getDoctorById),
+/* harmony export */   "searchDoctorsList": () => (/* binding */ searchDoctorsList)
 /* harmony export */ });
 /* harmony import */ var _store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions/doctors-action */ "./resources/js/store/actions/doctors-action.js");
 /* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http */ "./resources/js/http.js");
@@ -8088,6 +8407,34 @@ function preparePaginateLink(page) {
   return link;
 }
 
+function prepareApprovedPaginateLink(page) {
+  var link = '/api/v1/doctors/approved';
+
+  if (page > 1) {
+    link = '/api/v1/doctors/approved?page=' + page;
+  }
+
+  return link;
+}
+
+function getDoctorsApprovedList(page) {
+  var link = prepareApprovedPaginateLink(page);
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.get(link).then(function (response) {
+        dispatch(_store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__.getDoctorsApproved(response.data.result));
+        return resolve();
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
 function getDoctorsList(page) {
   var link = preparePaginateLink(page);
   return function (dispatch) {
@@ -8132,6 +8479,25 @@ function getDoctorById(param) {
         return resolve();
       })["catch"](function (err) {
         console.log(err);
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function searchDoctorsList(query) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/doctors/search', {
+        query: query
+      }).then(function (response) {
+        dispatch(_store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__.search());
+        return resolve(response.data.result);
+      })["catch"](function (err) {
         var statusCode = err.response.status;
         var data = {
           error: null,
@@ -8752,7 +9118,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TEST_INFO": () => (/* binding */ TEST_INFO),
 /* harmony export */   "MESSAGES_TEMPLATES_LIST": () => (/* binding */ MESSAGES_TEMPLATES_LIST),
 /* harmony export */   "MESSAGES_TEMPLATES_INFO": () => (/* binding */ MESSAGES_TEMPLATES_INFO),
-/* harmony export */   "LOGS_LIST": () => (/* binding */ LOGS_LIST)
+/* harmony export */   "LOGS_LIST": () => (/* binding */ LOGS_LIST),
+/* harmony export */   "DOCTOR_APPROVED_LIST": () => (/* binding */ DOCTOR_APPROVED_LIST)
 /* harmony export */ });
 var AUTH_LOGIN = 'AUTH_LOGIN';
 var AUTH_CHECK = 'AUTH_CHECK';
@@ -8772,6 +9139,7 @@ var TEST_INFO = 'TEST_INFO';
 var MESSAGES_TEMPLATES_LIST = 'MESSAGES_TEMPLATES_LIST';
 var MESSAGES_TEMPLATES_INFO = 'MESSAGES_TEMPLATES_INFO';
 var LOGS_LIST = 'LOGS_LIST';
+var DOCTOR_APPROVED_LIST = 'DOCTOR_APPROVED_LIST';
 
 /***/ }),
 
@@ -8819,6 +9187,7 @@ function authCheck() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getDoctors": () => (/* binding */ getDoctors),
+/* harmony export */   "getDoctorsApproved": () => (/* binding */ getDoctorsApproved),
 /* harmony export */   "search": () => (/* binding */ search),
 /* harmony export */   "getOneDoctor": () => (/* binding */ getOneDoctor)
 /* harmony export */ });
@@ -8827,6 +9196,12 @@ __webpack_require__.r(__webpack_exports__);
 function getDoctors(payload) {
   return {
     type: _action_types__WEBPACK_IMPORTED_MODULE_0__.DOCTOR_LIST,
+    payload: payload
+  };
+}
+function getDoctorsApproved(payload) {
+  return {
+    type: _action_types__WEBPACK_IMPORTED_MODULE_0__.DOCTOR_APPROVED_LIST,
     payload: payload
   };
 }
@@ -9164,6 +9539,83 @@ var logout = function logout(state) {
 
 /***/ }),
 
+/***/ "./resources/js/store/reducers/doctors-approved-reducer.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/store/reducers/doctors-approved-reducer.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+
+var approved = {
+  id: null,
+  first_name: null,
+  doctor: doctor,
+  created_at: null,
+  updated_at: null
+};
+var doctor = {
+  id: null,
+  first_name: null,
+  last_name: null,
+  address: null,
+  phone: null,
+  email: null,
+  gender: 'male',
+  birthday: null,
+  createdAt: null,
+  updatedAt: null
+};
+var initialState = {
+  from: null,
+  to: null,
+  perPage: null,
+  currentPage: null,
+  lastPage: null,
+  total: null,
+  list: [],
+  item: approved
+};
+
+var DoctorsApproved = function DoctorsApproved() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      _ref$payload = _ref.payload,
+      payload = _ref$payload === void 0 ? null : _ref$payload;
+
+  switch (type) {
+    case _action_types__WEBPACK_IMPORTED_MODULE_0__.DOCTOR_APPROVED_LIST:
+      return applyDoctors(state, payload);
+
+    default:
+      return state;
+  }
+};
+
+var applyDoctors = function applyDoctors(state, payload) {
+  state = Object.assign({}, state, {
+    from: payload.from,
+    to: payload.to,
+    perPage: payload.per_page,
+    currentPage: payload.current_page,
+    lastPage: payload.last_page,
+    total: payload.total,
+    list: payload.data
+  });
+  return state;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DoctorsApproved);
+
+/***/ }),
+
 /***/ "./resources/js/store/reducers/doctors-reducer.js":
 /*!********************************************************!*\
   !*** ./resources/js/store/reducers/doctors-reducer.js ***!
@@ -9268,17 +9720,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth-reducer */ "./resources/js/store/reducers/auth-reducer.js");
-/* harmony import */ var _patients_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./patients-reducer */ "./resources/js/store/reducers/patients-reducer.js");
-/* harmony import */ var _doctors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./doctors-reducer */ "./resources/js/store/reducers/doctors-reducer.js");
-/* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
-/* harmony import */ var _tests_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tests-reducer */ "./resources/js/store/reducers/tests-reducer.js");
-/* harmony import */ var _logs_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./logs-reducer */ "./resources/js/store/reducers/logs-reducer.js");
-/* harmony import */ var _patients_tests_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./patients-tests-reducer */ "./resources/js/store/reducers/patients-tests-reducer.js");
-/* harmony import */ var _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./patients-messages-reducer */ "./resources/js/store/reducers/patients-messages-reducer.js");
-/* harmony import */ var _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./patients-appointments-reducer */ "./resources/js/store/reducers/patients-appointments-reducer.js");
-/* harmony import */ var _messages_templates_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./messages-templates-reducer */ "./resources/js/store/reducers/messages-templates-reducer.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
+/* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth-reducer */ "./resources/js/store/reducers/auth-reducer.js");
+/* harmony import */ var _patients_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./patients-reducer */ "./resources/js/store/reducers/patients-reducer.js");
+/* harmony import */ var _doctors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./doctors-reducer */ "./resources/js/store/reducers/doctors-reducer.js");
+/* harmony import */ var _doctors_approved_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./doctors-approved-reducer */ "./resources/js/store/reducers/doctors-approved-reducer.js");
+/* harmony import */ var _tests_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tests-reducer */ "./resources/js/store/reducers/tests-reducer.js");
+/* harmony import */ var _logs_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./logs-reducer */ "./resources/js/store/reducers/logs-reducer.js");
+/* harmony import */ var _patients_tests_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./patients-tests-reducer */ "./resources/js/store/reducers/patients-tests-reducer.js");
+/* harmony import */ var _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./patients-messages-reducer */ "./resources/js/store/reducers/patients-messages-reducer.js");
+/* harmony import */ var _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./patients-appointments-reducer */ "./resources/js/store/reducers/patients-appointments-reducer.js");
+/* harmony import */ var _messages_templates_reducer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./messages-templates-reducer */ "./resources/js/store/reducers/messages-templates-reducer.js");
 
 
 
@@ -9290,17 +9743,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_10__.combineReducers)({
-  Auth: _auth_reducer__WEBPACK_IMPORTED_MODULE_0__.default,
-  Patients: _patients_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
-  Doctors: _doctors_reducer__WEBPACK_IMPORTED_MODULE_2__.default,
-  PatientsTests: _patients_tests_reducer__WEBPACK_IMPORTED_MODULE_6__.default,
-  PatientAppointments: _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_8__.default,
-  PatientsMessages: _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_7__.default,
-  Tests: _tests_reducer__WEBPACK_IMPORTED_MODULE_4__.default,
-  Logs: _logs_reducer__WEBPACK_IMPORTED_MODULE_5__.default,
-  MessagesTemplates: _messages_templates_reducer__WEBPACK_IMPORTED_MODULE_9__.default,
-  persistStore: _persist_store__WEBPACK_IMPORTED_MODULE_3__.default
+
+var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_11__.combineReducers)({
+  Auth: _auth_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
+  Patients: _patients_reducer__WEBPACK_IMPORTED_MODULE_2__.default,
+  Doctors: _doctors_reducer__WEBPACK_IMPORTED_MODULE_3__.default,
+  DoctorsApproved: _doctors_approved_reducer__WEBPACK_IMPORTED_MODULE_4__.default,
+  PatientsTests: _patients_tests_reducer__WEBPACK_IMPORTED_MODULE_7__.default,
+  PatientAppointments: _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_9__.default,
+  PatientsMessages: _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_8__.default,
+  Tests: _tests_reducer__WEBPACK_IMPORTED_MODULE_5__.default,
+  Logs: _logs_reducer__WEBPACK_IMPORTED_MODULE_6__.default,
+  MessagesTemplates: _messages_templates_reducer__WEBPACK_IMPORTED_MODULE_10__.default,
+  persistStore: _persist_store__WEBPACK_IMPORTED_MODULE_0__.default
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RootReducer);
 

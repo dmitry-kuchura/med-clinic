@@ -3,9 +3,20 @@
 namespace App\Repositories;
 
 use App\Models\Doctor;
+use Illuminate\Database\Eloquent\Collection;
 
 class DoctorsRepository implements Repository
 {
+    public function search(string $query): ?Collection
+    {
+        return Doctor::with('user')
+            ->where('first_name', 'like', '%' . $query . '%')
+            ->orWhere('last_name', 'like', '%' . $query . '%')
+            ->orWhere('middle_name', 'like', '%' . $query . '%')
+            ->limit(7)
+            ->get();
+    }
+
     public function findByExternalId(int $externalId): ?Doctor
     {
         return Doctor::where('external_id', $externalId)->first();

@@ -7,9 +7,10 @@ use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Doctor;
 use App\Models\DoctorApproved;
-use App\Repositories\DoctorsExcludesRepository;
+use App\Repositories\DoctorsApprovedRepository;
 use App\Repositories\DoctorsRepository;
 use App\Repositories\UsersRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -20,8 +21,8 @@ class DoctorService
     /** @var DoctorsRepository */
     private DoctorsRepository $doctorsRepository;
 
-    /** @var DoctorsExcludesRepository */
-    private DoctorsExcludesRepository $doctorsExcludesRepository;
+    /** @var DoctorsApprovedRepository */
+    private DoctorsApprovedRepository $doctorsApprovedRepository;
 
     /** @var UsersRepository */
     private UsersRepository $usersRepository;
@@ -31,12 +32,12 @@ class DoctorService
 
     public function __construct(
         DoctorsRepository $doctorsRepository,
-        DoctorsExcludesRepository $doctorsExcludesRepository,
+        DoctorsApprovedRepository $doctorsApprovedRepository,
         UsersRepository $usersRepository
     )
     {
         $this->helper = new GenerateTempEmail($doctorsRepository);
-        $this->doctorsExcludesRepository = $doctorsExcludesRepository;
+        $this->doctorsApprovedRepository = $doctorsApprovedRepository;
         $this->doctorsRepository = $doctorsRepository;
         $this->usersRepository = $usersRepository;
     }
@@ -44,6 +45,16 @@ class DoctorService
     public function list()
     {
         return $this->doctorsRepository->paginate(self::RECORDS_AT_PAGE);
+    }
+
+    public function approvedList()
+    {
+        return $this->doctorsApprovedRepository->paginate(self::RECORDS_AT_PAGE);
+    }
+
+    public function search(string $query): ?Collection
+    {
+        return $this->doctorsRepository->search($query);
     }
 
     public function find(int $id): ?Doctor
