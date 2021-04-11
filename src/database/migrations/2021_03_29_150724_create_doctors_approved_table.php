@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorsExcludeTable extends Migration
+class CreateDoctorsApprovedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDoctorsExcludeTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctors_exclude', function (Blueprint $table) {
+        Schema::create('doctors_approved', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('doctor_id');

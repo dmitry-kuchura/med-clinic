@@ -2,33 +2,33 @@
 
 namespace App\Repositories;
 
-use App\Models\DoctorExclude;
+use App\Models\DoctorApproved;
 
 class DoctorsExcludesRepository implements Repository
 {
-    public function find(int $doctorId): ?DoctorExclude
+    public function find(int $doctorId): ?DoctorApproved
     {
-        return DoctorExclude::where('doctor_id', $doctorId)->first();
+        return DoctorApproved::where('doctor_id', $doctorId)->first();
     }
 
-    public function get(int $id): ?DoctorExclude
+    public function get(int $id): ?DoctorApproved
     {
-        return DoctorExclude::with('user')->find($id);
+        return DoctorApproved::with('user')->find($id);
     }
 
     public function all()
     {
-        return DoctorExclude::all();
+        return DoctorApproved::all();
     }
 
-    public function store(array $data): DoctorExclude
+    public function store(array $data): DoctorApproved
     {
-        return DoctorExclude::create($data);
+        return DoctorApproved::create($data);
     }
 
     public function update(array $data, int $id)
     {
-        return DoctorExclude::where('id', $id)->update($data);
+        return DoctorApproved::where('id', $id)->update($data);
     }
 
     public function destroy(int $id)

@@ -6,7 +6,7 @@ use App\Exceptions\UpdateDoctorException;
 use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Doctor;
-use App\Models\DoctorExclude;
+use App\Models\DoctorApproved;
 use App\Repositories\DoctorsExcludesRepository;
 use App\Repositories\DoctorsRepository;
 use App\Repositories\UsersRepository;
@@ -137,7 +137,7 @@ class DoctorService
         return $this->create($data);
     }
 
-    public function doctorIsExcluded(int $doctorId): ?DoctorExclude
+    public function doctorHasTemplate(int $doctorId): ?DoctorApproved
     {
         return $this->doctorsExcludesRepository->find($doctorId);
     }

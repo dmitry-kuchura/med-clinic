@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Doctor $doctor
  */
-class DoctorExclude extends Model
+class DoctorApproved extends Model
 {
-    protected $table = 'doctors_exclude';
+    protected $table = 'doctors_approved';
 
     /**
      * @var array

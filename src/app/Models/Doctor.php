@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $birthday
  * @property string $gender
  * @property int $external_id
+ * @property boolean $is_lab
  *
  * @property string $created_at
  * @property string $updated_at
@@ -40,6 +41,7 @@ class Doctor extends Model
         'birthday',
         'gender',
         'external_id',
+        'is_lab',
         'created_at',
         'updated_at',
     ];

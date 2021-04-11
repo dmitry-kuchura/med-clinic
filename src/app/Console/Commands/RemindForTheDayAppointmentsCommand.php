@@ -66,7 +66,7 @@ class RemindForTheDayAppointmentsCommand extends Command
                     /** @var PatientAppointment $lastAppointment */
                     $lastAppointment = $history->first();
 
-                    if (!$this->doctorService->doctorIsExcluded($lastAppointment->doctor_id)) {
+                    if (!$this->doctorService->doctorHasTemplate($lastAppointment->doctor_id)) {
                         if ($lastAppointment->patient->per_day) {
                             $this->messageService->remindBeforeDay($lastAppointment);
 
