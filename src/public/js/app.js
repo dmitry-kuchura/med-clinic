@@ -4202,11 +4202,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _helpers_pagination__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/pagination */ "./resources/js/helpers/pagination.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _utils_date_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/date-format */ "./resources/js/utils/date-format.js");
 /* harmony import */ var _services_doctors_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/doctors-service */ "./resources/js/services/doctors-service.js");
 /* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/modal */ "./resources/js/utils/modal.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4238,8 +4239,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var show = 'dropdown show';
-var hide = 'dropdown';
+
 
 var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
   _inherits(DoctorsApprovedList, _React$Component);
@@ -4269,6 +4269,7 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
     _this.handleHide = _this.handleHide.bind(_assertThisInitialized(_this));
     _this.handleShowModal = _this.handleShowModal.bind(_assertThisInitialized(_this));
     _this.handleSubmitAddDoctor = _this.handleSubmitAddDoctor.bind(_assertThisInitialized(_this));
+    _this.handleDeleteDoctor = _this.handleDeleteDoctor.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4299,10 +4300,9 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
       event.preventDefault();
       var self = this;
       var query = event.target.value;
-      console.log(query);
 
       if (query.length) {
-        self.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.searchDoctorsList)(query)).then(function (success) {
+        this.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.searchDoctorsList)(query)).then(function (success) {
           self.setState({
             result: success
           });
@@ -4322,9 +4322,7 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleShowModal",
-    value: function handleShowModal(event) {
-      var param = event.target.getAttribute('data-modal');
-      this.handleHide();
+    value: function handleShowModal() {
       this.setState({
         showAddDoctor: true
       });
@@ -4332,7 +4330,29 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmitAddDoctor",
     value: function handleSubmitAddDoctor(event) {
-      console.log(event.target.id);
+      var self = this;
+      var id = event.target.id;
+      this.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.addDoctorsApproved)(id)).then(function (success) {
+        self.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.getDoctorsApprovedList)(1));
+        sweetalert__WEBPACK_IMPORTED_MODULE_6___default()('Добре!', 'Лікаря було додано!', 'success');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      this.setState({
+        showAddDoctor: false
+      });
+    }
+  }, {
+    key: "handleDeleteDoctor",
+    value: function handleDeleteDoctor(event) {
+      var self = this;
+      var id = event.target.id;
+      this.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.deleteDoctorsApproved)(id)).then(function (success) {
+        self.props.dispatch((0,_services_doctors_service__WEBPACK_IMPORTED_MODULE_4__.getDoctorsApprovedList)(1));
+        sweetalert__WEBPACK_IMPORTED_MODULE_6___default()('Добре!', 'Лікаря було видалено!', 'success');
+      })["catch"](function (error) {
+        console.log(error);
+      });
       this.setState({
         showAddDoctor: false
       });
@@ -4340,85 +4360,86 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("main", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("main", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "container-fluid",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
             className: "mt-4",
             children: "\u0421\u043F\u0438\u0441\u043E\u043A \u043B\u0456\u043A\u0430\u0440\u0456\u0432 \u0437 \u0421\u041C\u0421 \u043D\u0430\u0433\u0430\u0434\u0443\u0432\u0430\u043D\u043D\u044F\u043C"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "card mb-4",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "card-body",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
                   type: "button",
                   className: "btn btn-outline-primary m-1",
                   onClick: this.handleShowModal,
                   children: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043B\u0456\u043A\u0430\u0440\u044F"
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                 className: "table-responsive",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("table", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("table", {
                   className: "table table-bordered",
                   id: "dataTable",
                   width: "100%",
                   cellSpacing: "0",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("thead", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("thead", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "#"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0406\u043C'\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0414\u0456\u0457"
                       })]
                     })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tfoot", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("tfoot", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "#"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0406\u043C'\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0414\u0430\u0442\u0430 \u0440\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043D\u043D\u044F"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("th", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
                         children: "\u0414\u0456\u0457"
                       })]
                     })
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tbody", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(List, {
-                      state: this.state.list
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("tbody", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(List, {
+                      state: this.state.list,
+                      handleDeleteDoctor: this.handleDeleteDoctor
                     })
                   })]
                 })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_2__.default, {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_2__.default, {
                 state: this.state,
                 handleChangePage: this.handleChangePage
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_5__.default, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_5__.default, {
             show: this.state.showAddDoctor,
             handleHide: this.handleHide,
             title: "\u0414\u043E\u0434\u0430\u0432\u0430\u043D\u044F \u043B\u0456\u043A\u0430\u0440\u044F \u0434\u043E \u0441\u043F\u0438\u0441\u043A\u0443",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
                 className: "form-group",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                   htmlFor: "doctor",
                   children: "\u041B\u0456\u043A\u0430\u0440"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                   type: "text",
                   name: "doctor",
                   className: "form-control",
                   id: "doctor",
                   onChange: this.handleChangeInput
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
                 className: "list-group",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(SearchList, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(SearchList, {
                   result: this.state.result,
                   handleSubmitAddDoctor: this.handleSubmitAddDoctor
                 })
@@ -4439,25 +4460,26 @@ var List = function List(props) {
 
   if (list.length > 0) {
     html = list.map(function (item) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("tr", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("strong", {
             children: item.id
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("strong", {
             children: item.doctor.first_name.length ? item.doctor.first_name + ' ' + item.doctor.last_name : 'N/A'
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
             children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_3__.formatDate)(item.updated_at)
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
-            to: '/doctors/delete/' + item.id,
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "btn btn-danger btn-sm",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-              className: "fas fa-trash"
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+              className: "fas fa-trash",
+              id: item.id,
+              onClick: props.handleDeleteDoctor
             })
           })
         })]
@@ -4466,8 +4488,8 @@ var List = function List(props) {
     return html;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("tr", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("td", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("tr", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
       colSpan: "5",
       children: "\u041D\u0435\u0447\u0435\u0433\u043E \u043E\u0442\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u044C!"
     })
@@ -4480,18 +4502,16 @@ var SearchList = function SearchList(props) {
 
   if (list.length > 0) {
     html = list.map(function (item) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
         className: "list-group-item d-flex justify-content-between align-items-center",
-        children: [item.first_name + ' ' + item.last_name + ' ' + item.middle_name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+        children: [item.first_name + ' ' + item.last_name + ' ' + item.middle_name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
           className: "badge badge-primary badge-pill",
           style: {
             cursor: 'pointer'
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-            className: "fas fa-plus",
-            id: item.id,
-            onClick: props.handleSubmitAddDoctor
-          })
+          id: item.id,
+          onClick: props.handleSubmitAddDoctor,
+          children: "\u0414\u041E\u0414\u0410\u0422\u0418"
         })]
       }, item.id);
     });
@@ -8383,7 +8403,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getDoctorsList": () => (/* binding */ getDoctorsList),
 /* harmony export */   "updateDoctor": () => (/* binding */ updateDoctor),
 /* harmony export */   "getDoctorById": () => (/* binding */ getDoctorById),
-/* harmony export */   "searchDoctorsList": () => (/* binding */ searchDoctorsList)
+/* harmony export */   "searchDoctorsList": () => (/* binding */ searchDoctorsList),
+/* harmony export */   "addDoctorsApproved": () => (/* binding */ addDoctorsApproved),
+/* harmony export */   "deleteDoctorsApproved": () => (/* binding */ deleteDoctorsApproved)
 /* harmony export */ });
 /* harmony import */ var _store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions/doctors-action */ "./resources/js/store/actions/doctors-action.js");
 /* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http */ "./resources/js/http.js");
@@ -8487,6 +8509,44 @@ function searchDoctorsList(query) {
     return new Promise(function (resolve, reject) {
       _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/doctors/search', {
         query: query
+      }).then(function (response) {
+        dispatch(_store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__.search());
+        return resolve(response.data.result);
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function addDoctorsApproved(id) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/doctors/approve/', {
+        id: id
+      }).then(function (response) {
+        dispatch(_store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__.search());
+        return resolve(response.data.result);
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+function deleteDoctorsApproved(id) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/v1/doctors/approve/delete', {
+        id: id
       }).then(function (response) {
         dispatch(_store_actions_doctors_action__WEBPACK_IMPORTED_MODULE_0__.search());
         return resolve(response.data.result);

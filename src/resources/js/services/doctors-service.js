@@ -130,3 +130,47 @@ export function searchDoctorsList(query) {
         })
     );
 }
+
+export function addDoctorsApproved(id) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/doctors/approve/', {
+                id: id
+            })
+                .then(response => {
+                    dispatch(action.search());
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
+export function deleteDoctorsApproved(id) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/doctors/approve/delete', {
+                id: id
+            })
+                .then(response => {
+                    dispatch(action.search());
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}

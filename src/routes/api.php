@@ -46,6 +46,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [DoctorsController::class, 'info'])->name('api.doctors.info')->where('id', '[0-9]+');
             Route::get('/approved', [DoctorsController::class, 'approved'])->name('api.doctors.approved');
             Route::post('/search', [DoctorsController::class, 'search'])->name('api.doctors.search');
+            Route::post('/approve', [DoctorsController::class, 'approve'])->name('api.doctors.approve');
+            Route::post('/approve/delete', [DoctorsController::class, 'approveDelete'])->name('api.doctors.approve.delete');
         });
 
         Route::prefix('patients')->group(function () {

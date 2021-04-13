@@ -52,6 +52,20 @@ class DoctorService
         return $this->doctorsApprovedRepository->paginate(self::RECORDS_AT_PAGE);
     }
 
+    public function addApprove(int $doctorId)
+    {
+        $doctorData = [
+            'doctor_id' => $doctorId,
+        ];
+
+        return $this->doctorsApprovedRepository->store($doctorData);
+    }
+
+    public function deleteApprove(int $doctorId)
+    {
+        return $this->doctorsApprovedRepository->destroy($doctorId);
+    }
+
     public function search(string $query): ?Collection
     {
         return $this->doctorsRepository->search($query);

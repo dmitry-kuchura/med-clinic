@@ -38,6 +38,6 @@ class DoctorsApprovedRepository implements Repository
 
     public function destroy(int $id)
     {
-        // TODO: Implement destroy() method.
+        return DoctorApproved::where('id', $id)->delete();
     }
 }

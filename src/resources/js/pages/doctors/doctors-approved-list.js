@@ -3,11 +3,14 @@ import {connect} from 'react-redux';
 import Pagination from '../../helpers/pagination';
 import {Link} from 'react-router-dom';
 import {formatDate} from '../../utils/date-format';
-import {getDoctorsApprovedList, searchDoctorsList} from '../../services/doctors-service';
+import {
+    addDoctorsApproved,
+    deleteDoctorsApproved,
+    getDoctorsApprovedList,
+    searchDoctorsList
+} from '../../services/doctors-service';
 import Modal from '../../utils/modal';
-
-const show = 'dropdown show';
-const hide = 'dropdown';
+import swal from 'sweetalert';
 
 class DoctorsApprovedList extends React.Component {
     constructor(props) {
@@ -32,6 +35,7 @@ class DoctorsApprovedList extends React.Component {
         this.handleHide = this.handleHide.bind(this);
         this.handleShowModal = this.handleShowModal.bind(this);
         this.handleSubmitAddDoctor = this.handleSubmitAddDoctor.bind(this);
+        this.handleDeleteDoctor = this.handleDeleteDoctor.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -58,10 +62,8 @@ class DoctorsApprovedList extends React.Component {
         let self = this;
         let query = event.target.value;
 
-        console.log(query)
-
         if (query.length) {
-            self.props.dispatch(searchDoctorsList(query))
+            this.props.dispatch(searchDoctorsList(query))
                 .then(success => {
                     self.setState({
                         result: success
@@ -81,18 +83,42 @@ class DoctorsApprovedList extends React.Component {
         });
     }
 
-    handleShowModal(event) {
-        let param = event.target.getAttribute('data-modal');
-
-        this.handleHide();
-
+    handleShowModal() {
         this.setState({
             showAddDoctor: true
         });
     }
 
     handleSubmitAddDoctor(event) {
-        console.log(event.target.id)
+        let self = this;
+        let id = event.target.id;
+
+        this.props.dispatch(addDoctorsApproved(id))
+            .then(success => {
+                self.props.dispatch(getDoctorsApprovedList(1));
+                swal('Добре!', 'Лікаря було додано!', 'success');
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+        this.setState({
+            showAddDoctor: false,
+        });
+    }
+
+    handleDeleteDoctor(event) {
+        let self = this;
+        let id = event.target.id;
+
+        this.props.dispatch(deleteDoctorsApproved(id))
+            .then(success => {
+                self.props.dispatch(getDoctorsApprovedList(1));
+                swal('Добре!', 'Лікаря було видалено!', 'success');
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
         this.setState({
             showAddDoctor: false,
@@ -133,7 +159,7 @@ class DoctorsApprovedList extends React.Component {
                                     </tfoot>
                                     <tbody>
 
-                                    <List state={this.state.list}/>
+                                    <List state={this.state.list} handleDeleteDoctor={this.handleDeleteDoctor}/>
 
                                     </tbody>
                                 </table>
@@ -178,9 +204,9 @@ const List = (props) => {
                     </td>
                     <td><p>{formatDate(item.updated_at)}</p></td>
                     <td>
-                        <Link to={'/doctors/delete/' + item.id} className="btn btn-danger btn-sm">
-                            <i className="fas fa-trash"/>
-                        </Link>
+                        <span className="btn btn-danger btn-sm">
+                            <i className="fas fa-trash" id={item.id} onClick={props.handleDeleteDoctor}/>
+                        </span>
                     </td>
                 </tr>
             )
@@ -205,8 +231,9 @@ const SearchList = (props) => {
             return (
                 <span className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
                     {item.first_name + ' ' + item.last_name + ' ' + item.middle_name}
-                    <span className="badge badge-primary badge-pill" style={{cursor: 'pointer'}}>
-                        <i className="fas fa-plus" id={item.id} onClick={props.handleSubmitAddDoctor}/>
+                    <span className="badge badge-primary badge-pill" style={{cursor: 'pointer'}} id={item.id}
+                          onClick={props.handleSubmitAddDoctor}>
+                        ДОДАТИ
                     </span>
                 </span>
             )
