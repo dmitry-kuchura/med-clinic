@@ -91,7 +91,9 @@ class DoctorsApprovedList extends React.Component {
         });
     }
 
-    handleSubmitAddDoctor() {
+    handleSubmitAddDoctor(event) {
+        console.log(event.target.id)
+
         this.setState({
             showAddDoctor: false,
         });
@@ -141,7 +143,8 @@ class DoctorsApprovedList extends React.Component {
                         </div>
                     </div>
 
-                    <Modal show={this.state.showAddDoctor} handleHide={this.handleHide} title="Додаваня лікаря до списку">
+                    <Modal show={this.state.showAddDoctor} handleHide={this.handleHide}
+                           title="Додаваня лікаря до списку">
                         <form>
                             <div className="form-group">
                                 <label htmlFor="doctor">Лікар</label>
@@ -150,18 +153,8 @@ class DoctorsApprovedList extends React.Component {
                             </div>
 
                             <div className="list-group">
-                                <SearchList result={this.state.result}/>
-                            </div>
-
-                            <hr/>
-
-                            <div className="form-group">
-                                <div className="float-right">
-                                    <button type="button" className="btn btn-success"
-                                            onClick={this.handleSubmitAddDoctor}>
-                                        Додати
-                                    </button>
-                                </div>
+                                <SearchList result={this.state.result}
+                                            handleSubmitAddDoctor={this.handleSubmitAddDoctor}/>
                             </div>
                         </form>
                     </Modal>
@@ -213,7 +206,7 @@ const SearchList = (props) => {
                 <span className="list-group-item d-flex justify-content-between align-items-center" key={item.id}>
                     {item.first_name + ' ' + item.last_name + ' ' + item.middle_name}
                     <span className="badge badge-primary badge-pill" style={{cursor: 'pointer'}}>
-                        <i className="fas fa-plus"/>
+                        <i className="fas fa-plus" id={item.id} onClick={props.handleSubmitAddDoctor}/>
                     </span>
                 </span>
             )

@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use App\Exceptions\SentMessageErrorException;
-use App\Helpers\TurboSMS;
 use App\Models\MessageTemplate;
 use App\Models\PatientAppointment;
 use App\Models\PatientAppointmentReminder;
 use App\Repositories\MessagesRepository;
 use App\Repositories\MessagesTemplatesRepository;
 use App\Repositories\PatientsMessagesRepository;
+use App\TurboSMS\Response\ApiResponse;
+use App\TurboSMS\Service;
 use Illuminate\Support\Carbon;
 use Throwable;
 
@@ -17,8 +18,8 @@ class MessageService
 {
     const RECORDS_AT_PAGE = 30;
 
-    /** @var TurboSMS */
-    private TurboSMS $smsSender;
+    /** @var Service */
+    private Service $smsSender;
 
     /** @var MessagesRepository */
     private MessagesRepository $messageRepository;
@@ -30,12 +31,13 @@ class MessageService
     private MessagesTemplatesRepository $messageTemplatesRepository;
 
     public function __construct(
+        Service $smsSender,
         MessagesRepository $messageRepository,
         PatientsMessagesRepository $patientsMessagesRepository,
         MessagesTemplatesRepository $messageTemplatesRepository
     )
     {
-        $this->smsSender = new TurboSMS();
+        $this->smsSender = $smsSender;
         $this->messageRepository = $messageRepository;
         $this->patientsMessagesRepository = $patientsMessagesRepository;
         $this->messageTemplatesRepository = $messageTemplatesRepository;
@@ -51,9 +53,9 @@ class MessageService
         $this->messageTemplatesRepository->update($data, $data['id']);
     }
 
-    public function send(array $request, array $response)
+    public function send(array $request, ApiResponse $response)
     {
-        $result = $response['response_result'];
+        $result = $response->getResponseResult();
 
         foreach ($result as $value) {
             $messageData = [
@@ -78,14 +80,16 @@ class MessageService
 
     public function sendPatientMessage(array $request)
     {
-        $response = $this->smsSender->send([$request['phone']], $request['text']);
+        $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
 
         $this->send($request, $response);
     }
 
-    public function getBalance(): array
+    public function getBalance(): float
     {
-        return $this->smsSender->balance();
+        $response = $this->smsSender->getBalance();
+
+        return $response->getBalance();
     }
 
     public function listTemplates()

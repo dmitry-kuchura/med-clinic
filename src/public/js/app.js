@@ -4331,7 +4331,8 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmitAddDoctor",
-    value: function handleSubmitAddDoctor() {
+    value: function handleSubmitAddDoctor(event) {
+      console.log(event.target.id);
       this.setState({
         showAddDoctor: false
       });
@@ -4418,18 +4419,8 @@ var DoctorsApprovedList = /*#__PURE__*/function (_React$Component) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 className: "list-group",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(SearchList, {
-                  result: this.state.result
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                className: "form-group",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-                  className: "float-right",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-                    type: "button",
-                    className: "btn btn-success",
-                    onClick: this.handleSubmitAddDoctor,
-                    children: "\u0414\u043E\u0434\u0430\u0442\u0438"
-                  })
+                  result: this.state.result,
+                  handleSubmitAddDoctor: this.handleSubmitAddDoctor
                 })
               })]
             })
@@ -4497,7 +4488,9 @@ var SearchList = function SearchList(props) {
             cursor: 'pointer'
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-            className: "fas fa-plus"
+            className: "fas fa-plus",
+            id: item.id,
+            onClick: props.handleSubmitAddDoctor
           })
         })]
       }, item.id);
