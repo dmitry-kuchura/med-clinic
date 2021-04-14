@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\PatientVisit as Visit;
 use App\Models\Firebird\PatientVisit;
 use App\Models\Firebird\PatientVisitData;
 use App\Repositories\Firebird\PatientVisitFirebirdRepository;
@@ -41,14 +42,15 @@ class VisitsService
         $this->patientVisitFirebirdRepository = $patientVisitFirebirdRepository;
     }
 
-    public function getRemoteVisits(): ?array
+    public function getRemoteVisits(?int $external, ?string $timestamp): ?array
     {
-        $data = [];
+        $patientVisits = [];
 
-        $results = $this->patientVisitFirebirdRepository->getPatientVisit(68846);
+        $results = $this->patientVisitFirebirdRepository->getPatientVisits($external, $timestamp);
 
         /** @var PatientVisit $result */
         foreach ($results as $result) {
+            $data = [];
             $visit = [];
 
             $data['visited_at'] = $result->VISITDATE;
@@ -82,9 +84,11 @@ class VisitsService
 
                 $data['visit'] = $visit;
             }
+
+            $patientVisits[] = $data;
         }
 
-        return $data;
+        return $patientVisits;
     }
 
     public function store(array $data)
@@ -95,7 +99,7 @@ class VisitsService
         }
 
         $doctor = $this->doctorsService->findDoctorByExternalId($data['doctor']['external_id']);
-        if (!$patient) {
+        if (!$doctor) {
             $doctor = $this->doctorsService->syncDoctor($data['doctor']);
         }
 
@@ -116,6 +120,11 @@ class VisitsService
                 'visit_id' => $patientVisit->id,
             ]);
         }
+    }
+
+    public function getLastPatientsVisits(): ?Visit
+    {
+        return $this->patientVisitRepository->getLastVisits();
     }
 
     public function sync(array $data)

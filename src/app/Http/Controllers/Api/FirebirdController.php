@@ -2,26 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Console\Commands\SyncPatientVisitsCommand;
 use App\Http\Controllers\Controller;
-use App\Services\VisitsService;
 
 class FirebirdController extends Controller
 {
-    /** @var VisitsService */
-    private VisitsService $visitsService;
+    /** @var SyncPatientVisitsCommand */
+    private SyncPatientVisitsCommand $command;
 
-    public function __construct(
-        VisitsService $visitsService
-    )
+    public function __construct(SyncPatientVisitsCommand $command)
     {
-        $this->visitsService = $visitsService;
+        $this->command = $command;
     }
 
     public function data()
     {
-        $data = $this->visitsService->getRemoteVisits();
-
-        $this->visitsService->sync($data);
+        $this->command->handle();
     }
-
 }

@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\SyncAppointmentsCommand::class,
+        Commands\SyncPatientVisitsCommand::class,
         Commands\RemindForTheDayAppointmentsCommand::class,
         Commands\RemindDayOnDayAppointmentsCommand::class,
     ];
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (App::environment('production')) {
+            $schedule->command('sync:patient-visits')->everyFourMinutes();
             $schedule->command('sync:appointments')->everyFiveMinutes();
 //            $schedule->command('reminder:before-day')->everyTenMinutes();
 //            $schedule->command('reminder:day-on-day')->everyFifteenMinutes();

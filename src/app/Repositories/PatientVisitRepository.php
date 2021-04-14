@@ -6,6 +6,11 @@ use App\Models\PatientVisit;
 
 class PatientVisitRepository implements Repository
 {
+    public function getLastVisits(): ?PatientVisit
+    {
+        return PatientVisit::orderBy('id', 'desc')->first();
+    }
+
     public function get(int $id)
     {
         return PatientVisit::with(['patient', 'patient.user', 'test'])->find($id);
@@ -18,18 +23,7 @@ class PatientVisitRepository implements Repository
 
     public function store(array $data): PatientVisit
     {
-        $model = new PatientVisit();
-
-        $model->patient_name = $data['patient_name'] ?? null;
-        $model->doctor_name = $data['doctor_name'] ?? null;
-        $model->external_id = $data['external_id'];
-        $model->visited_at = $data['visited_at'];
-        $model->patient_id = $data['patient_id'];
-        $model->doctor_id = $data['doctor_id'];
-
-        $model->save();
-
-        return $model;
+        return PatientVisit::create($data);
     }
 
     public function update(array $data, int $id)

@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class PatientVisitFirebirdRepository
 {
-    public function getPatientVisit(?int $external): ?Collection
+    public function getPatientVisits(?int $external, ?string $timestamp): ?Collection
     {
         return PatientVisit::select(
             'PATIENTVISITS.NR',
@@ -16,10 +16,19 @@ class PatientVisitFirebirdRepository
             'PATIENTVISITS.VISITDATE'
         )
             ->with('doctor', 'patient', 'data', 'data.template', 'data.category')
-            ->where('PATIENTVISITS.NR', $external)
-            ->limit(5)
-            ->orderBy('PATIENTVISITS.VISITDATE', 'DESC')
-            ->orderBy('PATIENTVISITS.NR', 'DESC')
+            ->where(function ($query) use ($external, $timestamp) {
+                if (!$external) {
+                    $query->where('PATIENTVISITS.VISITDATE', '>', $timestamp);
+                }
+            })
+            ->where(function ($query) use ($external) {
+                if ($external) {
+                    $query->where('PATIENTVISITS.NR', '>', $external);
+                }
+            })
+            ->limit(50)
+            ->orderBy('PATIENTVISITS.VISITDATE', 'ASC')
+            ->orderBy('PATIENTVISITS.NR', 'ASC')
             ->get();
     }
 }
