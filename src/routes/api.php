@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::middleware(['logging'])->group(function () {
 Route::prefix('v1')->group(function () {
-    Route::get('/firebird', [FirebirdController::class, 'list'])->name('api.firebird.list');
+    Route::get('/firebird', [FirebirdController::class, 'data'])->name('api.firebird.data');
 
     Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
     Route::post('/login', [LoginController::class, 'login'])->name('api.login');

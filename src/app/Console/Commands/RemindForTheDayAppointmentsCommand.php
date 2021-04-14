@@ -6,10 +6,10 @@ use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
 use App\Helpers\Settings;
 use App\Models\PatientAppointment;
-use App\Services\AppointmentService;
-use App\Services\DoctorService;
+use App\Services\AppointmentsService;
+use App\Services\DoctorsService;
 use App\Services\LogService;
-use App\Services\MessageService;
+use App\Services\MessagesService;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -21,22 +21,22 @@ class RemindForTheDayAppointmentsCommand extends Command
     /** @var string */
     protected $description = 'Reminder before day by SMS message.';
 
-    /** @var AppointmentService */
-    private AppointmentService $appointmentService;
+    /** @var AppointmentsService */
+    private AppointmentsService $appointmentService;
 
-    /** @var MessageService */
-    private MessageService $messageService;
+    /** @var MessagesService */
+    private MessagesService $messageService;
 
-    /** @var DoctorService */
-    private DoctorService $doctorService;
+    /** @var DoctorsService */
+    private DoctorsService $doctorService;
 
     /** @var LogService */
     private LogService $logService;
 
     public function __construct(
-        AppointmentService $appointmentService,
-        MessageService $messageService,
-        DoctorService $doctorService,
+        AppointmentsService $appointmentService,
+        MessagesService $messageService,
+        DoctorsService $doctorService,
         LogService $logService
     )
     {

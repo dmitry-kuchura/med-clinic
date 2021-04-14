@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\MessageService;
+use App\Services\MessagesService;
 use Illuminate\Http\JsonResponse;
 
 class MessagesController extends Controller
 {
-    private MessageService $service;
+    private MessagesService $service;
 
-    public function __construct(MessageService $service)
+    public function __construct(MessagesService $service)
     {
         $this->service = $service;
     }

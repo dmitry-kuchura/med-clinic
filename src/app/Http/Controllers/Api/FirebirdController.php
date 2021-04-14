@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Console\Commands\RemindForTheDayAppointmentsCommand;
 use App\Http\Controllers\Controller;
-use App\TurboSMS\Service;
+use App\Services\VisitsService;
 
 class FirebirdController extends Controller
 {
-    /** @var RemindForTheDayAppointmentsCommand */
-    private RemindForTheDayAppointmentsCommand $command;
+    /** @var VisitsService */
+    private VisitsService $visitsService;
 
-    /** @var Service */
-    private Service $service;
-
-    public function __construct(RemindForTheDayAppointmentsCommand $command, Service $service)
+    public function __construct(
+        VisitsService $visitsService
+    )
     {
-        $this->command = $command;
-        $this->service = $service;
+        $this->visitsService = $visitsService;
     }
 
-    public function list()
+    public function data()
     {
-        dd($this->service->sendMessage(['+380931106215'], 'Hello from PHP'));
+        $data = $this->visitsService->getRemoteVisits();
+
+        $this->visitsService->sync($data);
     }
+
 }

@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use App\Exceptions\SyncErrorException;
 use App\Helpers\Date;
-use App\Services\AppointmentService;
-use App\Services\DoctorService;
+use App\Services\AppointmentsService;
+use App\Services\DoctorsService;
 use App\Services\LogService;
-use App\Services\PatientService;
+use App\Services\PatientsService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Throwable;
@@ -20,22 +20,22 @@ class SyncAppointmentsCommand extends Command
     /** @var string */
     protected $description = 'Sync appointments.';
 
-    /** @var AppointmentService */
-    private AppointmentService $appointmentService;
+    /** @var AppointmentsService */
+    private AppointmentsService $appointmentService;
 
-    /** @var PatientService */
-    private PatientService $patientService;
+    /** @var PatientsService */
+    private PatientsService $patientService;
 
-    /** @var DoctorService */
-    private DoctorService $doctorService;
+    /** @var DoctorsService */
+    private DoctorsService $doctorService;
 
     /** @var LogService */
     private LogService $logService;
 
     public function __construct(
-        AppointmentService $appointmentService,
-        PatientService $patientService,
-        DoctorService $doctorService,
+        AppointmentsService $appointmentService,
+        PatientsService $patientService,
+        DoctorsService $doctorService,
         LogService $logService
     )
     {

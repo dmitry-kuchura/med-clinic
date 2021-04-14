@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\AppointmentService;
+use App\Services\AppointmentsService;
 use Illuminate\Http\JsonResponse;
 
 class PatientAppointmentsController extends Controller
 {
-    private AppointmentService $service;
+    private AppointmentsService $service;
 
-    public function __construct(AppointmentService $service)
+    public function __construct(AppointmentsService $service)
     {
         $this->service = $service;
     }

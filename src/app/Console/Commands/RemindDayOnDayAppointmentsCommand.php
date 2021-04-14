@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
-use App\Services\AppointmentService;
-use App\Services\MessageService;
-use App\Services\PatientService;
+use App\Services\AppointmentsService;
+use App\Services\MessagesService;
+use App\Services\PatientsService;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -18,19 +18,19 @@ class RemindDayOnDayAppointmentsCommand extends Command
     /** @var string */
     protected $description = 'Reminder day on day by SMS message.';
 
-    /** @var AppointmentService */
-    private AppointmentService $appointmentService;
+    /** @var AppointmentsService */
+    private AppointmentsService $appointmentService;
 
-    /** @var PatientService */
-    private PatientService $patientService;
+    /** @var PatientsService */
+    private PatientsService $patientService;
 
-    /** @var MessageService */
-    private MessageService $messageService;
+    /** @var MessagesService */
+    private MessagesService $messageService;
 
     public function __construct(
-        AppointmentService $appointmentService,
-        PatientService $patientService,
-        MessageService $messageService
+        AppointmentsService $appointmentService,
+        PatientsService $patientService,
+        MessagesService $messageService
     )
     {
         parent::__construct();

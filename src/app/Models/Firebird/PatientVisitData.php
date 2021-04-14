@@ -12,6 +12,9 @@ use Firebird\Eloquent\Model;
  * @property string $DATA
  * @property string $DATECHANGE
  * @property string $PERMISSIONDATA
+ *
+ * @property Template $template
+ * @property Category $category
  */
 class PatientVisitData extends Model
 {
@@ -39,4 +42,14 @@ class PatientVisitData extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function template()
+    {
+        return $this->hasOne('App\Models\Firebird\Template', 'NR', 'TEMPLATE_NR');
+    }
+
+    public function category()
+    {
+        return $this->hasOne('App\Models\Firebird\Category', 'NR', 'CATEGORY_NR');
+    }
 }

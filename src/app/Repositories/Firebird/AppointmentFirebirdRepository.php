@@ -5,7 +5,7 @@ namespace App\Repositories\Firebird;
 use App\Models\Firebird\Appointment;
 use Illuminate\Support\Collection;
 
-class AppointmentRepository
+class AppointmentFirebirdRepository
 {
     public function lastAppointment(string $timestamp, ?int $external): ?Collection
     {

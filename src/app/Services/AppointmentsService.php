@@ -7,18 +7,18 @@ use App\Models\Firebird\Appointment;
 use App\Models\Patient;
 use App\Models\PatientAppointment;
 use App\Models\PatientAppointmentReminder;
-use App\Repositories\Firebird\AppointmentRepository;
+use App\Repositories\Firebird\AppointmentFirebirdRepository;
 use App\Repositories\PatientAppointmentReminderRepository;
 use App\Repositories\PatientsAppointmentsRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
-class AppointmentService
+class AppointmentsService
 {
     const RECORDS_AT_PAGE = 30;
 
-    /** @var AppointmentRepository */
-    private AppointmentRepository $appointmentRepository;
+    /** @var AppointmentFirebirdRepository */
+    private AppointmentFirebirdRepository $appointmentRepository;
 
     /** @var PatientsAppointmentsRepository */
     private PatientsAppointmentsRepository $patientsAppointmentsRepository;
@@ -26,7 +26,7 @@ class AppointmentService
     private PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository;
 
     public function __construct(
-        AppointmentRepository $appointmentRepository,
+        AppointmentFirebirdRepository $appointmentRepository,
         PatientsAppointmentsRepository $patientsAppointmentsRepository,
         PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository
     )

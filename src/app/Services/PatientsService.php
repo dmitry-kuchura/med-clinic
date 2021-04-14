@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Throwable;
 
-class PatientService
+class PatientsService
 {
     const RECORDS_AT_PAGE = 30;
 
@@ -118,22 +118,22 @@ class PatientService
         return $this->create($data);
     }
 
-    private function findExistPatient(int $externalId): ?Patient
+    public function findExistPatient(int $externalId): ?Patient
     {
         return $this->findPatientByExternalId($externalId);
     }
 
-    private function findPatient(int $id): ?Patient
+    public function findPatient(int $id): ?Patient
     {
         return $this->patientsRepository->get($id);
     }
 
-    private function findPatientByEmail(string $email): ?Patient
+    public function findPatientByEmail(string $email): ?Patient
     {
         return $this->patientsRepository->findByEmail($email);
     }
 
-    private function findPatientByExternalId(string $externalId): ?Patient
+    public function findPatientByExternalId(string $externalId): ?Patient
     {
         return $this->patientsRepository->findByExternalId($externalId);
     }

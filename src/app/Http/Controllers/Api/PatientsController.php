@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Patients\PatientCreateRequest;
 use App\Http\Requests\Patients\PatientUpdateRequest;
-use App\Services\PatientService;
+use App\Services\PatientsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PatientsController extends Controller
 {
-    private PatientService $patientService;
+    private PatientsService $patientService;
 
-    public function __construct(PatientService $patientService)
+    public function __construct(PatientsService $patientService)
     {
         $this->patientService = $patientService;
     }

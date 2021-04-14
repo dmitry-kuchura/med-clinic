@@ -7,10 +7,12 @@ use Firebird\Eloquent\Model;
 /**
  * @property int $NR
  * @property int $PATIENT_NR
+ * @property int $DOCTOR_NR
  * @property string $VISITDATE
  * @property int $RECORDACTIVE
  *
  * @property Patient $patient
+ * @property Doctor $doctor
  * @property PatientVisitData $data
  */
 class PatientVisit extends Model
@@ -38,6 +40,11 @@ class PatientVisit extends Model
     public function patient()
     {
         return $this->hasOne('App\Models\Firebird\Patient', 'NR', 'PATIENT_NR')->with('human');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne('App\Models\Firebird\Doctor', 'NR', 'DOCTOR_NR')->with('human');
     }
 
     public function data()

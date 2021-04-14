@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Messages\updateMessageTemplateRequest;
-use App\Services\MessageService;
+use App\Services\MessagesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class PatientsMessagesController extends Controller
 {
-    private MessageService $service;
+    private MessagesService $service;
 
-    public function __construct(MessageService $service)
+    public function __construct(MessagesService $service)
     {
         $this->service = $service;
     }

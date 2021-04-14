@@ -40,6 +40,7 @@ class LogService
     {
         $this->data['level'] = 'info';
         $this->data['message'] = $message;
+        $this->data['context'] = json_encode($context);
 
         $this->save($this->data);
     }
@@ -58,9 +59,11 @@ class LogService
         $this->save($this->data);
     }
 
-    public function warning()
+    public function warning(string $message, array $context = [])
     {
         $this->data['level'] = 'warning';
+        $this->data['message'] = $message;
+        $this->data['context'] = json_encode($context);
 
         $this->save($this->data);
     }

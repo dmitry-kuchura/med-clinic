@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 
 class AuthService
 {
+    private LogService $logService;
+
     private UsersTokenRepository $usersTokenRepository;
 
     private UsersRepository $usersRepository;
@@ -19,11 +21,13 @@ class AuthService
     private PasswordResetsRepository $passwordResetsRepository;
 
     public function __construct(
+        LogService $logService,
         UsersTokenRepository $usersTokenRepository,
         UsersRepository $usersRepository,
         PasswordResetsRepository $passwordResetsRepository
     )
     {
+        $this->logService = $logService;
         $this->usersTokenRepository = $usersTokenRepository;
         $this->usersRepository = $usersRepository;
         $this->passwordResetsRepository = $passwordResetsRepository;
@@ -31,7 +35,14 @@ class AuthService
 
     public function authorization(string $token): void
     {
-        Auth::login($this->findUserByToken($token));
+        $user = $this->findUserByToken($token);
+
+        Auth::login($user);
+
+        $this->logService->info('Authorization.', [
+            'user_id' => $user->id,
+            'user_name' => $user->email
+        ]);
     }
 
     public function generate(int $user_id): string
@@ -79,6 +90,11 @@ class AuthService
             ], $user->id);
 
             $this->passwordResetsRepository->delete($passwordResets->email);
+
+            $this->logService->info('User update.', [
+                'user_id' => $user->id,
+                'user_name' => $user->email
+            ]);
 
             return $user;
         }

@@ -14,7 +14,7 @@ use App\TurboSMS\Service;
 use Illuminate\Support\Carbon;
 use Throwable;
 
-class MessageService
+class MessagesService
 {
     const RECORDS_AT_PAGE = 30;
 

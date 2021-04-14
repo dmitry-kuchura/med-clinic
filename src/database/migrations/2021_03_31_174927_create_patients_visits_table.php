@@ -16,12 +16,18 @@ class CreatePatientsVisitsTable extends Migration
         Schema::create('patients_visits', function (Blueprint $table) {
             $table->id();
 
-            $table->timestamp('visit_at');
             $table->string('comment')->nullable();
+            $table->string('patient_name')->nullable();
+            $table->string('doctor_name')->nullable();
             $table->longText('result')->nullable();
             $table->bigInteger('external_id');
+            $table->timestamp('visited_at');
+            $table->boolean('is_marked')->default(false);
+
             $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('doctor_id')->references('id')->on('doctors');
 
             $table->timestamps();
         });

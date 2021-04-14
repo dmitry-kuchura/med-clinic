@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Throwable;
 
-class DoctorService
+class DoctorsService
 {
     const RECORDS_AT_PAGE = 30;
 
@@ -135,22 +135,22 @@ class DoctorService
         return $this->doctorsRepository->store($doctorData);
     }
 
-    private function findExistDoctor(int $externalId): ?Doctor
+    public function findExistDoctor(int $externalId): ?Doctor
     {
         return $this->findDoctorByExternalId($externalId);
     }
 
-    private function findDoctor(int $id): ?Doctor
+    public function findDoctor(int $id): ?Doctor
     {
         return $this->doctorsRepository->get($id);
     }
 
-    private function findDoctorByEmail(string $email): ?Doctor
+    public function findDoctorByEmail(string $email): ?Doctor
     {
         return $this->doctorsRepository->findByEmail($email);
     }
 
-    private function findDoctorByExternalId(int $externalId): ?Doctor
+    public function findDoctorByExternalId(int $externalId): ?Doctor
     {
         return $this->doctorsRepository->findByExternalId($externalId);
     }
@@ -164,6 +164,6 @@ class DoctorService
 
     public function doctorIsApprove(int $doctorId): ?DoctorApproved
     {
-        return $this->doctorsExcludesRepository->find($doctorId);
+        return $this->doctorsApprovedRepository->find($doctorId);
     }
 }

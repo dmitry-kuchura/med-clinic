@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use App\Services\AppointmentService;
-use App\Services\DoctorService;
+use App\Services\AppointmentsService;
+use App\Services\DoctorsService;
 use App\Services\LogService;
-use App\Services\PatientService;
+use App\Services\PatientsService;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
