@@ -67,6 +67,11 @@ Route::prefix('v1')->group(function () {
             Route::prefix('appointments')->group(function () {
                 Route::get('/{id}/list', [PatientAppointmentsController::class, 'list'])->name('api.patients.appointments.list')->where('id', '[0-9]+');
             });
+
+        });
+
+        Route::prefix('appointments')->group(function () {
+            Route::get('/today', [PatientAppointmentsController::class, 'today'])->name('api.patients.appointments.today');
         });
 
         Route::prefix('tests')->group(function () {

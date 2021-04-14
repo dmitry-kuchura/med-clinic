@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\AppointmentsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PatientAppointmentsController extends Controller
 {
@@ -20,5 +21,14 @@ class PatientAppointmentsController extends Controller
         $result = $this->service->list($id);
 
         return $this->returnResponse(['result' => $result]);
+    }
+
+    public function today(): JsonResponse
+    {
+        $result = $this->service->today();
+
+        return $this->returnResponse([
+            'result' => $result
+        ]);
     }
 }

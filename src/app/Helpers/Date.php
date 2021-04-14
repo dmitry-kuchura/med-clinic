@@ -25,4 +25,9 @@ class Date
     {
         return Carbon::now()->setHours(8)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
     }
+
+    public static function getEndDayTime(): string
+    {
+        return Carbon::now()->setHours(23)->setMinutes(59)->setSeconds(59)->format('Y-m-d H:i:s');
+    }
 }

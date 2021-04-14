@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Date;
 use App\Models\Doctor;
 use App\Models\Firebird\Appointment;
 use App\Models\Patient;
@@ -18,7 +19,7 @@ class AppointmentsService
     const RECORDS_AT_PAGE = 30;
 
     /** @var AppointmentFirebirdRepository */
-    private AppointmentFirebirdRepository $appointmentRepository;
+    private AppointmentFirebirdRepository $appointmentFirebirdRepository;
 
     /** @var PatientsAppointmentsRepository */
     private PatientsAppointmentsRepository $patientsAppointmentsRepository;
@@ -26,12 +27,12 @@ class AppointmentsService
     private PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository;
 
     public function __construct(
-        AppointmentFirebirdRepository $appointmentRepository,
+        AppointmentFirebirdRepository $appointmentFirebirdRepository,
         PatientsAppointmentsRepository $patientsAppointmentsRepository,
         PatientAppointmentReminderRepository $patientsAppointmentsReminderRepository
     )
     {
-        $this->appointmentRepository = $appointmentRepository;
+        $this->appointmentFirebirdRepository = $appointmentFirebirdRepository;
         $this->patientsAppointmentsRepository = $patientsAppointmentsRepository;
         $this->patientsAppointmentsReminderRepository = $patientsAppointmentsReminderRepository;
     }
@@ -39,6 +40,14 @@ class AppointmentsService
     public function list(int $id)
     {
         return $this->patientsAppointmentsRepository->paginate($id, self::RECORDS_AT_PAGE);
+    }
+
+    public function today(): ?Collection
+    {
+        $now = Date::getCurrentTime();
+        $end = Date::getEndDayTime();
+
+        return $this->patientsAppointmentsRepository->today($now, $end);
     }
 
     public function getLastPatientsAppointment(): ?PatientAppointment
@@ -55,7 +64,7 @@ class AppointmentsService
     {
         $data = [];
 
-        $records = $this->appointmentRepository->lastAppointment($timestamp, $external);
+        $records = $this->appointmentFirebirdRepository->lastAppointment($timestamp, $external);
 
         /** @var Appointment $record */
         foreach ($records as $record) {
