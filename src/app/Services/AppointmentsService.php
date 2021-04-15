@@ -44,10 +44,9 @@ class AppointmentsService
 
     public function today(): ?Collection
     {
-        $now = Date::getCurrentTime();
-        $end = Date::getEndDayTime();
+        $today = Date::getCurrentTime();
 
-        return $this->patientsAppointmentsRepository->today($now, $end);
+        return $this->patientsAppointmentsRepository->today($today);
     }
 
     public function getLastPatientsAppointment(): ?PatientAppointment

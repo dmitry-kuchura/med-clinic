@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\PatientAppointment;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PatientsAppointmentsRepository implements Repository
 {
@@ -12,13 +13,20 @@ class PatientsAppointmentsRepository implements Repository
         return PatientAppointment::orderBy('id', 'desc')->first();
     }
 
-    public function today(string $timestampStart, string $timestampEnd): ?Collection
+    public function today(string $timestamp): ?Collection
     {
-        return PatientAppointment::where('appointment_at', '>', $timestampStart)
-            ->where('appointment_at', '<', $timestampEnd)
-            ->limit(25)
+        $distinct = DB::table('patients_appointments')
+            ->select('doctor_id', DB::raw('MAX(id) as maxId'))
+            ->groupBy('doctor_id', 'patient_id');
+
+        return PatientAppointment::select('*')
+            ->joinSub($distinct, 'pa', function ($join) {
+                $join->on('patients_appointments.id', '=', DB::raw('pa.maxId'));
+            })
+            ->where('appointment_at', '>', $timestamp)
+            ->with(['doctor', 'patient'])
+            ->limit(15)
             ->orderBy('appointment_at', 'asc')
-            ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
             ->get();
     }
 

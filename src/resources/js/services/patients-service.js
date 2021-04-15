@@ -119,3 +119,22 @@ export function getPatientById(param) {
         })
     );
 }
+
+export function getPatientsTodayList() {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get('/api/v1/appointments/today')
+                .then(response => {
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
