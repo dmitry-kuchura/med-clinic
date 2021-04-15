@@ -14,15 +14,16 @@ class ApiCommunicator
 
     protected string $secret;
 
-    protected string $baseUri = 'https://api.turbosms.ua/';
+    protected string $baseUri;
 
-    public function __construct()
+    public function __construct(TurboSMSConfig $config)
     {
-        $this->secret = config('sms.secret');
+        $this->secret = $config->getSecret();
+        $this->baseUri = $config->getBaseUri();
         $this->httpClient = new Http();
     }
 
-    public function send(ApiRequest $request)
+    public function send(ApiRequest $request): ApiResponse
     {
         $url = $this->baseUri . $request->getQueryUrl();
 

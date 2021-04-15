@@ -22,5 +22,16 @@ return [
     |
     */
 
-    'sender' => env('TURBO_SMS_SENDER', 'IT Alarm')
+    'sender' => env('TURBO_SMS_SENDER', 'IT Alarm'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Name for messages SMS via Turbo SMS
+    |--------------------------------------------------------------------------
+    |
+    | This settings turn on or off send SMS
+    |
+    */
+
+    'allowed' => env('TURBO_SMS_ALLOWED', 1),
 ];

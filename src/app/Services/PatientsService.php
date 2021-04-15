@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\UpdatePatientException;
 use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
+use App\Models\Enum\UserRole;
 use App\Models\Patient;
 use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
@@ -87,6 +88,7 @@ class PatientsService
                 'email' => isset($data['email']) ? $data['email'] : $this->helper->generateTempEmail(),
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
                 'password' => bcrypt(Str::random(9)),
+                'role' => UserRole::PATIENT,
             ]);
         }
 

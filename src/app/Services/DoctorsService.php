@@ -7,6 +7,7 @@ use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Doctor;
 use App\Models\DoctorApproved;
+use App\Models\Enum\UserRole;
 use App\Repositories\DoctorsApprovedRepository;
 use App\Repositories\DoctorsRepository;
 use App\Repositories\UsersRepository;
@@ -118,6 +119,7 @@ class DoctorsService
                 'email' => isset($data['email']) ? $data['email'] : $this->helper->generateTempEmail(),
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
                 'password' => bcrypt(Str::random(9)),
+                'role' => UserRole::DOCTOR,
             ]);
         }
 

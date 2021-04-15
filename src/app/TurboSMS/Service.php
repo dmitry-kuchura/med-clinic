@@ -12,9 +12,9 @@ class Service
 
     private ApiCommunicator $communicator;
 
-    public function __construct(ApiCommunicator $communicator)
+    public function __construct(TurboSMSConfig $config, ApiCommunicator $communicator)
     {
-        $this->sender = config('sms.sender');
+        $this->sender = $config->getSender();
         $this->communicator = $communicator;
     }
 
