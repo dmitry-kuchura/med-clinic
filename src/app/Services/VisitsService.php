@@ -8,6 +8,7 @@ use App\Models\Firebird\PatientVisitData;
 use App\Repositories\Firebird\PatientVisitFirebirdRepository;
 use App\Repositories\PatientVisitDataRepository;
 use App\Repositories\PatientVisitRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 class VisitsService
@@ -91,6 +92,11 @@ class VisitsService
         return $patientVisits;
     }
 
+    public function getListForRemind(string $timestamp): ?Collection
+    {
+        return $this->patientVisitRepository->getListForRemind($timestamp);
+    }
+
     public function store(array $data)
     {
         $patient = $this->patientsService->findPatientByExternalId($data['patient']['external_id']);
@@ -120,6 +126,11 @@ class VisitsService
                 'visit_id' => $patientVisit->id,
             ]);
         }
+    }
+
+    public function markedVisit(Visit $visit)
+    {
+        $this->patientVisitRepository->update(['is_marked' => true,], $visit->id);
     }
 
     public function getLastPatientsVisits(): ?Visit

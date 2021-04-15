@@ -6,6 +6,7 @@ use App\Exceptions\SentMessageErrorException;
 use App\Models\MessageTemplate;
 use App\Models\PatientAppointment;
 use App\Models\PatientAppointmentReminder;
+use App\Models\PatientVisit;
 use App\Repositories\MessagesRepository;
 use App\Repositories\MessagesTemplatesRepository;
 use App\Repositories\PatientsMessagesRepository;
@@ -109,8 +110,29 @@ class MessagesService
 
     public function sendMessageReminder(array $request): void
     {
-//        $response = $this->smsSender->send([$request['phone']], $request['text']);
+//        $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
 //        $this->send($request, $response);
+    }
+
+    public function remindNewAnalyse(PatientVisit $visit)
+    {
+        $request = [];
+
+        try {
+            if ($visit->doctor->is_lab) {
+                $text = $this->getMessageTemplateByAlias('patient-appointment-lab');
+            } else {
+                $text = $this->getMessageTemplateByAlias('patient-appointment');
+            }
+
+//            $request['phone'] = $visit->patient->phone;
+            $request['phone'] = '+380931106215';
+            $request['text'] = $text;
+
+            $this->sendMessageReminder($request);
+        } catch (Throwable $throwable) {
+            throw new SentMessageErrorException($throwable->getMessage());
+        }
     }
 
     public function remindBeforeDay(PatientAppointment $patientAppointment)
@@ -128,6 +150,7 @@ class MessagesService
 
             $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
 
+//            $request['phone'] = $patientAppointment->patient->phone;
             $request['phone'] = '+380931106215';
             $request['text'] = $text;
 
@@ -148,6 +171,7 @@ class MessagesService
 
             $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
 
+//            $request['phone'] = $patientAppointmentReminder->patient->phone;
             $request['phone'] = '+380931106215';
             $request['text'] = $text;
 

@@ -3,12 +3,23 @@
 namespace App\Repositories;
 
 use App\Models\PatientVisit;
+use Illuminate\Database\Eloquent\Collection;
 
 class PatientVisitRepository implements Repository
 {
     public function getLastVisits(): ?PatientVisit
     {
         return PatientVisit::orderBy('id', 'desc')->first();
+    }
+
+    public function getListForRemind(string $timestamp): ?Collection
+    {
+        return PatientVisit::where('appointment_at', '>', $timestamp)
+            ->where('is_mark', false)
+            ->limit(50)
+            ->orderBy('appointment_at', 'asc')
+            ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
+            ->get();
     }
 
     public function get(int $id)

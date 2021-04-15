@@ -94,21 +94,16 @@ const List = (props) => {
             return (
                 <tr key={item.id}>
                     <td><strong>{item.id}</strong></td>
-                    <td><strong>{item.first_name.length ? item.first_name + ' ' + item.last_name : 'N/A'}</strong></td>
-                    <td><p>{item.gender === 'male' ? 'Чол.' : 'Жін.'}</p></td>
-                    <td>
-                        <span>{item.address ? 'Адреса: ' + item.address : ''}</span>
-                        <span>{item.phone ? 'Телефон: ' + item.phone : ''}</span>
-                    </td>
+                    <td><strong>{item.email}</strong></td>
                     <td><p>{formatDate(item.updated_at)}</p></td>
                     <td>
-                        <Link to={'/patients/' + item.id} className="btn btn-success btn-sm">
+                        <Link to={'/users/' + item.id} className="btn btn-success btn-sm">
                             <i className="fas fa-edit"/>
                         </Link>
 
                         <span> </span>
 
-                        <Link to={'/patients/delete/' + item.id} className="btn btn-danger btn-sm">
+                        <Link to={'/users/delete/' + item.id} className="btn btn-danger btn-sm">
                             <i className="fas fa-trash"/>
                         </Link>
                     </td>

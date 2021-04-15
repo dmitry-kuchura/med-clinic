@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property Patient $patient
+ * @property Doctor $doctor
  * @property PatientVisitData $data
  */
 class PatientVisit extends Model
@@ -41,6 +43,16 @@ class PatientVisit extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function patient()
+    {
+        return $this->hasOne('App\Models\Patient', 'id', 'patient_id');
+    }
+
+    public function doctor()
+    {
+        return $this->hasOne('App\Models\Doctor', 'id', 'doctor_id');
+    }
 
     public function data()
     {
