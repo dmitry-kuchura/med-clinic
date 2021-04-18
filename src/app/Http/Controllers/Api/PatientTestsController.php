@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Actions\PatientTestsAction;
 use App\Helpers\AmazonS3;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Patients\PatientAddTestRequest;
+use App\Http\Requests\Patients\PatientCreateTestRequest;
 use App\Mail\AddPatientTestMail;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +26,7 @@ class PatientTestsController extends Controller
         return $this->returnResponse(['result' => $result], Response::HTTP_OK);
     }
 
-    public function create(PatientAddTestRequest $request)
+    public function create(PatientCreateTestRequest $request)
     {
         $file = null;
 

@@ -97,7 +97,7 @@ class VisitsService
         return $this->patientVisitRepository->getListForRemind($timestamp);
     }
 
-    public function getPatientsVisitsList(int $id): ?Collection
+    public function getPatientsVisitsList(int $id)
     {
         return $this->patientVisitRepository->getPatientsVisitsList($id);
     }

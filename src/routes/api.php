@@ -14,7 +14,8 @@ use App\Http\Controllers\Api\MessagesTemplatesController;
 use App\Http\Controllers\Api\PatientsMessagesController;
 use App\Http\Controllers\Api\PatientAppointmentsController;
 use App\Http\Controllers\Api\PatientsController;
-use App\Http\Controllers\Api\TestsController;
+use App\Http\Controllers\Api\AnalysisController;
+use App\Http\Controllers\Api\PatientsVisitsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,7 +63,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('visits')->group(function () {
-            Route::get('/{id}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
+            Route::get('/{patientId}/list', [PatientsVisitsController::class, 'list'])->name('api.visits.atient.list')->where('patientId', '[0-9]+');
         });
 
         Route::prefix('appointments')->group(function () {
@@ -70,14 +71,11 @@ Route::prefix('v1')->group(function () {
             Route::get('/today', [PatientAppointmentsController::class, 'today'])->name('api.patients.appointments.today');
         });
 
-        Route::prefix('tests')->group(function () {
-            Route::post('/{patientId}/add-test', [PatientsController::class, 'addTest'])->name('api.patients.add-test');
-            Route::get('/{patientId}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('patientId', '[0-9]+');
-            Route::get('/', [TestsController::class, 'list'])->name('api.tests.tests');
-            Route::put('/', [TestsController::class, 'update'])->name('api.tests.update');
-            Route::get('/all', [TestsController::class, 'all'])->name('api.tests.all');
-            Route::get('/{id}', [TestsController::class, 'info'])->name('api.tests.info')->where('id', '[0-9]+');
-            Route::post('/create', [TestsController::class, 'create'])->name('api.tests.create');
+        Route::prefix('analysis')->group(function () {
+            Route::get('/{patientId}/list', [AnalysisController::class, 'list'])->name('api.analysis.list')->where('patientId', '[0-9]+');
+            Route::get('/all', [AnalysisController::class, 'all'])->name('api.analysis.all');
+            Route::get('/{id}', [AnalysisController::class, 'info'])->name('api.analysis.info')->where('id', '[0-9]+');
+            Route::post('/create', [AnalysisController::class, 'create'])->name('api.analysis.create');
         });
 
         Route::prefix('messages')->group(function () {

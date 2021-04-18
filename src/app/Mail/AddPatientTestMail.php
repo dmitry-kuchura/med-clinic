@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\PatientTest;
+use App\Models\PatientAnalysis;
 use Illuminate\Bus\Queueable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Mail\Mailable;
@@ -13,11 +13,11 @@ class AddPatientTestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public PatientTest $patientsTest;
+    public PatientAnalysis $patientsTest;
 
     public ?UploadedFile $file;
 
-    public function __construct(PatientTest $patientsTest, ?UploadedFile $file)
+    public function __construct(PatientAnalysis $patientsTest, ?UploadedFile $file)
     {
         $this->patientsTest = $patientsTest;
         $this->file = $file;
@@ -33,9 +33,7 @@ class AddPatientTestMail extends Mailable
         $email = $this->subject('Результати аналізу | МедСервіс - Медична система')
             ->view('emails.add-patient-test')
             ->with([
-                'result' => $this->patientsTest,
                 'patient' => $this->patientsTest->patient,
-                'test' => $this->patientsTest->test,
                 'date' => Carbon::now()->format('Y-m-d'),
                 'link' => 'http://localhost/',
             ]);

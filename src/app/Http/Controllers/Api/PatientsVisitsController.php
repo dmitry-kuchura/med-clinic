@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\VisitsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PatientsVisitsController extends Controller
 {
@@ -15,9 +16,11 @@ class PatientsVisitsController extends Controller
         $this->service = $service;
     }
 
-    public function list(int $id): JsonResponse
+    public function list(Request $request): JsonResponse
     {
-        $result = $this->service->getPatientsVisitsList($id);
+        $patientId = $request->route('patientId');
+
+        $result = $this->service->getPatientsVisitsList($patientId);
 
         return $this->returnResponse(['result' => $result]);
     }

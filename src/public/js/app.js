@@ -6545,6 +6545,155 @@ var List = function List(props) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/patients/common/patient-visits-list.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/pages/patients/common/patient-visits-list.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _utils_date_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/date-format */ "./resources/js/utils/date-format.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var PatientVisitsList = /*#__PURE__*/function (_React$Component) {
+  _inherits(PatientVisitsList, _React$Component);
+
+  var _super = _createSuper(PatientVisitsList);
+
+  function PatientVisitsList(props) {
+    var _this;
+
+    _classCallCheck(this, PatientVisitsList);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      data: {
+        from: null,
+        to: null,
+        perPage: null,
+        currentPage: null,
+        lastPage: null,
+        total: null,
+        list: []
+      }
+    };
+    return _this;
+  }
+
+  _createClass(PatientVisitsList, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) {
+        this.setState({
+          data: this.props.data
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
+        className: "table table-hover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              scope: "col",
+              children: "#"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              scope: "col",
+              children: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0456\u044F"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              scope: "col",
+              children: "\u0428\u0430\u0431\u043B\u043E\u043D"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+              scope: "col",
+              children: "\u0414\u043E\u0434\u0430\u043D\u043E"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(List, {
+            data: this.state.data.list
+          })
+        })]
+      });
+    }
+  }]);
+
+  return PatientVisitsList;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+var List = function List(props) {
+  var list = props.data;
+  var html;
+
+  if (list.length > 0) {
+    html = list.map(function (item) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("strong", {
+            children: item.id
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            children: item.data.category
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            children: item.data.template
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            children: (0,_utils_date_format__WEBPACK_IMPORTED_MODULE_1__.formatDate)(item.data.created_at)
+          })
+        })]
+      }, item.id);
+    });
+    return html;
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tr", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+      colSpan: "4",
+      children: "\u041D\u0456\u0447\u043E\u0433\u043E \u0432\u0456\u0434\u043E\u0431\u0440\u0430\u0436\u0430\u0442\u0438!"
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PatientVisitsList);
+
+/***/ }),
+
 /***/ "./resources/js/pages/patients/patients-edit.js":
 /*!******************************************************!*\
   !*** ./resources/js/pages/patients/patients-edit.js ***!
@@ -6570,7 +6719,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_patients_messages_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../services/patients-messages-service */ "./resources/js/services/patients-messages-service.js");
 /* harmony import */ var _services_patients_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../services/patients-service */ "./resources/js/services/patients-service.js");
 /* harmony import */ var _services_patients_tests_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../services/patients-tests-service */ "./resources/js/services/patients-tests-service.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _services_patients_visits_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../services/patients-visits-service */ "./resources/js/services/patients-visits-service.js");
+/* harmony import */ var _common_patient_visits_list__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./common/patient-visits-list */ "./resources/js/pages/patients/common/patient-visits-list.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -6604,6 +6755,8 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -6676,6 +6829,15 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
         total: null,
         list: []
       },
+      patientVisits: {
+        from: null,
+        to: null,
+        perPage: null,
+        currentPage: null,
+        lastPage: null,
+        total: null,
+        list: []
+      },
       showSendEmailModal: false,
       showSendSmsModal: false,
       showAddTestModal: false
@@ -6686,6 +6848,7 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
       props.dispatch((0,_services_patients_service__WEBPACK_IMPORTED_MODULE_11__.getPatientById)(patientId)).then(function (success) {
         props.dispatch((0,_services_patients_messages_service__WEBPACK_IMPORTED_MODULE_10__.getPatientMessagesList)(1, patientId));
         props.dispatch((0,_services_patients_appointments_service__WEBPACK_IMPORTED_MODULE_9__.getPatientsAppointments)(1, patientId));
+        props.dispatch((0,_services_patients_visits_service__WEBPACK_IMPORTED_MODULE_13__.getPatientsVisits)(1, patientId));
       })["catch"](function (error) {
         console.log(error);
       });
@@ -6715,7 +6878,8 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
           patient: this.props.patient,
           tests: this.props.tests.list,
           patientAppointment: this.props.patientAppointment,
-          patientMessages: this.props.patientMessages
+          patientMessages: this.props.patientMessages,
+          patientVisits: this.props.patientVisits
         });
       }
     }
@@ -6915,45 +7079,45 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var patient = this.state.patient;
       var placeholder = patient.gender === 'male' ? '/images/avatars/man.png' : '/images/avatars/woman.png';
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("main", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("main", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
           className: "container-fluid",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h1", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h1", {
             className: "mt-4",
             children: patient.id ? 'Редагування пацієнта' : 'Додавання нового пацієнта'
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("form", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("form", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "row gutters-sm",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                 className: "col-md-4 mb-3",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                   className: "card",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                       className: "d-flex flex-column align-items-center text-center",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("img", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("img", {
                         src: placeholder,
                         alt: "Avatar",
                         className: "rounded-circle",
                         width: "150"
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "mt-3",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("h4", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("h4", {
                           children: [patient.first_name, " ", patient.last_name, " ", patient.middle_name]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
                           className: "text-secondary mb-1",
                           children: patient.phone
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
                           className: "text-muted font-size-sm",
                           children: patient.email
-                        }), patient.id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                        }), patient.id ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                           type: "button",
                           className: "btn btn-outline-primary m-1",
                           "data-modal": "sms",
                           onClick: this.handleShowModal,
                           children: "\u041D\u0430\u0434\u0456\u0441\u043B\u0430\u0442\u0438 \u0421\u041C\u0421"
-                        }) : null, patient.id && !this.isTempEmail() ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                        }) : null, patient.id && !this.isTempEmail() ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                           type: "button",
                           className: "btn btn-outline-secondary m-1",
                           "data-modal": "email",
@@ -6963,19 +7127,19 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                       })]
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                   className: "card mt-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                         className: "col-md-12",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                           className: "form-group",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                             className: "form-check form-check-inline",
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                               className: "form-check-input",
                               type: "radio",
                               value: "male",
@@ -6983,12 +7147,12 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                               onChange: this.handleChangeInput,
                               checked: patient.gender === 'male',
                               id: "genderMale"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                               className: "form-check-label",
                               children: "\u0427\u043E\u043B\u043E\u0432\u0456\u043A"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                               className: "form-check form-check-inline"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                               className: "form-check-input",
                               type: "radio",
                               value: "female",
@@ -6996,7 +7160,7 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                               onChange: this.handleChangeInput,
                               checked: patient.gender === 'female',
                               id: "genderFemale"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                               className: "form-check-label",
                               children: "\u0416\u0456\u043D\u043A\u0430"
                             })]
@@ -7005,36 +7169,36 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                       })
                     })
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                   className: "card mt-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "col-md-12",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "custom-control custom-switch",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "checkbox",
                             className: "custom-control-input",
                             checked: patient.day_on_day,
                             onChange: this.handleChangeInput,
                             id: "per-day"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             className: "custom-control-label",
                             htmlFor: "per-day",
                             children: "\u041D\u0430\u0433\u0430\u0434\u0443\u0432\u0430\u043D\u043D\u044F \u0437\u0430 \u0434\u043E\u0431\u0443"
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "custom-control custom-switch",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "checkbox",
                             className: "custom-control-input",
                             checked: patient.before_day,
                             onChange: this.handleChangeInput,
                             id: "day-on-day"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             className: "custom-control-label",
                             htmlFor: "day-on-day",
                             children: "\u041D\u0430\u0433\u0430\u0434\u0443\u0432\u0430\u043D\u043D\u044F \u0434\u0435\u043D\u044C \u0432 \u0434\u0435\u043D\u044C"
@@ -7044,22 +7208,22 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                     })
                   })
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "col-md-8",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                   className: "card mb-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "col-md-12",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             htmlFor: "formGroupExampleInput",
                             children: "\u0406\u043C'\u044F"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "text",
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('first_name', patient.first_name, rules['first_name']) ? 'form-control is-invalid' : 'form-control',
                             placeholder: "\u0406\u043C'\u044F",
@@ -7067,16 +7231,16 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                             id: "first_name",
                             onChange: this.handleChangeInput,
                             value: patient.first_name ? patient.first_name : ''
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('first_name', patient.first_name, rules['first_name'])
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             htmlFor: "formGroupExampleInput",
                             children: "\u041F\u0440\u0456\u0437\u0432\u0438\u0449\u0435"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "text",
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('last_name', patient.last_name, rules['last_name']) ? 'form-control is-invalid' : 'form-control',
                             placeholder: "\u041F\u0440\u0456\u0437\u0432\u0438\u0449\u0435",
@@ -7084,16 +7248,16 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                             id: "last_name",
                             onChange: this.handleChangeInput,
                             value: patient.last_name ? patient.last_name : ''
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('last_name', patient.last_name, rules['last_name'])
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             htmlFor: "formGroupExampleInput",
                             children: "\u041F\u043E \u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "text",
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('middle_name', patient.middle_name, rules['middle_name']) ? 'form-control is-invalid' : 'form-control',
                             placeholder: "\u041F\u043E \u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456",
@@ -7101,16 +7265,16 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                             id: "middle_name",
                             onChange: this.handleChangeInput,
                             value: patient.middle_name ? patient.middle_name : ''
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('middle_name', patient.middle_name, rules['middle_name'])
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             htmlFor: "formGroupExampleInput",
                             children: "\u0422\u0435\u043B\u0435\u0444\u043E\u043D"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "text",
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('phone', patient.phone, rules['phone']) ? 'form-control is-invalid' : 'form-control',
                             placeholder: "\u0422\u0435\u043B\u0435\u0444\u043E\u043D. \u041D\u0430\u043F\u0440\u0438\u043A\u043B\u0430\u0434: +380631234567 \u0430\u0431\u043E 0631234567",
@@ -7118,16 +7282,16 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                             id: "phone",
                             onChange: this.handleChangeInput,
                             value: patient.phone ? patient.phone : ''
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('middle_name', patient.middle_name, rules['middle_name'])
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "form-group",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                             htmlFor: "formGroupExampleInput",
                             children: "Email"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                             type: "text",
                             className: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('email', patient.email, rules['email']) ? 'form-control is-invalid' : 'form-control',
                             placeholder: "Email",
@@ -7135,20 +7299,20 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                             id: "email",
                             onChange: this.handleChangeInput,
                             value: patient.email ? patient.email : ''
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "invalid-feedback",
                             children: (0,_helpers_validation__WEBPACK_IMPORTED_MODULE_8__.validate)('email', patient.email, rules['email'])
                           })]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                           className: "pull-right",
-                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                             className: "btn btn-primary",
                             type: "submit",
                             onClick: this.handleSubmitForm,
                             children: patient.id ? 'Оновити' : 'Додати'
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                             className: "form-check form-check-inline"
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                             className: "btn btn-secondary",
                             children: "\u041D\u0430\u0437\u0430\u0434"
                           })]
@@ -7158,29 +7322,29 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                   })
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "row gutters-sm",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "col-md-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                   className: "card mb-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                     className: "card-header",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
                       className: "fas fa-users mr-1"
                     }), "\u0412\u0456\u0437\u0438\u0442\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "col-md-12",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                           className: "table-responsive",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_patient_appointment_list__WEBPACK_IMPORTED_MODULE_6__.default, {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_common_patient_appointment_list__WEBPACK_IMPORTED_MODULE_6__.default, {
                             data: this.state.patientAppointment
                           })
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
                           state: this.state.patientAppointment,
                           handleChangePage: this.handleChangePage
                         })]
@@ -7189,29 +7353,29 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                   })]
                 })
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "row gutters-sm",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "col-md-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                   className: "card mb-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                     className: "card-header",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
                       className: "fas fa-envelope-open mr-1"
                     }), "\u041F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "col-md-12",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                           className: "table-responsive",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_patient_messages_list__WEBPACK_IMPORTED_MODULE_5__.default, {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_common_patient_messages_list__WEBPACK_IMPORTED_MODULE_5__.default, {
                             data: this.state.patientMessages
                           })
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
                           state: this.state.patientMessages,
                           handleChangePage: this.handleChangePage
                         })]
@@ -7220,30 +7384,30 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                   })]
                 })
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "row gutters-sm",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "col-md-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                   className: "card mb-3",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                     className: "card-header",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
                       className: "fas fa-vial mr-1"
                     }), "\u0410\u043D\u0430\u043B\u0456\u0437\u0438 \u043F\u0456\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                     className: "card-body",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                       className: "row",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
                         className: "col-md-12",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                           className: "table-responsive",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_patient_messages_list__WEBPACK_IMPORTED_MODULE_5__.default, {
-                            data: this.state.patientMessages
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_common_patient_visits_list__WEBPACK_IMPORTED_MODULE_14__.default, {
+                            data: this.state.patientVisits
                           })
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
-                          state: this.state.patientMessages,
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
+                          state: this.state.patientVisits,
                           handleChangePage: this.handleChangePage
                         })]
                       })
@@ -7253,17 +7417,17 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
               })
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
           show: this.state.showSendSmsModal,
           handleHide: this.handleHide,
           title: "\u0412\u0456\u043F\u0440\u0430\u0432\u043A\u0430 SMS",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("form", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("form", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "form-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                 htmlFor: "message.phone",
                 children: "\u0422\u0435\u043B\u0435\u0444\u043E\u043D"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                 type: "text",
                 className: "form-control",
                 id: "message.phone",
@@ -7272,23 +7436,23 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                 onChange: this.handleChangeInput,
                 placeholder: "+380931106215"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "form-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                 htmlFor: "message.text",
                 children: "\u0422\u0435\u043A\u0441\u0442 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("textarea", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("textarea", {
                 className: "form-control",
                 id: "message.text",
                 name: "message.text",
                 rows: "3",
                 onChange: this.handleChangeInput
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "form-group",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "float-right",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                   type: "button",
                   className: "btn btn-success",
                   onClick: this.handleSubmitSms,
@@ -7297,56 +7461,56 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
               })
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
           show: this.state.showSendEmailModal,
           handleHide: this.handleHide,
           title: "\u0412\u0456\u0434\u043F\u0440\u0430\u0432\u043A\u0430 Email",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("form", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("form", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "form-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                 htmlFor: "email",
                 children: "Email \u0430\u0434\u0440\u0435\u0441\u0430"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                 type: "email",
                 className: "form-control",
                 id: "email",
                 placeholder: "name@example.com"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "form-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                 htmlFor: "message",
                 children: "\u0422\u0435\u043A\u0441\u0442 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("textarea", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("textarea", {
                 className: "form-control",
                 id: "message",
                 rows: "3"
               })]
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_utils_modal__WEBPACK_IMPORTED_MODULE_3__.default, {
           show: this.state.showAddTestModal,
           handleHide: this.handleHide,
           title: "\u0414\u043E\u0434\u0430\u0432\u0430\u043D\u044F \u0430\u043D\u0430\u043B\u0456\u0437\u0443",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("form", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("form", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "form-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
                 htmlFor: "test.file",
                 children: "\u0424\u0430\u0439\u043B"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
                 type: "file",
                 name: "test.file",
                 className: "form-control",
                 id: "test.file",
                 onChange: this.handleChangeInput
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
               className: "form-group",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
                 className: "float-right",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
                   type: "button",
                   className: "btn btn-success",
                   onClick: this.handleSubmitPatientTest,
@@ -7368,7 +7532,8 @@ var mapStateToProps = function mapStateToProps(state) {
     patient: state.Patients.item,
     tests: state.Tests,
     patientAppointment: state.PatientAppointments,
-    patientMessages: state.PatientsMessages
+    patientMessages: state.PatientsMessages,
+    patientVisits: state.PatientVisits
   };
 };
 
@@ -9167,6 +9332,53 @@ function getPatientsTests(page, id) {
 
 /***/ }),
 
+/***/ "./resources/js/services/patients-visits-service.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/services/patients-visits-service.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPatientsVisits": () => (/* binding */ getPatientsVisits)
+/* harmony export */ });
+/* harmony import */ var _store_actions_patients_visits_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/actions/patients-visits-action */ "./resources/js/store/actions/patients-visits-action.js");
+/* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http */ "./resources/js/http.js");
+
+
+
+function preparePaginateLink(page, id) {
+  var link = '/api/v1/visits/' + id + '/list';
+
+  if (page > 1) {
+    link = '/api/v1/visits/' + id + '/list?page=' + page;
+  }
+
+  return link;
+}
+
+function getPatientsVisits(page, id) {
+  var link = preparePaginateLink(page, id);
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      _http__WEBPACK_IMPORTED_MODULE_1__.default.get(link).then(function (response) {
+        dispatch(_store_actions_patients_visits_action__WEBPACK_IMPORTED_MODULE_0__.getPatientVisits(response.data.result));
+        return resolve(response);
+      })["catch"](function (err) {
+        var statusCode = err.response.status;
+        var data = {
+          error: null,
+          statusCode: statusCode
+        };
+        return reject(data);
+      });
+    });
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/services/tests-service.js":
 /*!************************************************!*\
   !*** ./resources/js/services/tests-service.js ***!
@@ -9307,6 +9519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PATIENT_INFO": () => (/* binding */ PATIENT_INFO),
 /* harmony export */   "PATIENT_TESTS_LIST": () => (/* binding */ PATIENT_TESTS_LIST),
 /* harmony export */   "PATIENT_APPOINTMENTS_LIST": () => (/* binding */ PATIENT_APPOINTMENTS_LIST),
+/* harmony export */   "PATIENT_VISITS_LIST": () => (/* binding */ PATIENT_VISITS_LIST),
 /* harmony export */   "PATIENT_MESSAGES_LIST": () => (/* binding */ PATIENT_MESSAGES_LIST),
 /* harmony export */   "TEST_ALL": () => (/* binding */ TEST_ALL),
 /* harmony export */   "TEST_LIST": () => (/* binding */ TEST_LIST),
@@ -9327,6 +9540,7 @@ var PATIENT_LIST = 'PATIENT_LIST';
 var PATIENT_INFO = 'PATIENT_INFO';
 var PATIENT_TESTS_LIST = 'PATIENT_TESTS_LIST';
 var PATIENT_APPOINTMENTS_LIST = 'PATIENT_APPOINTMENTS_LIST';
+var PATIENT_VISITS_LIST = 'PATIENT_VISITS_LIST';
 var PATIENT_MESSAGES_LIST = 'PATIENT_MESSAGES_LIST';
 var TEST_ALL = 'TEST_ALL';
 var TEST_LIST = 'TEST_LIST';
@@ -9560,6 +9774,28 @@ __webpack_require__.r(__webpack_exports__);
 function getPatientTests(payload) {
   return {
     type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_TESTS_LIST,
+    payload: payload
+  };
+}
+
+/***/ }),
+
+/***/ "./resources/js/store/actions/patients-visits-action.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/store/actions/patients-visits-action.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getPatientVisits": () => (/* binding */ getPatientVisits)
+/* harmony export */ });
+/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+
+function getPatientVisits(payload) {
+  return {
+    type: _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_VISITS_LIST,
     payload: payload
   };
 }
@@ -9915,7 +10151,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _persist_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./persist-store */ "./resources/js/store/reducers/persist-store.js");
 /* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth-reducer */ "./resources/js/store/reducers/auth-reducer.js");
 /* harmony import */ var _patients_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./patients-reducer */ "./resources/js/store/reducers/patients-reducer.js");
@@ -9927,6 +10163,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./patients-messages-reducer */ "./resources/js/store/reducers/patients-messages-reducer.js");
 /* harmony import */ var _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./patients-appointments-reducer */ "./resources/js/store/reducers/patients-appointments-reducer.js");
 /* harmony import */ var _messages_templates_reducer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./messages-templates-reducer */ "./resources/js/store/reducers/messages-templates-reducer.js");
+/* harmony import */ var _patients_visits_reducer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./patients-visits-reducer */ "./resources/js/store/reducers/patients-visits-reducer.js");
 
 
 
@@ -9939,13 +10176,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_11__.combineReducers)({
+
+var RootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_12__.combineReducers)({
   Auth: _auth_reducer__WEBPACK_IMPORTED_MODULE_1__.default,
   Patients: _patients_reducer__WEBPACK_IMPORTED_MODULE_2__.default,
   Doctors: _doctors_reducer__WEBPACK_IMPORTED_MODULE_3__.default,
   DoctorsApproved: _doctors_approved_reducer__WEBPACK_IMPORTED_MODULE_4__.default,
   PatientsTests: _patients_tests_reducer__WEBPACK_IMPORTED_MODULE_7__.default,
   PatientAppointments: _patients_appointments_reducer__WEBPACK_IMPORTED_MODULE_9__.default,
+  PatientVisits: _patients_visits_reducer__WEBPACK_IMPORTED_MODULE_11__.default,
   PatientsMessages: _patients_messages_reducer__WEBPACK_IMPORTED_MODULE_8__.default,
   Tests: _tests_reducer__WEBPACK_IMPORTED_MODULE_5__.default,
   Logs: _logs_reducer__WEBPACK_IMPORTED_MODULE_6__.default,
@@ -10374,6 +10613,63 @@ var applyPatientTests = function applyPatientTests(state, payload) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PatientsTests);
+
+/***/ }),
+
+/***/ "./resources/js/store/reducers/patients-visits-reducer.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/store/reducers/patients-visits-reducer.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _action_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../action-types */ "./resources/js/store/action-types/index.js");
+
+var initialState = {
+  from: null,
+  to: null,
+  perPage: null,
+  currentPage: null,
+  lastPage: null,
+  total: null,
+  list: []
+};
+
+var PatientVisits = function PatientVisits() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      _ref$payload = _ref.payload,
+      payload = _ref$payload === void 0 ? null : _ref$payload;
+
+  switch (type) {
+    case _action_types__WEBPACK_IMPORTED_MODULE_0__.PATIENT_VISITS_LIST:
+      return applyPatientVisits(state, payload);
+
+    default:
+      return state;
+  }
+};
+
+var applyPatientVisits = function applyPatientVisits(state, payload) {
+  state = Object.assign({}, state, {
+    from: payload.from,
+    to: payload.to,
+    perPage: payload.per_page,
+    currentPage: payload.current_page,
+    lastPage: payload.last_page,
+    total: payload.total,
+    list: payload.data
+  });
+  return state;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PatientVisits);
 
 /***/ }),
 

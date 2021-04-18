@@ -10,6 +10,7 @@ import PatientsTests from './patients-tests-reducer';
 import PatientsMessages from './patients-messages-reducer';
 import PatientAppointments from './patients-appointments-reducer';
 import MessagesTemplates from './messages-templates-reducer';
+import PatientVisits from './patients-visits-reducer';
 
 const RootReducer = combineReducers({
     Auth,
@@ -18,6 +19,7 @@ const RootReducer = combineReducers({
     DoctorsApproved,
     PatientsTests,
     PatientAppointments,
+    PatientVisits,
     PatientsMessages,
     Tests,
     Logs,

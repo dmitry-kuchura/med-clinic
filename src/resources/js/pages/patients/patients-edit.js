@@ -11,6 +11,8 @@ import {getPatientsAppointments} from '../../services/patients-appointments-serv
 import {getPatientMessagesList, sendPatientMessage} from '../../services/patients-messages-service';
 import {createPatient, getPatientById, updatePatient} from '../../services/patients-service';
 import {addPatientTest, getPatientsTests} from '../../services/patients-tests-service';
+import {getPatientsVisits} from '../../services/patients-visits-service';
+import PatientVisitsList from './common/patient-visits-list';
 
 const rules = {
     'first_name': ['required'],
@@ -61,6 +63,15 @@ class PatientsEdit extends React.Component {
                 total: null,
                 list: [],
             },
+            patientVisits: {
+                from: null,
+                to: null,
+                perPage: null,
+                currentPage: null,
+                lastPage: null,
+                total: null,
+                list: [],
+            },
             showSendEmailModal: false,
             showSendSmsModal: false,
             showAddTestModal: false
@@ -73,6 +84,7 @@ class PatientsEdit extends React.Component {
                 .then(success => {
                     props.dispatch(getPatientMessagesList(1, patientId));
                     props.dispatch(getPatientsAppointments(1, patientId));
+                    props.dispatch(getPatientsVisits(1, patientId));
                 })
                 .catch(error => {
                     console.log(error)
@@ -100,7 +112,8 @@ class PatientsEdit extends React.Component {
                 patient: this.props.patient,
                 tests: this.props.tests.list,
                 patientAppointment: this.props.patientAppointment,
-                patientMessages: this.props.patientMessages
+                patientMessages: this.props.patientMessages,
+                patientVisits: this.props.patientVisits
             })
         }
     }
@@ -521,10 +534,10 @@ class PatientsEdit extends React.Component {
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="table-responsive">
-                                                    <PatientMessagesList data={this.state.patientMessages}/>
+                                                    <PatientVisitsList data={this.state.patientVisits}/>
                                                 </div>
 
-                                                <Pagination state={this.state.patientMessages}
+                                                <Pagination state={this.state.patientVisits}
                                                             handleChangePage={this.handleChangePage}/>
                                             </div>
                                         </div>
@@ -605,6 +618,7 @@ const mapStateToProps = (state) => {
         tests: state.Tests,
         patientAppointment: state.PatientAppointments,
         patientMessages: state.PatientsMessages,
+        patientVisits: state.PatientVisits,
     }
 };
 
