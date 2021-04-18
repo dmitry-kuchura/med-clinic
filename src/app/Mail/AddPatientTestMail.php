@@ -13,13 +13,10 @@ class AddPatientTestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public PatientAnalysis $patientsTest;
-
     public ?UploadedFile $file;
 
-    public function __construct(PatientAnalysis $patientsTest, ?UploadedFile $file)
+    public function __construct(?UploadedFile $file)
     {
-        $this->patientsTest = $patientsTest;
         $this->file = $file;
     }
 
@@ -33,13 +30,13 @@ class AddPatientTestMail extends Mailable
         $email = $this->subject('Результати аналізу | МедСервіс - Медична система')
             ->view('emails.add-patient-test')
             ->with([
-                'patient' => $this->patientsTest->patient,
                 'date' => Carbon::now()->format('Y-m-d'),
                 'link' => 'http://localhost/',
             ]);
 
         if ($this->file) {
-            $email->attachData($this->file, 'name' . mb_strtolower($this->file->getExtension()), [
+            $email->attach($this->file->getRealPath(), [
+                'as' => $this->file->getClientOriginalName(),
                 'mime' => $this->file->getMimeType(),
             ]);
         }

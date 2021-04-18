@@ -28,10 +28,7 @@ class PatientCreateTestRequest extends FormRequest
     {
         return [
             'patient_id' => 'required|integer',
-            'test_id' => 'required|integer',
-            'file' => 'nullable|file|max:50000',
-            'result' => 'nullable|string',
-            'reference_values' => 'nullable|string'
+            'file' => 'file|max:50000',
         ];
     }
 
@@ -39,10 +36,7 @@ class PatientCreateTestRequest extends FormRequest
     {
         return [
             'patient_id' => 'Вкажіть піцієнта',
-            'test_id' => 'Вкажіть тест',
             'file' => 'Невірний файл',
-            'result' => 'Вкажіть результат',
-            'reference_values' => 'Вкажіть значення',
         ];
     }
 
