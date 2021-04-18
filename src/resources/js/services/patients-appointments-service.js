@@ -2,10 +2,10 @@ import * as action from '../store/actions/patients-appointments-action'
 import Http from '../http'
 
 function preparePaginateLink(page, id) {
-    let link = '/api/v1/patients/appointments/' + id + '/list';
+    let link = '/api/v1/appointments/' + id + '/list';
 
     if (page > 1) {
-        link = '/api/v1/patients/appointments/' + id + '/list?page=' + page;
+        link = '/api/v1/appointments/' + id + '/list?page=' + page;
     }
 
     return link;

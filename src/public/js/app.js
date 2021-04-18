@@ -4237,10 +4237,6 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
                     children: this.state.list.map(function (item, index) {
-                      if (index === 1) {
-                        console.log(item);
-                      }
-
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                           children: item.patient.last_name + ' ' + item.patient.first_name + ' ' + item.patient.middle_name
@@ -7166,9 +7162,14 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
               className: "row gutters-sm",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                 className: "col-md-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
                   className: "card mb-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                    className: "card-header",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                      className: "fas fa-users mr-1"
+                    }), "\u0412\u0456\u0437\u0438\u0442\u0438 \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                     className: "card-body",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                       className: "row",
@@ -7185,16 +7186,21 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                         })]
                       })
                     })
-                  })
+                  })]
                 })
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
               className: "row gutters-sm",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                 className: "col-md-12",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
                   className: "card mb-3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                    className: "card-header",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                      className: "fas fa-envelope-open mr-1"
+                    }), "\u041F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F \u043F\u0430\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                     className: "card-body",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
                       className: "row",
@@ -7211,7 +7217,38 @@ var PatientsEdit = /*#__PURE__*/function (_React$Component) {
                         })]
                       })
                     })
-                  })
+                  })]
+                })
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: "row gutters-sm",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                className: "col-md-12",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                  className: "card mb-3",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                    className: "card-header",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                      className: "fas fa-vial mr-1"
+                    }), "\u0410\u043D\u0430\u043B\u0456\u0437\u0438 \u043F\u0456\u0446\u0456\u0454\u043D\u0442\u0456\u0432"]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                    className: "card-body",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                      className: "row",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                        className: "col-md-12",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+                          className: "table-responsive",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_common_patient_messages_list__WEBPACK_IMPORTED_MODULE_5__.default, {
+                            data: this.state.patientMessages
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_helpers_pagination__WEBPACK_IMPORTED_MODULE_4__.default, {
+                          state: this.state.patientMessages,
+                          handleChangePage: this.handleChangePage
+                        })]
+                      })
+                    })
+                  })]
                 })
               })
             })]
@@ -8801,10 +8838,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function preparePaginateLink(page, id) {
-  var link = '/api/v1/patients/appointments/' + id + '/list';
+  var link = '/api/v1/appointments/' + id + '/list';
 
   if (page > 1) {
-    link = '/api/v1/patients/appointments/' + id + '/list?page=' + page;
+    link = '/api/v1/appointments/' + id + '/list?page=' + page;
   }
 
   return link;
@@ -8849,17 +8886,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function preparePaginateLink(page, patientId) {
-  var link = '/api/v1/patients/messages/' + patientId + '/list';
+  var link = '/api/v1/messages/' + patientId + '/list';
 
   if (page > 1) {
-    link = '/api/v1/patients/messages/' + patientId + '/list?page=' + page;
+    link = '/api/v1/messages/' + patientId + '/list?page=' + page;
   }
 
   return link;
 }
 
 function sendPatientMessage(patientId, data) {
-  var link = '/api/v1/patients/messages/' + patientId + '/send';
+  var link = '/api/v1/messages/send';
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       _http__WEBPACK_IMPORTED_MODULE_1__.default.post(link, data).then(function (response) {

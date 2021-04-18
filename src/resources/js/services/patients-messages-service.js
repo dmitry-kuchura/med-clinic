@@ -2,17 +2,17 @@ import * as action from '../store/actions/patients-messages-action'
 import Http from '../http';
 
 function preparePaginateLink(page, patientId) {
-    let link = '/api/v1/patients/messages/' + patientId + '/list';
+    let link = '/api/v1/messages/' + patientId + '/list';
 
     if (page > 1) {
-        link = '/api/v1/patients/messages/' + patientId + '/list?page=' + page;
+        link = '/api/v1/messages/' + patientId + '/list?page=' + page;
     }
 
     return link;
 }
 
 export function sendPatientMessage(patientId, data) {
-    let link = '/api/v1/patients/messages/' + patientId + '/send';
+    let link = '/api/v1/messages/send';
 
     return dispatch => (
         new Promise((resolve, reject) => {

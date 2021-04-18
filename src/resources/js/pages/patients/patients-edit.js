@@ -477,10 +477,12 @@ class PatientsEdit extends React.Component {
                         <div className="row gutters-sm">
                             <div className="col-md-12">
                                 <div className="card mb-3">
+                                    <div className="card-header"><i className="fas fa-users mr-1"></i>Візити пацієнтів</div>
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <div className="table-responsive">
+
                                                     <PatientAppointmentList data={this.state.patientAppointment}/>
                                                 </div>
 
@@ -495,6 +497,26 @@ class PatientsEdit extends React.Component {
                         <div className="row gutters-sm">
                             <div className="col-md-12">
                                 <div className="card mb-3">
+                                    <div className="card-header"><i className="fas fa-envelope-open mr-1"></i>Повідомлення пацієнтів</div>
+                                    <div className="card-body">
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="table-responsive">
+                                                    <PatientMessagesList data={this.state.patientMessages}/>
+                                                </div>
+
+                                                <Pagination state={this.state.patientMessages}
+                                                            handleChangePage={this.handleChangePage}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row gutters-sm">
+                            <div className="col-md-12">
+                                <div className="card mb-3">
+                                    <div className="card-header"><i className="fas fa-vial mr-1"></i>Аналізи піцієнтів</div>
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-md-12">

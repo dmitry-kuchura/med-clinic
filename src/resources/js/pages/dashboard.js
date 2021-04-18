@@ -82,9 +82,6 @@ class Dashboard extends React.Component {
                                     <tbody>
 
                                     {this.state.list.map((item, index) => {
-                                        if (index === 1) {
-                                            console.log(item)
-                                        }
                                         return (
                                             <tr key={index}>
                                                 <td>{item.patient.last_name + ' ' + item.patient.first_name + ' ' + item.patient.middle_name}</td>

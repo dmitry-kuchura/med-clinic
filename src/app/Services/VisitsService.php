@@ -97,6 +97,11 @@ class VisitsService
         return $this->patientVisitRepository->getListForRemind($timestamp);
     }
 
+    public function getPatientsVisitsList(int $id): ?Collection
+    {
+        return $this->patientVisitRepository->getPatientsVisitsList($id);
+    }
+
     public function store(array $data)
     {
         $patient = $this->patientsService->findPatientByExternalId($data['patient']['external_id']);

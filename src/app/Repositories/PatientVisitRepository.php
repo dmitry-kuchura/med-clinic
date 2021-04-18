@@ -22,6 +22,15 @@ class PatientVisitRepository implements Repository
             ->get();
     }
 
+    public function getPatientsVisitsList(string $timestamp): ?Collection
+    {
+        return PatientVisit::where('appointment_at', '>', $timestamp)
+            ->with('patient', 'doctor', 'data')
+            ->limit(25)
+            ->orderBy('appointment_at', 'asc')
+            ->get();
+    }
+
     public function get(int $id)
     {
         return PatientVisit::with(['patient', 'patient.user', 'test'])->find($id);

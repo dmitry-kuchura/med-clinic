@@ -46,34 +46,33 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}', [DoctorsController::class, 'info'])->name('api.doctors.info')->where('id', '[0-9]+');
             Route::get('/approved', [DoctorsController::class, 'approved'])->name('api.doctors.approved');
             Route::post('/search', [DoctorsController::class, 'search'])->name('api.doctors.search');
-            Route::post('/approve', [DoctorsController::class, 'approve'])->name('api.doctors.approve');
-            Route::post('/approve/delete', [DoctorsController::class, 'approveDelete'])->name('api.doctors.approve.delete');
+
+            Route::prefix('approve')->group(function () {
+                Route::post('/', [DoctorsController::class, 'approve'])->name('api.doctors.approve');
+                Route::post('/delete', [DoctorsController::class, 'approveDelete'])->name('api.doctors.approve.delete');
+            });
         });
 
         Route::prefix('patients')->group(function () {
-            Route::get('/', [PatientsController::class, 'list'])->name('api.patients.list');
-            Route::put('/', [PatientsController::class, 'update'])->name('api.patients.update');
-            Route::post('/search', [PatientsController::class, 'search'])->name('api.patients.search');
             Route::get('/{id}', [PatientsController::class, 'info'])->name('api.patients.info')->where('id', '[0-9]+');
             Route::post('/create', [PatientsController::class, 'create'])->name('api.patients.create');
-            Route::post('/add-test', [PatientsController::class, 'addTest'])->name('api.patients.add-test');
-            Route::get('/{id}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('id', '[0-9]+');
+            Route::put('/', [PatientsController::class, 'update'])->name('api.patients.update');
+            Route::get('/', [PatientsController::class, 'list'])->name('api.patients.list');
+            Route::post('/search', [PatientsController::class, 'search'])->name('api.patients.search');
+        });
 
-            Route::prefix('messages')->group(function () {
-                Route::post('/{id}/send', [PatientsMessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
-                Route::get('/{id}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
-            });
-
-            Route::prefix('appointments')->group(function () {
-                Route::get('/{id}/list', [PatientAppointmentsController::class, 'list'])->name('api.patients.appointments.list')->where('id', '[0-9]+');
-            });
+        Route::prefix('visits')->group(function () {
+            Route::get('/{id}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('id', '[0-9]+');
         });
 
         Route::prefix('appointments')->group(function () {
+            Route::get('/{patientId}/list', [PatientAppointmentsController::class, 'list'])->name('api.patients.appointments.list')->where('patientId', '[0-9]+');
             Route::get('/today', [PatientAppointmentsController::class, 'today'])->name('api.patients.appointments.today');
         });
 
         Route::prefix('tests')->group(function () {
+            Route::post('/{patientId}/add-test', [PatientsController::class, 'addTest'])->name('api.patients.add-test');
+            Route::get('/{patientId}/tests', [PatientsController::class, 'listTest'])->name('api.patients.list-tests')->where('patientId', '[0-9]+');
             Route::get('/', [TestsController::class, 'list'])->name('api.tests.tests');
             Route::put('/', [TestsController::class, 'update'])->name('api.tests.update');
             Route::get('/all', [TestsController::class, 'all'])->name('api.tests.all');
@@ -83,16 +82,18 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('messages')->group(function () {
             Route::get('/balance', [MessagesController::class, 'balance'])->name('api.message.balance');
-        });
-
-        Route::prefix('logs')->group(function () {
-            Route::get('/', [LogsController::class, 'list'])->name('api.logs.list');
+            Route::post('/send', [PatientsMessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
+            Route::get('/{patientId}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('patientId', '[0-9]+');
         });
 
         Route::prefix('messages-templates')->group(function () {
             Route::get('/', [MessagesTemplatesController::class, 'list'])->name('api.messages-templates.list');
-            Route::get('/{id}', [MessagesTemplatesController::class, 'info'])->name('api.messages-templates.info')->where('id', '[0-9]+');
             Route::put('/', [MessagesTemplatesController::class, 'update'])->name('api.messages-templates.update');
+            Route::get('/{id}', [MessagesTemplatesController::class, 'info'])->name('api.messages-templates.info')->where('id', '[0-9]+');
+        });
+
+        Route::prefix('logs')->group(function () {
+            Route::get('/', [LogsController::class, 'list'])->name('api.logs.list');
         });
     });
 });
