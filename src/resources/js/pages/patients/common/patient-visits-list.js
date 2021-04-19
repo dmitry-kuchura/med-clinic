@@ -53,14 +53,16 @@ const List = (props) => {
 
     if (list.length > 0) {
         html = list.map(function (item) {
-            return (
-                <tr key={item.id}>
-                    <td><strong>{item.id}</strong></td>
-                    <td><p>{item.data.category}</p></td>
-                    <td><p>{item.data.template}</p></td>
-                    <td><p>{formatDate(item.data.created_at)}</p></td>
-                </tr>
-            )
+            if (item.data) {
+                return (
+                    <tr key={item.id}>
+                        <td><strong>{item.id}</strong></td>
+                        <td><p>{item.data.category}</p></td>
+                        <td><p>{item.data.template}</p></td>
+                        <td><p>{formatDate(item.data.created_at)}</p></td>
+                    </tr>
+                )
+            }
         });
 
         return html;
