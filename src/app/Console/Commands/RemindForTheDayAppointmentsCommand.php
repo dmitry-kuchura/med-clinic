@@ -69,7 +69,7 @@ class RemindForTheDayAppointmentsCommand extends Command
                     $lastAppointment = $history->first();
 
                     if ($this->doctorService->doctorIsApprove($lastAppointment->doctor_id)) {
-                        if ($lastAppointment->patient->per_day) {
+                        if ($lastAppointment->patient->per_day && strlen($lastAppointment->patient->phone) > 0) {
                             $this->messageService->remindBeforeDay($lastAppointment);
 
                             if ($lastAppointment->patient->day_on_day) {
@@ -81,7 +81,7 @@ class RemindForTheDayAppointmentsCommand extends Command
                     $this->appointmentService->markedPatientAppointmentHistory($history);
                 }
             } catch (Throwable $throwable) {
-                throw new RemindForTheDayErrorException($throwable->getLine());
+                throw new RemindForTheDayErrorException($throwable->getMessage());
             }
 
             $this->logService->info('Reminded: ' . count($appointments) . ' patients.');
