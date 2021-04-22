@@ -80,7 +80,7 @@ class RemindForTheDayAppointmentsCommand extends Command
                     $this->appointmentService->markedPatientAppointmentHistory($history);
                 }
             } catch (Throwable $throwable) {
-                throw new RemindForTheDayErrorException();
+                throw new RemindForTheDayErrorException($throwable->getMessage());
             }
 
             $this->logService->info('Reminded: ' . count($appointments) . ' patients.');
