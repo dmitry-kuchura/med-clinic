@@ -123,6 +123,8 @@ class MessagesService
                 $request['phone'] = '+380931106215';
             }
 
+            $this->logService->debug('sendMessage', ['phone' => $request['phone'], 'text' => $request['text']]);
+
             $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
             $this->send($request, $response);
         }
