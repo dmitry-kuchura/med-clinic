@@ -61,6 +61,7 @@ class RemindForTheDayAppointmentsCommand extends Command
             try {
                 $appointments = $this->appointmentService->getPatientsForRemind($timestamp, $endDayTimestamp);
 
+                /** @var PatientAppointment $appointment */
                 foreach ($appointments as $appointment) {
                     $history = $this->appointmentService->findPatientAppointmentHistory($appointment);
 
@@ -80,7 +81,7 @@ class RemindForTheDayAppointmentsCommand extends Command
                     $this->appointmentService->markedPatientAppointmentHistory($history);
                 }
             } catch (Throwable $throwable) {
-                throw new RemindForTheDayErrorException($throwable->getMessage());
+                throw new RemindForTheDayErrorException($throwable->getFile());
             }
 
             $this->logService->info('Reminded: ' . count($appointments) . ' patients.');

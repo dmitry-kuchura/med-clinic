@@ -37,7 +37,6 @@ class PatientsAppointmentsRepository implements Repository
             ->where('is_mark', false)
             ->limit(25)
             ->orderBy('appointment_at', 'asc')
-            ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
             ->get();
     }
 
