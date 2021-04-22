@@ -52,7 +52,7 @@ class RemindDayOnDayAppointmentsCommand extends Command
                     $this->appointmentService->markedPatientAppointmentReminder($reminder);
                 }
             } catch (Throwable $throwable) {
-                throw new RemindForTheDayErrorException();
+                throw new RemindForTheDayErrorException('Message: ' . $throwable->getMessage() . ' in file: ' . $throwable->getFile() . ' on line ' . $throwable->getLine());
             }
         }
 
