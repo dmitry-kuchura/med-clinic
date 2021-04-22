@@ -35,7 +35,7 @@ class PatientsAppointmentsRepository implements Repository
         return PatientAppointment::where('appointment_at', '>', $timestamp)
             ->where('appointment_at', '<', $timestamp)
             ->where('is_mark', false)
-            ->limit(1)
+            ->limit(25)
             ->orderBy('appointment_at', 'asc')
             ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
             ->get();
