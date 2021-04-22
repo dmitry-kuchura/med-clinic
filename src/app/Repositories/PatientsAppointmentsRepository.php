@@ -33,7 +33,7 @@ class PatientsAppointmentsRepository implements Repository
     public function getPatientsForRemind(string $timestamp, string $endDayTimestamp): ?Collection
     {
         return PatientAppointment::where('appointment_at', '>', $timestamp)
-            ->where('appointment_at', '<', $timestamp)
+            ->where('appointment_at', '<', $endDayTimestamp)
             ->where('is_mark', false)
             ->limit(25)
             ->orderBy('appointment_at', 'asc')

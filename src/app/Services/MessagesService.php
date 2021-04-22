@@ -110,7 +110,9 @@ class MessagesService
 
     public function sendMessageReminder(array $request): void
     {
-//        $request['phone'] = '+380931106215';
+        dd(config('sms.allowed'));
+
+        $request['phone'] = '+380931106215';
 
         $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
         $this->send($request, $response);

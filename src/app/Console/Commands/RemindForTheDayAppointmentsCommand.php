@@ -56,7 +56,7 @@ class RemindForTheDayAppointmentsCommand extends Command
     {
         if ($this->isCorrectTime(Date::getCurrentHour())) {
             $timestamp = Date::getTomorrowMorningTime();
-            $endDayTimestamp = Date::getEndDayTime();
+            $endDayTimestamp = Date::getTomorrowEndDayTime();
 
             try {
                 $appointments = $this->appointmentService->getPatientsForRemind($timestamp, $endDayTimestamp);
