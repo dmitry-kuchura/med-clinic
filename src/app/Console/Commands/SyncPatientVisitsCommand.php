@@ -4,13 +4,9 @@ namespace App\Console\Commands;
 
 use App\Exceptions\SyncErrorException;
 use App\Helpers\Date;
-use App\Services\AppointmentsService;
-use App\Services\DoctorsService;
 use App\Services\LogService;
-use App\Services\PatientsService;
 use App\Services\VisitsService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Throwable;
 
 class SyncPatientVisitsCommand extends Command
@@ -54,11 +50,13 @@ class SyncPatientVisitsCommand extends Command
             $result = $this->visitsService->getRemoteVisits(null, $timestamp);
         }
 
-        foreach ($result as $record) {
-            try {
-                $this->visitsService->sync($record);
-            } catch (Throwable $throwable) {
-                throw new SyncErrorException($throwable->getMessage());
+        if ($result) {
+            foreach ($result as $record) {
+                try {
+                    $this->visitsService->sync($record);
+                } catch (Throwable $throwable) {
+                    throw new SyncErrorException($throwable->getMessage());
+                }
             }
         }
 
