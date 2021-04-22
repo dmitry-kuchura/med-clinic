@@ -13,6 +13,7 @@ use App\Repositories\PatientsMessagesRepository;
 use App\TurboSMS\Response\ApiResponse;
 use App\TurboSMS\Service;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Throwable;
 
 class MessagesService
@@ -110,12 +111,14 @@ class MessagesService
 
     public function sendMessageReminder(array $request): void
     {
-        dd(config('sms.allowed'));
+        if (config('sms.allowed')) {
+            if (!App::environment('production')) {
+                $request['phone'] = '+380931106215';
+            }
 
-        $request['phone'] = '+380931106215';
-
-        $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
-        $this->send($request, $response);
+            $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
+            $this->send($request, $response);
+        }
     }
 
     public function remindNewAnalyse(PatientVisit $visit)

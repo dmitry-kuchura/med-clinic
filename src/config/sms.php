@@ -33,5 +33,5 @@ return [
     |
     */
 
-    'allowed' => env('TURBO_SMS_ALLOWED', 1),
+    'allowed' => (bool) env('TURBO_SMS_ALLOWED', 0),
 ];
