@@ -31,11 +31,11 @@ class Kernel extends ConsoleKernel
     {
         if (App::environment('production')) {
             // Sync
-            $schedule->command('sync:appointments')->everyFiveMinutes();
-            $schedule->command('sync:patient-visits')->everyFiveMinutes();
+            $schedule->command('sync:appointments')->everyTenMinutes();
+            $schedule->command('sync:patient-visits')->everyTenMinutes();
             // Remind
-            $schedule->command('reminder:before-day')->everyTenMinutes();
-            $schedule->command('reminder:day-on-day')->everyTenMinutes();
+            $schedule->command('reminder:before-day')->everyFiveMinutes();
+            $schedule->command('reminder:day-on-day')->everyFiveMinutes();
 //            $schedule->command('reminder:patients-data')->everyFifteenMinutes();
         }
     }
