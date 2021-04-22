@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('sync:appointments')->everyTenMinutes();
             $schedule->command('sync:patient-visits')->everyTenMinutes();
             // Remind
-            $schedule->command('reminder:before-day')->everyFiveMinutes();
+            $schedule->command('reminder:before-day')->everyMinute();
             $schedule->command('reminder:day-on-day')->everyFiveMinutes();
 //            $schedule->command('reminder:patients-data')->everyFifteenMinutes();
         }
