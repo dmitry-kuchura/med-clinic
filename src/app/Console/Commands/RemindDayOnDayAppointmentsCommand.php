@@ -6,7 +6,6 @@ use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
 use App\Services\AppointmentsService;
 use App\Services\MessagesService;
-use App\Services\PatientsService;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -21,21 +20,16 @@ class RemindDayOnDayAppointmentsCommand extends Command
     /** @var AppointmentsService */
     private AppointmentsService $appointmentService;
 
-    /** @var PatientsService */
-    private PatientsService $patientService;
-
     /** @var MessagesService */
     private MessagesService $messageService;
 
     public function __construct(
         AppointmentsService $appointmentService,
-        PatientsService $patientService,
         MessagesService $messageService
     )
     {
         parent::__construct();
         $this->appointmentService = $appointmentService;
-        $this->patientService = $patientService;
         $this->messageService = $messageService;
     }
 
@@ -49,8 +43,9 @@ class RemindDayOnDayAppointmentsCommand extends Command
         if ((int)Date::getCurrentHour() > 9 && (int)Date::getCurrentHour() < 21) {
             try {
                 $timestamp = Date::getTomorrowMorningTime();
+                $endDayTimestamp = Date::getEndDayTime();
 
-                $reminders = $this->appointmentService->getReminders($timestamp);
+                $reminders = $this->appointmentService->getReminders($timestamp, $endDayTimestamp);
 
                 foreach ($reminders as $reminder) {
                     $this->messageService->remindDayOnDay($reminder);

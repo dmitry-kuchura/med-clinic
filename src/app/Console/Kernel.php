@@ -30,10 +30,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (App::environment('production')) {
-            $schedule->command('sync:patient-visits')->everyFourMinutes();
+            // Sync
             $schedule->command('sync:appointments')->everyFiveMinutes();
-//            $schedule->command('reminder:before-day')->everyTenMinutes();
-//            $schedule->command('reminder:day-on-day')->everyFifteenMinutes();
+            $schedule->command('sync:patient-visits')->everyFiveMinutes();
+            // Remind
+            $schedule->command('reminder:before-day')->everyTenMinutes();
+            $schedule->command('reminder:day-on-day')->everyTenMinutes();
 //            $schedule->command('reminder:patients-data')->everyFifteenMinutes();
         }
     }

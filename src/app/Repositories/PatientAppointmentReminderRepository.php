@@ -6,12 +6,13 @@ use App\Models\PatientAppointmentReminder;
 
 class PatientAppointmentReminderRepository implements Repository
 {
-    public function getForRemind(string $timestamp)
+    public function getForRemind(string $timestamp, string $endDayTimestamp)
     {
         return PatientAppointmentReminder::where('appointment_at', '>', $timestamp)
+            ->where('appointment_at', '<', $endDayTimestamp)
             ->where('is_mark', false)
             ->with(['patient'])
-            ->limit(25)
+            ->limit(1)
             ->orderBy('id', 'desc')
             ->get();
     }

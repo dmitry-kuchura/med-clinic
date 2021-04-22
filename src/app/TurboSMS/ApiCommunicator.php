@@ -16,15 +16,23 @@ class ApiCommunicator
 
     protected string $baseUri;
 
+    protected bool $isAllowed;
+
     public function __construct(TurboSMSConfig $config)
     {
         $this->secret = $config->getSecret();
+        $this->secret = $config->getSecret();
         $this->baseUri = $config->getBaseUri();
+        $this->isAllowed = $config->isAllowed();
         $this->httpClient = new Http();
     }
 
     public function send(ApiRequest $request): ApiResponse
     {
+        if (!$this->isAllowed) {
+            return new ErrorApiResponse(['message' => 'Not allowed!']);
+        }
+
         $url = $this->baseUri . $request->getQueryUrl();
 
         try {

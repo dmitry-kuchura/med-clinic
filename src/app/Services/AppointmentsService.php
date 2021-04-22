@@ -54,9 +54,9 @@ class AppointmentsService
         return $this->patientsAppointmentsRepository->getLastPatient();
     }
 
-    public function getPatientsForRemind(string $timestamp): ?Collection
+    public function getPatientsForRemind(string $timestamp, string $endDayTimestamp): ?Collection
     {
-        return $this->patientsAppointmentsRepository->getPatientsForRemind($timestamp);
+        return $this->patientsAppointmentsRepository->getPatientsForRemind($timestamp, $endDayTimestamp);
     }
 
     public function getPatientsListForSync(string $timestamp, ?int $external = null): ?array
@@ -151,9 +151,9 @@ class AppointmentsService
         $this->patientsAppointmentsReminderRepository->store($data);
     }
 
-    public function getReminders(string $timestamp): Collection
+    public function getReminders(string $timestamp, string $endDayTimestamp): Collection
     {
-        return $this->patientsAppointmentsReminderRepository->getForRemind($timestamp);
+        return $this->patientsAppointmentsReminderRepository->getForRemind($timestamp, $endDayTimestamp);
     }
 
     public function markedPatientAppointmentReminder(PatientAppointmentReminder $reminder): void

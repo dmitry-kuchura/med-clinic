@@ -6,5 +6,5 @@ use RuntimeException;
 
 class RemindForTheDayErrorException extends RuntimeException
 {
-    protected $message = 'Error sync!';
+    protected $message = 'Error of remind!';
 }

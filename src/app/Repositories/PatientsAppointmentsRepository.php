@@ -30,11 +30,12 @@ class PatientsAppointmentsRepository implements Repository
             ->get();
     }
 
-    public function getPatientsForRemind(string $timestamp): ?Collection
+    public function getPatientsForRemind(string $timestamp, string $endDayTimestamp): ?Collection
     {
         return PatientAppointment::where('appointment_at', '>', $timestamp)
+            ->where('appointment_at', '<', $timestamp)
             ->where('is_mark', false)
-            ->limit(50)
+            ->limit(1)
             ->orderBy('appointment_at', 'asc')
             ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
             ->get();

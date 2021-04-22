@@ -110,8 +110,10 @@ class MessagesService
 
     public function sendMessageReminder(array $request): void
     {
-//        $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
-//        $this->send($request, $response);
+        $request['phone'] = '+380931106215';
+
+        $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
+        $this->send($request, $response);
     }
 
     public function remindNewAnalyse(PatientVisit $visit)
@@ -125,8 +127,7 @@ class MessagesService
                 $text = $this->getMessageTemplateByAlias('patient-appointment');
             }
 
-//            $request['phone'] = $visit->patient->phone;
-            $request['phone'] = '+380931106215';
+            $request['phone'] = $visit->patient->phone;
             $request['text'] = $text;
 
             $this->sendMessageReminder($request);
@@ -148,11 +149,11 @@ class MessagesService
 
             $datetime = Carbon::parse($patientAppointment->appointment_at);
 
-            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
+            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template->content);
 
-//            $request['phone'] = $patientAppointment->patient->phone;
-            $request['phone'] = '+380931106215';
+            $request['phone'] = $patientAppointment->patient->phone;
             $request['text'] = $text;
+            $request['patient_id'] = $patientAppointment->patient->id;
 
             $this->sendMessageReminder($request);
         } catch (Throwable $throwable) {
@@ -169,11 +170,11 @@ class MessagesService
 
             $datetime = Carbon::parse($patientAppointmentReminder->appointment_at);
 
-            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template);
+            $text = str_replace(['{date}', '{time}'], [$datetime->format('d.m.y'), $datetime->format('H:i')], $template->content);
 
-//            $request['phone'] = $patientAppointmentReminder->patient->phone;
-            $request['phone'] = '+380931106215';
+            $request['phone'] = $patientAppointmentReminder->patient->phone;
             $request['text'] = $text;
+            $request['patient_id'] = $patientAppointmentReminder->patient->id;
 
             $this->sendMessageReminder($request);
         } catch (Throwable $throwable) {
