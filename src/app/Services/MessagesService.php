@@ -23,9 +23,6 @@ class MessagesService
     /** @var Service */
     private Service $smsSender;
 
-    /** @var LogService */
-    private LogService $logService;
-
     /** @var MessagesRepository */
     private MessagesRepository $messageRepository;
 
@@ -37,14 +34,12 @@ class MessagesService
 
     public function __construct(
         Service $smsSender,
-        LogService $logService,
         MessagesRepository $messageRepository,
         PatientsMessagesRepository $patientsMessagesRepository,
         MessagesTemplatesRepository $messageTemplatesRepository
     )
     {
         $this->smsSender = $smsSender;
-        $this->logService = $logService;
         $this->messageRepository = $messageRepository;
         $this->patientsMessagesRepository = $patientsMessagesRepository;
         $this->messageTemplatesRepository = $messageTemplatesRepository;
@@ -63,8 +58,6 @@ class MessagesService
     public function send(array $request, ApiResponse $response)
     {
         $result = $response->getResponseResult();
-
-        $this->logService->debug('getResponseResult', ['result' => $result]);
 
         foreach ($result as $value) {
             $messageData = [
@@ -122,8 +115,6 @@ class MessagesService
             if (!App::environment('production')) {
                 $request['phone'] = '+380931106215';
             }
-
-            $this->logService->debug('sendMessage', ['phone' => $request['phone'], 'text' => $request['text']]);
 
             $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
             $this->send($request, $response);
