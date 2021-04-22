@@ -42,8 +42,8 @@ class RemindDayOnDayAppointmentsCommand extends Command
     {
         if ((int)Date::getCurrentHour() > 9 && (int)Date::getCurrentHour() < 21) {
             try {
-                $timestamp = Date::getTomorrowMorningTime();
-                $endDayTimestamp = Date::getTomorrowEndDayTime();
+                $timestamp = Date::getMorningTime();
+                $endDayTimestamp = Date::getEndDayTime();
 
                 $reminders = $this->appointmentService->getReminders($timestamp, $endDayTimestamp);
 
