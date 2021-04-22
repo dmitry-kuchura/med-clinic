@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\RemindForTheDayAppointmentsCommand::class,
         Commands\RemindDayOnDayAppointmentsCommand::class,
         Commands\RemindForVisitDataCommand::class,
+        Commands\UpdateMessageStatusCommand::class,
     ];
 
     /**
@@ -29,6 +30,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('update:messages-status')->everyMinute();
+
         if (App::environment('production')) {
             // Sync
             $schedule->command('sync:appointments')->everyTenMinutes();

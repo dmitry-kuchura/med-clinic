@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Exceptions\SyncErrorException;
-use App\Helpers\Date;
+use App\Exceptions\UpdateMessageErrorException;
 use App\Services\MessagesService;
 use Illuminate\Console\Command;
 use Throwable;
@@ -34,7 +33,13 @@ class UpdateMessageStatusCommand extends Command
      */
     public function handle()
     {
-        $lastPatientVisit = $this->messagesService->getLastPatientsVisits();
+        $messagesForUpdate = $this->messagesService->getMessagesForUpdateStatus();
+
+        try {
+            $this->messagesService->getMessagesStatus($messagesForUpdate);
+        } catch (Throwable $throwable) {
+            throw new UpdateMessageErrorException($throwable->getMessage());
+        }
 
         return true;
     }

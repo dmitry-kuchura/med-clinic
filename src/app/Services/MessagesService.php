@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\SentMessageErrorException;
+use App\Models\Message;
 use App\Models\MessageTemplate;
 use App\Models\PatientAppointment;
 use App\Models\PatientAppointmentReminder;
@@ -55,9 +56,16 @@ class MessagesService
         $this->messageTemplatesRepository->update($data, $data['id']);
     }
 
-    public function updateMessage(array $data)
+    public function updateMessage(array $response)
     {
-        $this->messageRepository->update($data, $data['id']);
+        foreach ($response as $message) {
+            $this->messageRepository->updateMessage([
+                'message_id' => $message['message_id'],
+                'status' => $message['status'],
+                'response_code' => $message['response_code'],
+                'response_status' => $message['response_status'],
+            ]);
+        }
     }
 
     public function saveMessage(array $request, ApiResponse $response)
@@ -131,6 +139,15 @@ class MessagesService
         }
     }
 
+    public function getMessagesStatus(?array $messagesIds): void
+    {
+        $response = $this->smsSender->getMessageStatus($messagesIds);
+
+        if ($response->getResponseResult()) {
+            $this->updateMessage($response->getResponseResult());
+        }
+    }
+
     public function remindNewAnalyse(PatientVisit $visit)
     {
         $request = [];
@@ -195,5 +212,19 @@ class MessagesService
         } catch (Throwable $throwable) {
             throw new SentMessageErrorException($throwable->getMessage());
         }
+    }
+
+    public function getMessagesForUpdateStatus(): ?array
+    {
+        $data = [];
+
+        $messages = $this->messageRepository->messagesForUpdateStatus();
+
+        /** @var Message $message */
+        foreach ($messages as $message) {
+            $data[] = $message->message_id;
+        }
+
+        return $data;
     }
 }

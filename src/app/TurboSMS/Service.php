@@ -20,7 +20,7 @@ class Service
     }
 
     /**
-     * Метод balance
+     * Метод get balance
      */
     public function getBalance(): ApiResponse
     {
@@ -34,11 +34,11 @@ class Service
      */
     public function addFile(): ApiResponse
     {
-
+        // TODO need implement return ApiResponse()
     }
 
     /**
-     * Метод send
+     * Метод send message
      */
     public function sendMessage(array $recipients, string $text, string $type = 'sms'): ApiResponse
     {
@@ -53,7 +53,7 @@ class Service
     }
 
     /**
-     * Метод status
+     * Метод message status
      */
     public function getMessageStatus(array $messages): ApiResponse
     {
