@@ -45,9 +45,11 @@ class LogService
         $this->save($this->data);
     }
 
-    public function debug()
+    public function debug(string $message, array $context = [])
     {
         $this->data['level'] = 'debug';
+        $this->data['message'] = $message;
+        $this->data['context'] = json_encode($context);
 
         $this->save($this->data);
     }

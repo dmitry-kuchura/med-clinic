@@ -29,10 +29,6 @@ class ApiCommunicator
 
     public function send(ApiRequest $request): ApiResponse
     {
-        if (!$this->isAllowed) {
-            return new ErrorApiResponse(['message' => 'Not allowed!']);
-        }
-
         $url = $this->baseUri . $request->getQueryUrl();
 
         try {
