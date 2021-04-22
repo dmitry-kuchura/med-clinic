@@ -50,12 +50,17 @@ class MessagesService
         return $this->patientsMessagesRepository->paginate($id, self::RECORDS_AT_PAGE);
     }
 
-    public function update(array $data)
+    public function updateMessageTemplate(array $data)
     {
         $this->messageTemplatesRepository->update($data, $data['id']);
     }
 
-    public function send(array $request, ApiResponse $response)
+    public function updateMessage(array $data)
+    {
+        $this->messageRepository->update($data, $data['id']);
+    }
+
+    public function saveMessage(array $request, ApiResponse $response)
     {
         $result = $response->getResponseResult();
 
@@ -72,7 +77,7 @@ class MessagesService
             $message = $this->messageRepository->store($messageData);
 
             if ($request['patient_id']) {
-                $this->patientsMessagesRepository->store([
+                $this->savePatientMessage([
                     'patient_id' => $request['patient_id'],
                     'message_id' => $message->id
                 ]);
@@ -80,11 +85,16 @@ class MessagesService
         }
     }
 
+    public function savePatientMessage(array $data)
+    {
+        $this->patientsMessagesRepository->store($data);
+    }
+
     public function sendPatientMessage(array $request)
     {
         $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
 
-        $this->send($request, $response);
+        $this->saveMessage($request, $response);
     }
 
     public function getBalance(): float
@@ -117,7 +127,7 @@ class MessagesService
             }
 
             $response = $this->smsSender->sendMessage([$request['phone']], $request['text']);
-            $this->send($request, $response);
+            $this->saveMessage($request, $response);
         }
     }
 

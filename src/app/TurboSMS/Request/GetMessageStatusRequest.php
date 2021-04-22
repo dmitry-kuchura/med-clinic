@@ -10,7 +10,17 @@ class GetMessageStatusRequest extends ApiRequest
     /** @var string */
     const URL = 'message/status.json';
 
-    private array $body = [];
+    /** @var array */
+    private array $body;
+
+    /** @var array */
+    private array $data;
+
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+        $this->build();
+    }
 
     public function getMethod(): string
     {
@@ -24,11 +34,13 @@ class GetMessageStatusRequest extends ApiRequest
 
     public function getBody(): ?array
     {
-        return null;
+        return $this->body;
     }
 
     public function build()
     {
-
+        foreach ($this->data['messages'] as $message) {
+            $this->body['messages'][] = trim($message);
+        }
     }
 }

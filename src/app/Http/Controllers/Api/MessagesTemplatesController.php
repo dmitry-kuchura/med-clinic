@@ -32,7 +32,7 @@ class MessagesTemplatesController extends Controller
 
     public function update(UpdateMessageTemplateRequest $request): JsonResponse
     {
-        $this->service->update($request->all());
+        $this->service->updateMessageTemplate($request->all());
 
         return $this->returnResponse(['updated' => true]);
     }

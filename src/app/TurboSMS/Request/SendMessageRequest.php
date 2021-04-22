@@ -44,7 +44,9 @@ class SendMessageRequest extends ApiRequest
                 'sender' => $this->data['sender'],
                 'text' => $this->data['text'],
             ];
-        } else {
+        }
+
+        if ($this->data['type'] === 'viber') {
             $this->body['viber'] = [
                 'sender' => $this->data['sender'],
                 'text' => $this->data['text'],

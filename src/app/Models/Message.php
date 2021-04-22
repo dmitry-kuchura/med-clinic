@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $message_id
  * @property integer $response_code
  * @property string $response_status
+ * @property string $status
  *
  * @property string $created_at
  * @property string $updated_at
@@ -32,6 +33,7 @@ class Message extends Model
         'message_id',
         'response_code',
         'response_status',
+        'status',
         'created_at',
         'updated_at',
     ];

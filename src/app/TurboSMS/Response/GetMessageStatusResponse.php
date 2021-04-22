@@ -6,16 +6,16 @@ class GetMessageStatusResponse extends ApiResponse
 {
     public function getResponseCode(): int
     {
-        // TODO: Implement getResponseCode() method.
+        return $this->response['response_code'];
     }
 
     public function getResponseStatus(): string
     {
-        // TODO: Implement getResponseStatus() method.
+        return $this->response['response_status'];
     }
 
     public function getResponseResult(): ?array
     {
-        // TODO: Implement getResponseResult() method.
+        return $this->response['response_result'];
     }
 }
