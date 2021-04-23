@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Exceptions\RemindForTheDayErrorException;
 use App\Helpers\Date;
 use App\Helpers\Settings;
+use App\Models\Enum\AppointmentType;
 use App\Models\PatientAppointment;
 use App\Services\AppointmentsService;
 use App\Services\DoctorsService;
@@ -68,13 +69,11 @@ class RemindForTheDayAppointmentsCommand extends Command
                     /** @var PatientAppointment $lastAppointment */
                     $lastAppointment = $history->first();
 
-                    if ($this->doctorService->doctorIsApprove($lastAppointment->doctor->id)) {
-                        if ($lastAppointment->patient->per_day && strlen($lastAppointment->patient->phone) > 0) {
-                            $this->messageService->remindBeforeDay($lastAppointment);
+                    if ($this->isNeedRemind($lastAppointment)) {
+                        $this->messageService->remindBeforeDay($lastAppointment);
 
-                            if ($lastAppointment->patient->day_on_day) {
-                                $this->appointmentService->addAppointmentReminder($lastAppointment);
-                            }
+                        if ($lastAppointment->patient->day_on_day) {
+                            $this->appointmentService->addAppointmentReminder($lastAppointment);
                         }
                     }
 
@@ -90,6 +89,23 @@ class RemindForTheDayAppointmentsCommand extends Command
         return true;
     }
 
+    public function isNeedRemind(PatientAppointment $appointment): bool
+    {
+        $rule = [AppointmentType::ADDING, AppointmentType::EDITING, AppointmentType::CHECK_IN, AppointmentType::SET_MARK];
+
+        if (in_array($appointment->type, $rule, true)) {
+            if ($this->doctorService->doctorIsApprove($appointment->doctor->id)) {
+                if ($appointment->patient->per_day) {
+                    if (strlen($appointment->patient->phone) > 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function isCorrectTime(string $current): bool
     {
         $param = Settings::getParam('reminder-time-per-day');
@@ -100,6 +116,6 @@ class RemindForTheDayAppointmentsCommand extends Command
 
         $hours = explode(':', $param);
 
-        return (int)$current > (int)$hours[0] && (int)$current < 22;
+        return (int)$current > (int)$hours[0] && (int)$current < 17;
     }
 }

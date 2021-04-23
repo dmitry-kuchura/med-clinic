@@ -40,7 +40,7 @@ class RemindDayOnDayAppointmentsCommand extends Command
      */
     public function handle()
     {
-        if ((int)Date::getCurrentHour() > 8 && (int)Date::getCurrentHour() < 21) {
+        if ((int)Date::getCurrentHour() > 7 && (int)Date::getCurrentHour() < 21) {
             try {
                 $timestamp = Date::getMorningTime();
                 $endDayTimestamp = Date::getEndDayTime();
