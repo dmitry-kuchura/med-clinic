@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Console\Commands\RemindDayOnDayAppointmentsCommand;
 use App\Http\Controllers\Controller;
-use App\TurboSMS\Service;
 
 class FirebirdController extends Controller
 {
-    /** @var Service */
-    private Service $smsSender;
+    /** @var RemindDayOnDayAppointmentsCommand */
+    private RemindDayOnDayAppointmentsCommand $service;
 
-    public function __construct(Service $smsSender)
+    public function __construct(RemindDayOnDayAppointmentsCommand $service)
     {
-        $this->smsSender = $smsSender;
+        $this->service = $service;
     }
 
     public function data()
     {
-        $response = $this->smsSender->getMessageStatus(['fac40793-6081-c1aa-1dd1-a4550b8c849f']);
-
-        dd($response->getResponseResult());
+        $this->service->handle();
     }
 }

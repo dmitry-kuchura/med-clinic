@@ -30,9 +30,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('update:messages-status')->everyMinute();
-
         if (App::environment('production')) {
+            $schedule->command('update:messages-status')->everyMinute();
             // Sync
             $schedule->command('sync:appointments')->everyTenMinutes();
             $schedule->command('sync:patient-visits')->everyTenMinutes();

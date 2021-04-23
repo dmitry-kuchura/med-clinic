@@ -13,7 +13,7 @@ class PatientAppointmentReminderRepository implements Repository
             ->where('is_mark', false)
             ->with(['patient'])
             ->limit(25)
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
     }
 
