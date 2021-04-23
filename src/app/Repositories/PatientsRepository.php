@@ -25,7 +25,8 @@ class PatientsRepository implements Repository
             ->where('first_name', 'like', '%' . $query . '%')
             ->orWhere('last_name', 'like', '%' . $query . '%')
             ->orWhere('middle_name', 'like', '%' . $query . '%')
-            ->limit(5)
+            ->orWhere('phone', 'like', '%' . $query . '%')
+            ->limit(25)
             ->get();
     }
 

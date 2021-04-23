@@ -103,7 +103,7 @@ class Navigation extends React.Component {
                             <div className="input-group">
                                 <input className="form-control"
                                        type="text"
-                                       onBlur={this.filterPatients}
+                                       onChange={this.filterPatients}
                                        placeholder="Пошук.."/>
                                 <div className="input-group-append">
                                     {!this.state.isLoading &&
