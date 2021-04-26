@@ -59,7 +59,7 @@ class PatientsService
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'middle_name' => $data['middle_name'],
-            'gender' => $data['gender'],
+            'gender' => $data['gender'] ?? null,
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
         ];
@@ -69,6 +69,24 @@ class PatientsService
         try {
             $this->usersRepository->update(['email' => $data['email']], $patient->user_id);
             $this->patientsRepository->update($patientData, $data['id']);
+        } catch (Throwable $throwable) {
+            throw new UpdatePatientException();
+        }
+    }
+
+    public function updatePatientByExternal(array $data): void
+    {
+        $patientData = [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
+            'phone' => $data['phone'] ?? null,
+        ];
+
+        $patient = $this->findPatientByExternalId($data['external_id']);
+
+        try {
+            $this->patientsRepository->update($patientData, $patient->id);
         } catch (Throwable $throwable) {
             throw new UpdatePatientException();
         }
@@ -138,6 +156,7 @@ class PatientsService
         /** @var FirebirdPatient $result */
         foreach ($results as $result) {
             $data[] = [
+                'external_id' => $result->NR,
                 'first_name' => $result->human->FIRSTNAME,
                 'last_name' => $result->human->SURNAME,
                 'middle_name' => $result->human->SECNAME,
@@ -177,6 +196,13 @@ class PatientsService
         $data['phone'] = PhoneNumber::prepare($data['phone']);
 
         return $this->create($data);
+    }
+
+    public function syncPatientPhoneNumber(array $data)
+    {
+        $data['phone'] = PhoneNumber::prepare($data['phone']);
+
+        $this->updatePatientByExternal($data);
     }
 
     public function findExistPatient(int $externalId): ?Patient
