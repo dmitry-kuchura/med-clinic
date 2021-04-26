@@ -57,7 +57,7 @@ class RemindForVisitDataCommand extends Command
                 /** @var PatientVisit $visit */
                 foreach ($visits as $visit) {
                     if ($this->isNeedRemind($visit)) {
-//                        $this->messageService->remindNewAnalyse($visit);
+                        $this->messageService->remindNewAnalyse($visit);
                     }
 
                     $this->visitsService->markedVisit($visit);
