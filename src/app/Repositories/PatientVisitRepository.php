@@ -14,11 +14,11 @@ class PatientVisitRepository implements Repository
 
     public function getListForRemind(string $timestamp): ?Collection
     {
-        return PatientVisit::where('appointment_at', '>', $timestamp)
-            ->where('is_mark', false)
+        return PatientVisit::where('visited_at', '>', $timestamp)
+            ->with('patient', 'doctor', 'data')
+            ->where('is_marked', false)
             ->limit(50)
-            ->orderBy('appointment_at', 'asc')
-            ->groupBy('id', 'patient_id', 'doctor_id', 'appointment_at')
+            ->orderBy('id', 'asc')
             ->get();
     }
 

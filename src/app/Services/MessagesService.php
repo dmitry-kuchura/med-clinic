@@ -153,11 +153,7 @@ class MessagesService
         $request = [];
 
         try {
-            if ($visit->doctor->is_lab) {
-                $text = $this->getMessageTemplateByAlias('patient-appointment-lab');
-            } else {
-                $text = $this->getMessageTemplateByAlias('patient-appointment');
-            }
+            $text = $this->getMessageTemplateByAlias('patient-reminder-analyse');
 
             $request['phone'] = $visit->patient->phone;
             $request['text'] = $text;

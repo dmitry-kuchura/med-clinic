@@ -15,7 +15,6 @@ class PatientFirebirdRepository
         )
             ->with('human')
             ->whereIn('PATIENTS.NR', $externalIds)
-            ->limit(25)
             ->orderBy('PATIENTS.NR', 'DESC')
             ->get();
     }

@@ -21,7 +21,7 @@ class PatientsRepository implements Repository
 
     public function getPatientsWithoutPhone(): ?Collection
     {
-        return Patient::whereNull('phone')->limit(25)->get();
+        return Patient::whereNull('phone')->limit(50)->get();
     }
 
     public function search(string $query): ?Collection

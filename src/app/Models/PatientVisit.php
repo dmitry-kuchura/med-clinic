@@ -56,6 +56,6 @@ class PatientVisit extends Model
 
     public function data()
     {
-        return $this->hasOne('App\Models\PatientVisitData', 'visit_id', 'id');
+        return $this->hasMany('App\Models\PatientVisitData', 'visit_id', 'id');
     }
 }
