@@ -7,6 +7,7 @@ use App\Models\Firebird\PatientVisit;
 use App\Models\Firebird\PatientVisitData;
 use App\Repositories\Firebird\PatientVisitFirebirdRepository;
 use App\Repositories\PatientVisitDataRepository;
+use App\Repositories\PatientVisitLateRepository;
 use App\Repositories\PatientVisitRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -22,6 +23,9 @@ class VisitsService
     /** @var PatientVisitRepository */
     private PatientVisitRepository $patientVisitRepository;
 
+    /** @var PatientVisitLateRepository */
+    private PatientVisitLateRepository $patientVisitLateRepository;
+
     /** @var PatientVisitDataRepository */
     private PatientVisitDataRepository $patientVisitDataRepository;
 
@@ -32,6 +36,7 @@ class VisitsService
         PatientsService $patientsService,
         DoctorsService $doctorsService,
         PatientVisitRepository $patientVisitRepository,
+        PatientVisitLateRepository $patientVisitLateRepository,
         PatientVisitDataRepository $patientVisitDataRepository,
         PatientVisitFirebirdRepository $patientVisitFirebirdRepository
     )
@@ -39,6 +44,7 @@ class VisitsService
         $this->patientsService = $patientsService;
         $this->doctorsService = $doctorsService;
         $this->patientVisitRepository = $patientVisitRepository;
+        $this->patientVisitLateRepository = $patientVisitLateRepository;
         $this->patientVisitDataRepository = $patientVisitDataRepository;
         $this->patientVisitFirebirdRepository = $patientVisitFirebirdRepository;
     }
@@ -133,6 +139,11 @@ class VisitsService
         }
     }
 
+    public function late(array $data)
+    {
+        $this->patientVisitLateRepository->store(['external_id' => $data['external_id']]);
+    }
+
     public function markedVisit(Visit $visit)
     {
         $this->patientVisitRepository->update(['is_marked' => true,], $visit->id);
@@ -143,8 +154,12 @@ class VisitsService
         return $this->patientVisitRepository->getLastVisits();
     }
 
-    public function sync(array $data)
+    public function sync(array $data): void
     {
-        $this->store($data);
+        if (isset($data['visit'])) {
+            $this->store($data);
+        } else {
+            $this->late($data);
+        }
     }
 }
