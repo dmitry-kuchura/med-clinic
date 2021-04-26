@@ -12,6 +12,7 @@ use Firebird\Eloquent\Model;
  * @property string $EMAIL
  * @property string $PHONE
  * @property string $MOBPHONE
+ * @property string $OTHERPHONES
  * @property string $FULLNAME
  * @property int $SEX
  * @property string $DOB

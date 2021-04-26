@@ -7,6 +7,8 @@ use App\Helpers\GenerateTempEmail;
 use App\Helpers\PhoneNumber;
 use App\Models\Enum\UserRole;
 use App\Models\Patient;
+use App\Models\Firebird\Patient as FirebirdPatient;
+use App\Repositories\Firebird\PatientFirebirdRepository;
 use App\Repositories\PatientsRepository;
 use App\Repositories\UsersRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +18,9 @@ use Throwable;
 class PatientsService
 {
     const RECORDS_AT_PAGE = 30;
+
+    /** @var PatientFirebirdRepository */
+    private PatientFirebirdRepository $patientFirebirdRepository;
 
     /** @var PatientsRepository */
     private PatientsRepository $patientsRepository;
@@ -27,11 +32,13 @@ class PatientsService
     private GenerateTempEmail $helper;
 
     public function __construct(
+        PatientFirebirdRepository $patientFirebirdRepository,
         PatientsRepository $patientsRepository,
         UsersRepository $usersRepository
     )
     {
         $this->helper = new GenerateTempEmail($patientsRepository);
+        $this->patientFirebirdRepository = $patientFirebirdRepository;
         $this->patientsRepository = $patientsRepository;
         $this->usersRepository = $usersRepository;
     }
@@ -106,6 +113,58 @@ class PatientsService
         ];
 
         return $this->patientsRepository->store($patientData);
+    }
+
+    public function getPatientsWithoutPhone(): array
+    {
+        $ids = [];
+
+        $patients = $this->patientsRepository->getPatientsWithoutPhone();
+
+        /** @var Patient $patient */
+        foreach ($patients as $patient) {
+            $ids[] = $patient->external_id;
+        }
+
+        return $ids;
+    }
+
+    public function getRemotePatients(array $ids): array
+    {
+        $data = [];
+
+        $results = $this->patientFirebirdRepository->getPatients($ids);
+
+        /** @var FirebirdPatient $result */
+        foreach ($results as $result) {
+            $data[] = [
+                'first_name' => $result->human->FIRSTNAME,
+                'last_name' => $result->human->SURNAME,
+                'middle_name' => $result->human->SECNAME,
+                'gender' => $result->human->SEX === 1 ? 'male' : 'female',
+                'birthday' => $result->human->DOB ?? null,
+                'phone' => $this->getPatientPhone($result),
+            ];
+        }
+
+        return $data;
+    }
+
+    public function getPatientPhone(FirebirdPatient $patient): ?string
+    {
+        if ($patient->human->PHONE) {
+            return trim($patient->human->PHONE);
+        }
+
+        if ($patient->human->MOBPHONE) {
+            return trim($patient->human->MOBPHONE);
+        }
+
+        if ($patient->human->OTHERPHONES) {
+            return trim($patient->human->OTHERPHONES);
+        }
+
+        return null;
     }
 
     public function search(string $query): ?Collection

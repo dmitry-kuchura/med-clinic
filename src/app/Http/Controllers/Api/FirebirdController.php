@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Console\Commands\RemindDayOnDayAppointmentsCommand;
+use App\Console\Commands\SyncPatientPhonesCommand;
 use App\Http\Controllers\Controller;
 
 class FirebirdController extends Controller
 {
-    /** @var RemindDayOnDayAppointmentsCommand */
-    private RemindDayOnDayAppointmentsCommand $service;
+    /** @var SyncPatientPhonesCommand */
+    private SyncPatientPhonesCommand $service;
 
-    public function __construct(RemindDayOnDayAppointmentsCommand $service)
+    public function __construct(SyncPatientPhonesCommand $service)
     {
         $this->service = $service;
     }

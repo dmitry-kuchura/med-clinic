@@ -76,7 +76,7 @@ class SyncAppointmentsCommand extends Command
             }
         }
 
-        $this->logService->info('Synced: ' . count($result) . ' rows.');
+        $this->logService->info('Synced patient appointments: ' . count($result) . ' rows.');
 
         return true;
     }
