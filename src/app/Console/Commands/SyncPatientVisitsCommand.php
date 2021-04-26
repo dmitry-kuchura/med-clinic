@@ -55,6 +55,9 @@ class SyncPatientVisitsCommand extends Command
                 try {
                     $this->visitsService->sync($record);
                 } catch (Throwable $throwable) {
+                    $this->logService->exception($throwable->getMessage());
+                    $this->logService->debug('Synced patients visits error', ['record' => $record]);
+
                     throw new SyncErrorException('Message: ' . $throwable->getMessage() . ' in file: ' . $throwable->getFile() . ' on line ' . $throwable->getLine());
                 }
             }
