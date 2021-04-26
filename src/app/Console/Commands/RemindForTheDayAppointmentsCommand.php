@@ -12,6 +12,7 @@ use App\Services\DoctorsService;
 use App\Services\LogService;
 use App\Services\MessagesService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Throwable;
 
 class RemindForTheDayAppointmentsCommand extends Command
@@ -93,11 +94,18 @@ class RemindForTheDayAppointmentsCommand extends Command
     {
         $rule = [AppointmentType::ADDING, AppointmentType::EDITING, AppointmentType::CHECK_IN, AppointmentType::SET_MARK];
 
+        // Если запись на прием не удалили
         if (in_array($appointment->type, $rule, true)) {
+            // Если доктор добавлен в список "кого оповещать"
             if ($this->doctorService->doctorIsApprove($appointment->doctor->id)) {
+                // Если есть галочка оповещать за день до приема
                 if ($appointment->patient->per_day) {
-                    if (strlen($appointment->patient->phone) > 0) {
-                        return true;
+                    // Если есть номер телефона
+                    if ($appointment->patient->phone && strlen($appointment->patient->phone) > 0) {
+                        // Если дата приема не в прошлом
+                        if (!Carbon::parse($appointment->appointment_at)->isPast()) {
+                            return true;
+                        }
                     }
                 }
             }
