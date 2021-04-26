@@ -41,7 +41,6 @@ class SyncPatientPhonesCommand extends Command
     {
         $externalIds = $this->patientsService->getPatientsWithoutPhone();
 
-
         if ($externalIds) {
             $result = $this->patientsService->getRemotePatients($externalIds);
 
@@ -49,7 +48,7 @@ class SyncPatientPhonesCommand extends Command
                 foreach ($result as $patient) {
                     if ($this->validPhoneString($patient['phone'])) {
                         try {
-                            $this->patientsService->syncPatient($patient);
+                            $this->patientsService->syncPatientPhoneNumber($patient);
                         } catch (Throwable $throwable) {
                             throw new SyncErrorException('Message: ' . $throwable->getMessage() . ' in file: ' . $throwable->getFile() . ' on line ' . $throwable->getLine());
                         }
