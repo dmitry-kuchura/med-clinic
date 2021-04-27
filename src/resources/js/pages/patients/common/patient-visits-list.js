@@ -49,21 +49,31 @@ class PatientVisitsList extends React.Component {
 
 const List = (props) => {
     let list = props.data;
+    let array = [];
     let html;
 
     if (list.length > 0) {
-        html = list.map(function (item) {
-            if (item.data) {
-                return (
-                    <tr key={item.id}>
-                        <td><strong>{item.id}</strong></td>
-                        <td><p>{item.data.category}</p></td>
-                        <td><p>{item.data.template}</p></td>
-                        <td><p>{formatDate(item.data.created_at)}</p></td>
-                    </tr>
-                )
-            }
+        list.forEach(function (item) {
+            item.data.forEach(function (data) {
+                array.push({
+                    id: item.id,
+                    category: data.category,
+                    template: data.template,
+                    created_at: data.created_at,
+                })
+            });
         });
+
+        html = array.map(function (data) {
+            return (
+                <tr key={data.id}>
+                    <td><strong>{data.id}</strong></td>
+                    <td><p>{data.category}</p></td>
+                    <td><p>{data.template}</p></td>
+                    <td><p>{formatDate(data.created_at)}</p></td>
+                </tr>
+            )
+        })
 
         return html;
     }

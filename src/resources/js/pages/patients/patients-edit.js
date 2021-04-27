@@ -276,11 +276,6 @@ class PatientsEdit extends React.Component {
         this.handleHide();
 
         switch (param) {
-            case 'email':
-                this.setState({
-                    showSendEmailModal: true
-                });
-                break;
             case 'sms':
                 this.setState({
                     message: {
@@ -329,15 +324,13 @@ class PatientsEdit extends React.Component {
                                                 {patient.id ?
                                                     <button type="button" className="btn btn-outline-primary m-1"
                                                             data-modal="sms"
-                                                            onClick={this.handleShowModal}>Надіслати
-                                                        СМС</button>
+                                                            onClick={this.handleShowModal}>Надіслати СМС</button>
                                                     : null}
 
                                                 {patient.id && !this.isTempEmail() ?
                                                     <button type="button" className="btn btn-outline-secondary m-1"
-                                                            data-modal="email"
-                                                            onClick={this.handleShowModal}>Надіслати
-                                                        Email</button>
+                                                            data-modal="test"
+                                                            onClick={this.handleShowModal}>Відправити аналіз</button>
                                                     : null}
                                             </div>
                                         </div>
@@ -574,18 +567,6 @@ class PatientsEdit extends React.Component {
                                     Відправити
                                 </button>
                             </div>
-                        </div>
-                    </form>
-                </Modal>
-                <Modal show={this.state.showSendEmailModal} handleHide={this.handleHide} title="Відправка Email">
-                    <form>
-                        <div className="form-group">
-                            <label htmlFor="email">Email адреса</label>
-                            <input type="email" className="form-control" id="email" placeholder="name@example.com"/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="message">Текст повідомлення</label>
-                            <textarea className="form-control" id="message" rows="3"></textarea>
                         </div>
                     </form>
                 </Modal>
