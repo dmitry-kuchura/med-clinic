@@ -88,6 +88,6 @@ class RemindForVisitDataCommand extends Command
 
     public function isCorrectTime(string $current): bool
     {
-        return (int)$current > 9 ?? (int)$current < 18;
+        return (int)$current > 9 && (int)$current < 18;
     }
 }
