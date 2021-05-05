@@ -31,4 +31,17 @@ class PatientVisitFirebirdRepository
             ->orderBy('PATIENTVISITS.NR', 'ASC')
             ->get();
     }
+
+    public function getPatientVisitByExternalId(int $external): ?PatientVisit
+    {
+        return PatientVisit::select(
+            'PATIENTVISITS.NR',
+            'PATIENTVISITS.PATIENT_NR',
+            'PATIENTVISITS.DOCTOR_NR',
+            'PATIENTVISITS.VISITDATE'
+        )
+            ->with('doctor', 'patient', 'data', 'data.template', 'data.category')
+            ->where('PATIENTVISITS.NR', '=', $external)
+            ->first();
+    }
 }

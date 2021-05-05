@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\RemindForVisitDataCommand::class,
         Commands\UpdateMessageStatusCommand::class,
         Commands\SyncPatientPhonesCommand::class,
+        Commands\SyncLatePatientVisitsCommand::class,
     ];
 
     /**
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('sync:patient-phones')->everyFiveMinutes();
             $schedule->command('sync:appointments')->everyTenMinutes();
             $schedule->command('sync:patient-visits')->everyTenMinutes();
+            $schedule->command('sync:latest-patient-visits')->everyTenMinutes();
             // Remind
             $schedule->command('reminder:before-day')->everyMinute();
 //            $schedule->command('reminder:day-on-day')->everyFiveMinutes();

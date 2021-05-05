@@ -98,6 +98,13 @@ class VisitsService
         return $patientVisits;
     }
 
+    public function getRemoteVisitByExternalId(int $external): ?array
+    {
+        $result = $this->patientVisitFirebirdRepository->getPatientVisitByExternalId($external);
+
+        return $this->prepareData($result);
+    }
+
     public function getListForRemind(string $timestamp): ?Collection
     {
         return $this->patientVisitRepository->getListForRemind($timestamp);
@@ -154,6 +161,24 @@ class VisitsService
         return $this->patientVisitRepository->getLastVisits();
     }
 
+    public function getLastLatePatientsVisits(): array
+    {
+        $result = [];
+
+        $data = $this->patientVisitLateRepository->getLastVisits();
+
+        foreach ($data as $item) {
+            $result[] = $item->external_id;
+        }
+
+        return $result;
+    }
+
+    public function markedLatePatientVisit(int $externalId): void
+    {
+        $this->patientVisitLateRepository->markedLateVisit($externalId);
+    }
+
     public function sync(array $data): void
     {
         if (isset($data['visit'])) {
@@ -161,5 +186,45 @@ class VisitsService
         } else {
             $this->late($data);
         }
+    }
+
+    private function prepareData(PatientVisit $result): ?array
+    {
+        $data = [];
+        $visit = [];
+
+        $data['visited_at'] = $result->VISITDATE;
+        $data['external_id'] = $result->NR;
+        $data['patient'] = [
+            'first_name' => $result->patient->human->FIRSTNAME,
+            'last_name' => $result->patient->human->SURNAME,
+            'middle_name' => $result->patient->human->SECNAME,
+            'gender' => $result->patient->human->SEX === 1 ? 'male' : 'female',
+            'birthday' => $result->patient->human->DOB ?? null,
+            'phone' => $result->patient->human->PHONE ?? $result->patient->human->MOBPHONE,
+            'external_id' => $result->patient->NR,
+        ];
+        $data['doctor'] = [
+            'first_name' => $result->doctor->human->FIRSTNAME,
+            'last_name' => $result->doctor->human->SURNAME,
+            'middle_name' => $result->doctor->human->SECNAME,
+            'gender' => $result->doctor->human->SEX === 1 ? 'male' : 'female',
+            'birthday' => $result->doctor->human->DOB ?? null,
+            'phone' => $result->doctor->human->PHONE ?? $result->doctor->human->MOBPHONE,
+            'external_id' => $result->doctor->NR,
+        ];
+
+        /** @var PatientVisitData $visitData */
+        foreach ($result->data as $visitData) {
+            $visit[] = [
+                'category' => $visitData->category->CATEGORYNAME,
+                'template' => $visitData->template->NAME,
+                'added_at' => $visitData->DATECHANGE
+            ];
+
+            $data['visit'] = $visit;
+        }
+
+        return $data;
     }
 }

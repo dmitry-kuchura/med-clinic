@@ -6,6 +6,20 @@ use App\Models\PatientVisitLate;
 
 class PatientVisitLateRepository implements Repository
 {
+    public function getLastVisits()
+    {
+        return PatientVisitLate::select('external_id')
+            ->where('is_marked', false)
+            ->orderBy('id', 'asc')
+            ->limit(25)
+            ->get();
+    }
+
+    public function markedLateVisit(int $externalId)
+    {
+        PatientVisitLate::where('external_id', $externalId)->update(['is_marked' => true]);
+    }
+
     public function get(int $id)
     {
         return PatientVisitLate::find($id);
