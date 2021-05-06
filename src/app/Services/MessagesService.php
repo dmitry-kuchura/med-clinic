@@ -153,10 +153,10 @@ class MessagesService
         $request = [];
 
         try {
-            $text = $this->getMessageTemplateByAlias('patient-reminder-analyse');
+            $template = $this->getMessageTemplateByAlias('patient-reminder-analyse');
 
             $request['phone'] = $visit->patient->phone;
-            $request['text'] = $text;
+            $request['text'] = $template->content;
 
             $this->sendMessageReminder($request);
         } catch (Throwable $throwable) {
