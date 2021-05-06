@@ -70,15 +70,17 @@ class RemindForTheDayAppointmentsCommand extends Command
                     /** @var PatientAppointment $lastAppointment */
                     $lastAppointment = $history->first();
 
-                    if ($this->isNeedRemind($lastAppointment)) {
-                        $this->messageService->remindBeforeDay($lastAppointment);
+                    if ($lastAppointment) {
+                        if ($this->isNeedRemind($lastAppointment)) {
+                            $this->messageService->remindBeforeDay($lastAppointment);
 
-                        if ($lastAppointment->patient->day_on_day) {
-                            $this->appointmentService->addAppointmentReminder($lastAppointment);
+                            if ($lastAppointment->patient->day_on_day) {
+                                $this->appointmentService->addAppointmentReminder($lastAppointment);
+                            }
                         }
-                    }
 
-                    $this->appointmentService->markedPatientAppointmentHistory($history);
+                        $this->appointmentService->markedPatientAppointmentHistory($history);
+                    }
                 }
             } catch (Throwable $throwable) {
                 throw new RemindForTheDayErrorException('Message: ' . $throwable->getMessage() . ' in file: ' . $throwable->getFile() . ' on line ' . $throwable->getLine());
@@ -90,8 +92,12 @@ class RemindForTheDayAppointmentsCommand extends Command
         return true;
     }
 
-    public function isNeedRemind(PatientAppointment $appointment): bool
+    public function isNeedRemind(?PatientAppointment $appointment): bool
     {
+        if (!$appointment) {
+            return false;
+        }
+
         $rule = [AppointmentType::ADDING, AppointmentType::EDITING, AppointmentType::CHECK_IN, AppointmentType::SET_MARK];
 
         // Если запись на прием не удалили
