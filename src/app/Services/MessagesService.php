@@ -156,6 +156,7 @@ class MessagesService
             $template = $this->getMessageTemplateByAlias('patient-reminder-analyse');
 
             $request['phone'] = $visit->patient->phone;
+            $request['patient_id'] = $visit->patient->id;
             $request['text'] = $template->content;
 
             $this->sendMessageReminder($request);
