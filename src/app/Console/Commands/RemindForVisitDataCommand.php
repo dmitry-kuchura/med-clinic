@@ -49,15 +49,18 @@ class RemindForVisitDataCommand extends Command
     public function handle()
     {
         if ($this->isCorrectTime(Date::getCurrentHour())) {
-            $timestamp = Date::getMorningTime();
+            $timestamp = Date::getYesterdayMorningTime();
+
+            $added = [];
 
             try {
                 $visits = $this->visitsService->getListForRemind($timestamp);
 
                 /** @var PatientVisit $visit */
                 foreach ($visits as $visit) {
-                    if ($this->isNeedRemind($visit)) {
+                    if ($this->isNeedRemind($visit, $added)) {
                         $this->messageService->remindNewAnalyse($visit);
+                        $added[] = $visit->patient->id;
                     }
 
                     $this->visitsService->markedVisit($visit);
@@ -72,13 +75,15 @@ class RemindForVisitDataCommand extends Command
         return true;
     }
 
-    public function isNeedRemind(PatientVisit $visit): bool
+    public function isNeedRemind(PatientVisit $visit, array $added): bool
     {
         if ($visit->patient->phone && strlen($visit->patient->phone)) {
             /** @var PatientVisitData $data */
             foreach ($visit->data as $data) {
                 if (trim($data->category) === 'Лабораторное исследование') {
-                    return true;
+                    if (!in_array($visit->patient->id, $added)) {
+                        return true;
+                    }
                 }
             }
         }
