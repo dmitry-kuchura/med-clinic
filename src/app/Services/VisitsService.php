@@ -105,9 +105,9 @@ class VisitsService
         return $this->prepareData($result);
     }
 
-    public function getListForRemind(string $timestamp): ?Collection
+    public function getListForRemind(string $startTimestamp, string $endTimestamp): ?Collection
     {
-        return $this->patientVisitRepository->getListForRemind($timestamp);
+        return $this->patientVisitRepository->getListForRemind($startTimestamp, $endTimestamp);
     }
 
     public function getPatientsVisitsList(int $id)

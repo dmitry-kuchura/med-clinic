@@ -26,6 +26,11 @@ class Date
         return Carbon::now()->subDays(1)->setHours(00)->setMinutes(00)->setSeconds(00)->format('Y-m-d H:i:s');
     }
 
+    public static function getYesterdayEndDayTime(): string
+    {
+        return Carbon::now()->subDays(1)->setHours(23)->setMinutes(59)->setSeconds(59)->format('Y-m-d H:i:s');
+    }
+
     public static function getCurrentTime(): string
     {
         return Carbon::now()->format('Y-m-d H:i:s');

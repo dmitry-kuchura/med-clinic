@@ -12,9 +12,10 @@ class PatientVisitRepository implements Repository
         return PatientVisit::orderBy('id', 'desc')->first();
     }
 
-    public function getListForRemind(string $timestamp): ?Collection
+    public function getListForRemind($startTimestamp, $endTimestamp): ?Collection
     {
-        return PatientVisit::where('visited_at', '>', $timestamp)
+        return PatientVisit::where('visited_at', '>', $startTimestamp)
+            ->where('visited_at', '<', $endTimestamp)
             ->with('patient', 'doctor', 'data')
             ->where('is_marked', false)
             ->limit(50)

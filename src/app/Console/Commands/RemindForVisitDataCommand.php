@@ -49,12 +49,13 @@ class RemindForVisitDataCommand extends Command
     public function handle()
     {
         if ($this->isCorrectTime(Date::getCurrentHour())) {
-            $timestamp = Date::getYesterdayMorningTime();
+            $startTimestamp = Date::getYesterdayMorningTime();
+            $endTimestamp = Date::getYesterdayEndDayTime();
 
             $added = [];
 
             try {
-                $visits = $this->visitsService->getListForRemind($timestamp);
+                $visits = $this->visitsService->getListForRemind($startTimestamp, $endTimestamp);
 
                 /** @var PatientVisit $visit */
                 foreach ($visits as $visit) {
