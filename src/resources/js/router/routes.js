@@ -102,6 +102,11 @@ const routes = [
         exact: true,
         auth: true,
         component: MessagesTemplatesEdit
+    },  {
+        path: '/visits/approved',
+        exact: true,
+        auth: true,
+        component: VisitsApprovedList
     }, {
         path: '',
         exact: true,

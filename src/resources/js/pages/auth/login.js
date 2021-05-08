@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {login} from '../../services/auth-service';
+import swal from 'sweetalert';
 
 class Login extends React.Component {
     constructor(props) {
@@ -32,6 +33,8 @@ class Login extends React.Component {
 
         this.props.dispatch(login(credentials))
             .catch(({error, statusCode}) => {
+                swal('Погано!', 'Помилка при авторизації!', 'error');
+
                 const responseError = {
                     isError: true,
                     code: statusCode,

@@ -3,12 +3,15 @@
 namespace App\Services;
 
 use App\Models\PatientVisit as Visit;
+use App\Models\PatientVisitData as VisitData;
 use App\Models\Firebird\PatientVisit;
 use App\Models\Firebird\PatientVisitData;
+use App\Models\PatientVisitTemplate;
 use App\Repositories\Firebird\PatientVisitFirebirdRepository;
 use App\Repositories\PatientVisitDataRepository;
 use App\Repositories\PatientVisitLateRepository;
 use App\Repositories\PatientVisitRepository;
+use App\Repositories\PatientVisitTemplateRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
@@ -29,6 +32,9 @@ class VisitsService
     /** @var PatientVisitDataRepository */
     private PatientVisitDataRepository $patientVisitDataRepository;
 
+    /** @var PatientVisitTemplateRepository */
+    private PatientVisitTemplateRepository $patientVisitTemplateRepository;
+
     /** @var PatientVisitFirebirdRepository */
     private PatientVisitFirebirdRepository $patientVisitFirebirdRepository;
 
@@ -38,6 +44,7 @@ class VisitsService
         PatientVisitRepository $patientVisitRepository,
         PatientVisitLateRepository $patientVisitLateRepository,
         PatientVisitDataRepository $patientVisitDataRepository,
+        PatientVisitTemplateRepository $patientVisitTemplateRepository,
         PatientVisitFirebirdRepository $patientVisitFirebirdRepository
     )
     {
@@ -46,6 +53,7 @@ class VisitsService
         $this->patientVisitRepository = $patientVisitRepository;
         $this->patientVisitLateRepository = $patientVisitLateRepository;
         $this->patientVisitDataRepository = $patientVisitDataRepository;
+        $this->patientVisitTemplateRepository = $patientVisitTemplateRepository;
         $this->patientVisitFirebirdRepository = $patientVisitFirebirdRepository;
     }
 
@@ -115,6 +123,34 @@ class VisitsService
         return $this->patientVisitRepository->getPatientsVisitsList($id);
     }
 
+    public function getApprovedVisitsList(): ?array
+    {
+        $list = [];
+
+        $result = $this->patientVisitDataRepository->getApprovedPatientsVisitsTemplates();
+
+        /** @var VisitData $value */
+        foreach ($result as $value) {
+            $list[] = $value->template;
+        }
+
+        return $list;
+    }
+
+    public function getAllApprovedPatientVisitTemplateList(): ?array
+    {
+        $list = [];
+
+        $result = $this->patientVisitTemplateRepository->all();
+
+        /** @var PatientVisitTemplate $value */
+        foreach ($result as $value) {
+            $list[] = $value->template;
+        }
+
+        return $list;
+    }
+
     public function store(array $data)
     {
         $patient = $this->patientsService->findPatientByExternalId($data['patient']['external_id']);
@@ -181,10 +217,12 @@ class VisitsService
 
     public function sync(array $data): void
     {
-        if (isset($data['visit'])) {
-            $this->store($data);
-        } else {
-            $this->late($data);
+        if (!$this->patientVisitRepository->checkExist($data['external_id'])) {
+            if (isset($data['visit'])) {
+                $this->store($data);
+            } else {
+                $this->late($data);
+            }
         }
     }
 

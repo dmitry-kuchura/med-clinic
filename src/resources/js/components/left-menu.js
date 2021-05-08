@@ -11,7 +11,7 @@ class LeftMenu extends React.Component {
 
         this.state = {
             authUser: null,
-            dropdownTests: false,
+            dropdownVisits: false,
             dropdownPatients: false,
             dropdownDoctors: false
         };
@@ -34,6 +34,9 @@ class LeftMenu extends React.Component {
                 break;
             case 'doctors':
                 this.setState({dropdownDoctors: !this.state.dropdownDoctors});
+                break;
+            case 'visits':
+                this.setState({dropdownVisits: !this.state.dropdownVisits});
                 break;
         }
     }
@@ -88,6 +91,24 @@ class LeftMenu extends React.Component {
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/doctors">Список лікарів</Link>
                                     <Link className="nav-link" to="/doctors/approved">Список зі сповіщеням</Link>
+                                </nav>
+                            </div>
+
+                            <div className="sb-sidenav-menu-heading">Аналізи</div>
+
+                            <Link to="#" className="nav-link collapsed" id="visits" onClick={this.handleDropdown}>
+                                <div className="sb-nav-link-icon">
+                                    <i className="fas fa-vial"/>
+                                </div>
+                                Аналізи
+                                <div className="sb-sidenav-collapse-arrow">
+                                    {this.state.dropdownVisits ? <i className="fas fa-angle-right"/> :
+                                        <i className="fas fa-angle-down"/>}
+                                </div>
+                            </Link>
+                            <div className="collapse" style={this.state.dropdownVisits ? closed : opened}>
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/visits/approved">Аналізи зі сповіщеням</Link>
                                 </nav>
                             </div>
 

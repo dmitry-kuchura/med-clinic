@@ -24,4 +24,16 @@ class PatientsVisitsController extends Controller
 
         return $this->returnResponse(['result' => $result]);
     }
+
+    public function approvedList(): JsonResponse
+    {
+        $all = $this->service->getApprovedVisitsList();
+
+        $approved = $this->service->getAllApprovedPatientVisitTemplateList();
+
+        return $this->returnResponse([
+            'all' => $all,
+            'approved' => $approved
+        ]);
+    }
 }

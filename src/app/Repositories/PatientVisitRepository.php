@@ -12,6 +12,11 @@ class PatientVisitRepository implements Repository
         return PatientVisit::orderBy('id', 'desc')->first();
     }
 
+    public function checkExist(int $externalId): ?PatientVisit
+    {
+        return PatientVisit::where('external_id', $externalId)->first();
+    }
+
     public function getListForRemind($startTimestamp, $endTimestamp): ?Collection
     {
         return PatientVisit::where('visited_at', '>', $startTimestamp)

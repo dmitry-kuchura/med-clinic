@@ -16,6 +16,11 @@ class PatientVisitDataRepository implements Repository
         return PatientVisitData::all();
     }
 
+    public function getApprovedPatientsVisitsTemplates()
+    {
+        return PatientVisitData::select('template')->distinct()->get();
+    }
+
     public function store(array $data): PatientVisitData
     {
         return PatientVisitData::create($data);
