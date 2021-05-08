@@ -27,13 +27,30 @@ class PatientsVisitsController extends Controller
 
     public function approvedList(): JsonResponse
     {
-        $all = $this->service->getApprovedVisitsList();
-
+        $list = $this->service->getApprovedVisitsList();
         $approved = $this->service->getAllApprovedPatientVisitTemplateList();
 
         return $this->returnResponse([
-            'all' => $all,
+            'list' => $list,
             'approved' => $approved
+        ]);
+    }
+
+    public function addApproved(Request $request): JsonResponse
+    {
+        $this->service->addApprovedPatientVisitTemplateList($request->get('template'));
+
+        return $this->returnResponse([
+            'success' => true
+        ]);
+    }
+
+    public function deleteApproved(Request $request): JsonResponse
+    {
+        $this->service->deleteApprovedPatientVisitTemplateList($request->get('template'));
+
+        return $this->returnResponse([
+            'success' => true
         ]);
     }
 }

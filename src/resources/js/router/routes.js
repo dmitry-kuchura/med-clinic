@@ -13,8 +13,9 @@ import DoctorsList from '../pages/doctors/doctors-list';
 import DoctorsEdit from '../pages/doctors/doctors-edit';
 import MessagesTemplatesList from '../pages/messages-templates/messages-templates-list';
 import MessagesTemplatesEdit from '../pages/messages-templates/messages-templates-edit';
-import Logs from '../pages/logs';
 import DoctorsApprovedList from '../pages/doctors/doctors-approved-list';
+import VisitsApprovedList from '../pages/visits/visits-approved-list';
+import Logs from '../pages/logs';
 
 const routes = [
     {
@@ -102,7 +103,7 @@ const routes = [
         exact: true,
         auth: true,
         component: MessagesTemplatesEdit
-    },  {
+    }, {
         path: '/visits/approved',
         exact: true,
         auth: true,

@@ -151,6 +151,18 @@ class VisitsService
         return $list;
     }
 
+    public function addApprovedPatientVisitTemplateList(string $template): void
+    {
+        if (!$this->patientVisitTemplateRepository->find($template)) {
+            $this->patientVisitTemplateRepository->store(['template' => $template]);
+        }
+    }
+
+    public function deleteApprovedPatientVisitTemplateList(string $template): void
+    {
+        $this->patientVisitTemplateRepository->delete($template);
+    }
+
     public function store(array $data)
     {
         $patient = $this->patientsService->findPatientByExternalId($data['patient']['external_id']);

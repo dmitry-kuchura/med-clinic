@@ -6,3 +6,10 @@ export function getPatientVisits(payload) {
         payload
     }
 }
+
+export function getApprovedPatientsVisitsTemplate(payload) {
+    return {
+        type: ActionTypes.PATIENT_VISITS_APPROVED_TEMPLATES_LIST,
+        payload
+    }
+}

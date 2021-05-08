@@ -65,6 +65,8 @@ Route::prefix('v1')->group(function () {
         Route::prefix('visits')->group(function () {
             Route::get('/{patientId}/list', [PatientsVisitsController::class, 'list'])->name('api.visits.patient.list')->where('patientId', '[0-9]+');
             Route::get('/approved', [PatientsVisitsController::class, 'approvedList'])->name('api.visits.approved.list');
+            Route::post('/approved', [PatientsVisitsController::class, 'addApproved'])->name('api.visits.approved.add');
+            Route::post('/approved/delete', [PatientsVisitsController::class, 'deleteApproved'])->name('api.visits.approved.delete');
         });
 
         Route::prefix('appointments')->group(function () {

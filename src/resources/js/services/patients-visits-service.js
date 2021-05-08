@@ -32,3 +32,61 @@ export function getPatientsVisits(page, id) {
         })
     );
 }
+
+export function getApprovedPatientsVisitsTemplateList() {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get('/api/v1/visits/approved')
+                .then(response => {
+                    dispatch(action.getApprovedPatientsVisitsTemplate(response.data));
+                    return resolve(response);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
+export function approveTemplate(template) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/visits/approved', {template: template})
+                .then(response => {
+                    return resolve(response);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
+
+export function deleteTemplate(template) {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.post('/api/v1/visits/approved/delete', {template: template})
+                .then(response => {
+                    return resolve(response);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}

@@ -11,6 +11,7 @@ import PatientsMessages from './patients-messages-reducer';
 import PatientAppointments from './patients-appointments-reducer';
 import MessagesTemplates from './messages-templates-reducer';
 import PatientVisits from './patients-visits-reducer';
+import PatientVisitsTemplates from './patients-visits-templates-reducer';
 
 const RootReducer = combineReducers({
     Auth,
@@ -24,6 +25,7 @@ const RootReducer = combineReducers({
     Tests,
     Logs,
     MessagesTemplates,
+    PatientVisitsTemplates,
     persistStore
 });
 
