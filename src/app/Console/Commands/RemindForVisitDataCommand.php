@@ -83,7 +83,7 @@ class RemindForVisitDataCommand extends Command
             foreach ($visit->data as $data) {
                 if (trim($data->category) === 'Лабораторное исследование') {
                     if (!$this->messageService->alreadyRemindToday($visit->patient->phone)) {
-                        if (in_array(trim($data->category), $templates)) {
+                        if (in_array(trim($data->template), $templates)) {
                             return true;
                         }
                     }
