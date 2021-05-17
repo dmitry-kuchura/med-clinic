@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Collection;
 
 class MessagesRepository implements Repository
 {
+    public function find(string $phone, string $today): ?Collection
+    {
+        return Message::where('recipient', 'like', '%' . $phone . '%')
+            ->where('created_at', '>', $today)
+            ->get();
+    }
+
     public function get(int $id)
     {
         // TODO: Implement get() method.

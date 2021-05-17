@@ -52,14 +52,14 @@ class RemindForVisitDataCommand extends Command
             $startTimestamp = Date::getYesterdayMorningTime();
             $endTimestamp = Date::getYesterdayEndDayTime();
 
-            $added = [];
+            $templates = $this->visitsService->getApprovedTemplates();
 
             try {
                 $visits = $this->visitsService->getListForRemind($startTimestamp, $endTimestamp);
 
                 /** @var PatientVisit $visit */
                 foreach ($visits as $visit) {
-                    if ($this->isNeedRemind($visit, $added)) {
+                    if ($this->isNeedRemind($visit, $templates)) {
                         $this->messageService->remindNewAnalyse($visit);
                         $added[] = $visit->patient->id;
                     }
@@ -76,14 +76,16 @@ class RemindForVisitDataCommand extends Command
         return true;
     }
 
-    public function isNeedRemind(PatientVisit $visit, array $added): bool
+    public function isNeedRemind(PatientVisit $visit, array $templates): bool
     {
         if ($visit->patient->phone && strlen($visit->patient->phone)) {
             /** @var PatientVisitData $data */
             foreach ($visit->data as $data) {
                 if (trim($data->category) === 'Лабораторное исследование') {
-                    if (!in_array($visit->patient->id, $added)) {
-                        return true;
+                    if (!$this->messageService->alreadyRemindToday($visit->patient->phone)) {
+                        if (in_array(trim($data->category), $templates)) {
+                            return true;
+                        }
                     }
                 }
             }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\SentMessageErrorException;
+use App\Helpers\Date;
 use App\Models\Message;
 use App\Models\MessageTemplate;
 use App\Models\PatientAppointment;
@@ -146,6 +147,19 @@ class MessagesService
         if ($response->getResponseResult()) {
             $this->updateMessage($response->getResponseResult());
         }
+    }
+
+    public function alreadyRemindToday(string $phone): bool
+    {
+        $today = Date::getMorningTime();
+
+        $result = $this->messageRepository->find($phone, $today);
+
+        if (!$result) {
+            return false;
+        }
+
+        return count($result) > 2;
     }
 
     public function remindNewAnalyse(PatientVisit $visit)

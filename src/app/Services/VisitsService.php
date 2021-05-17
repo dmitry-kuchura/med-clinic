@@ -118,6 +118,20 @@ class VisitsService
         return $this->patientVisitRepository->getListForRemind($startTimestamp, $endTimestamp);
     }
 
+    public function getApprovedTemplates(): array
+    {
+        $array = [];
+
+        $result = $this->patientVisitTemplateRepository->all();
+
+        /** @var PatientVisitTemplate $value */
+        foreach ($result as $value) {
+            $array[] = $value->template;
+        }
+
+        return $array;
+    }
+
     public function getPatientsVisitsList(int $id)
     {
         return $this->patientVisitRepository->getPatientsVisitsList($id);
