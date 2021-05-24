@@ -13,9 +13,11 @@ class UpdateDoctorsTable extends Migration
     public function up()
     {
         DB::table('doctors')
-            ->where('first_name', 'like','%LAB%')
-            ->where('last_name', 'like','%LAB%')
-            ->where('middle_name', 'like','%LAB%')
+            ->orWhere(function($query) {
+                $query->where('first_name', 'like','%LAB%')
+                    ->where('last_name', 'like','%LAB%')
+                    ->where('middle_name', 'like','%LAB%');
+            })
             ->update(['is_lab' => true]);
     }
 
