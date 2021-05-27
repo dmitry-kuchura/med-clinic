@@ -60,6 +60,7 @@ class MessagesService
     public function updateMessage(array $response)
     {
         foreach ($response as $message) {
+            if ((int)$message['response_code'] === 0)
             $this->messageRepository->updateMessage([
                 'message_id' => $message['message_id'],
                 'status' => $message['status'],
