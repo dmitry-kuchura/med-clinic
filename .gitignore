@@ -8,7 +8,7 @@
 .env
 
 # OTHER
-www/node_modules
+src/node_modules
 
 # DB
 .docker/postgres/data/*

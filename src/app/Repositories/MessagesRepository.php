@@ -8,6 +8,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 class MessagesRepository implements Repository
 {
+    public function paginate(int $offset, ?string $phone, ?string $status)
+    {
+        return Message::where(function ($query) use ($status, $phone) {
+            if ($status) {
+                $query->where('status', $status);
+            }
+            if ($phone) {
+                $query->where('recipient', 'like', '%' . $phone . '%');
+            }
+        })
+            ->orderBy('id', 'desc')
+            ->paginate($offset);
+    }
+
     public function find(string $phone, string $today): ?Collection
     {
         return Message::where('recipient', 'like', '%' . $phone . '%')

@@ -15,6 +15,7 @@ import MessagesTemplatesList from '../pages/messages-templates/messages-template
 import MessagesTemplatesEdit from '../pages/messages-templates/messages-templates-edit';
 import DoctorsApprovedList from '../pages/doctors/doctors-approved-list';
 import VisitsApprovedList from '../pages/visits/visits-approved-list';
+import MessagesList from '../pages/messages/messages-list';
 import Logs from '../pages/logs';
 
 const routes = [
@@ -108,6 +109,11 @@ const routes = [
         exact: true,
         auth: true,
         component: VisitsApprovedList
+    },  {
+        path: '/messages',
+        exact: true,
+        auth: true,
+        component: MessagesList
     }, {
         path: '',
         exact: true,

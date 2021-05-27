@@ -82,6 +82,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('messages')->group(function () {
+            Route::get('/', [MessagesController::class, 'list'])->name('api.message.list');
             Route::get('/balance', [MessagesController::class, 'balance'])->name('api.message.balance');
             Route::post('/send', [PatientsMessagesController::class, 'send'])->name('api.patients.message.send')->where('id', '[0-9]+');
             Route::get('/{patientId}/list', [PatientsMessagesController::class, 'list'])->name('api.patients.message.list')->where('patientId', '[0-9]+');

@@ -47,6 +47,11 @@ class MessagesService
         $this->messageTemplatesRepository = $messageTemplatesRepository;
     }
 
+    public function list(?string $phone, ?string $status)
+    {
+        return $this->messageRepository->paginate(self::RECORDS_AT_PAGE, $phone, $status);
+    }
+
     public function getPatientMessageList(int $id)
     {
         return $this->patientsMessagesRepository->paginate($id, self::RECORDS_AT_PAGE);
@@ -61,12 +66,12 @@ class MessagesService
     {
         foreach ($response as $message) {
             if ((int)$message['response_code'] === 0)
-            $this->messageRepository->updateMessage([
-                'message_id' => $message['message_id'],
-                'status' => $message['status'],
-                'response_code' => $message['response_code'],
-                'response_status' => $message['response_status'],
-            ]);
+                $this->messageRepository->updateMessage([
+                    'message_id' => $message['message_id'],
+                    'status' => $message['status'],
+                    'response_code' => $message['response_code'],
+                    'response_status' => $message['response_status'],
+                ]);
         }
     }
 

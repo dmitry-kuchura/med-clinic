@@ -28,7 +28,9 @@ class Navigation extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.authUser !== this.props.authUser) {
-            this.setState({authUser: this.props.authUser})
+            this.setState({
+                authUser: this.props.authUser
+            })
         }
     }
 

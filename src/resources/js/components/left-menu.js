@@ -12,6 +12,7 @@ class LeftMenu extends React.Component {
         this.state = {
             authUser: null,
             dropdownVisits: false,
+            dropdownMessages: false,
             dropdownPatients: false,
             dropdownDoctors: false
         };
@@ -37,6 +38,9 @@ class LeftMenu extends React.Component {
                 break;
             case 'visits':
                 this.setState({dropdownVisits: !this.state.dropdownVisits});
+                break;
+            case 'messages':
+                this.setState({dropdownMessages: !this.state.dropdownMessages});
                 break;
         }
     }
@@ -109,6 +113,24 @@ class LeftMenu extends React.Component {
                             <div className="collapse" style={this.state.dropdownVisits ? closed : opened}>
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <Link className="nav-link" to="/visits/approved">Аналізи зі сповіщеням</Link>
+                                </nav>
+                            </div>
+
+                            <div className="sb-sidenav-menu-heading">Повідомлення</div>
+
+                            <Link to="#" className="nav-link collapsed" id="messages" onClick={this.handleDropdown}>
+                                <div className="sb-nav-link-icon">
+                                    <i className="fas fa-comments-dollar"/>
+                                </div>
+                                СМС Повідомлення
+                                <div className="sb-sidenav-collapse-arrow">
+                                    {this.state.dropdownMessages ? <i className="fas fa-angle-right"/> :
+                                        <i className="fas fa-angle-down"/>}
+                                </div>
+                            </Link>
+                            <div className="collapse" style={this.state.dropdownMessages ? closed : opened}>
+                                <nav className="sb-sidenav-menu-nested nav">
+                                    <Link className="nav-link" to="/messages">Відправленні СМС</Link>
                                 </nav>
                             </div>
 
