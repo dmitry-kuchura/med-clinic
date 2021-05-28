@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getMessagesList} from '../../services/messages-service';
+import {getMessagesBalance, getMessagesList} from '../../services/messages-service';
 import Pagination from '../../helpers/pagination';
 import {formatDate} from '../../utils/date-format';
 
@@ -19,7 +19,8 @@ class MessagesList extends React.Component {
             filter: {
                 phone: null,
                 status: null,
-            }
+            },
+            balance: null
         };
 
         props.dispatch(getMessagesList());
@@ -27,6 +28,17 @@ class MessagesList extends React.Component {
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeFilter = this.handleChangeFilter.bind(this);
         this.handleChangeGetWithFilter = this.handleChangeGetWithFilter.bind(this);
+    }
+
+    componentDidMount() {
+        const self = this;
+
+        self.props.dispatch(getMessagesBalance())
+            .then(function (response) {
+                self.setState({
+                    balance: response
+                })
+            });
     }
 
     componentDidUpdate(prevProps) {
@@ -75,15 +87,23 @@ class MessagesList extends React.Component {
                     <div className="card mb-4">
                         <div className="card-header">
                             <div className="row">
-                                <div className="col-md-6"></div>
+                                <div className="col-md-6">
+                                    <div className="row">
+                                        <div className="col-md-4 mr-1">
+                                            <span>Баланс: <strong>{this.state.balance ?? 0.0}</strong> грн.</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="col-md-6">
                                     <div className="row">
                                         <div className="col-md-4 mr-1">
                                             <input type="email" className="form-control" name="phone"
-                                                   placeholder="Телефон, 0931234567" onChange={this.handleChangeFilter}/>
+                                                   placeholder="Телефон, 0931234567"
+                                                   onChange={this.handleChangeFilter}/>
                                         </div>
                                         <div className="col-md-4 ml-1">
-                                            <select className="form-control" name="status" onChange={this.handleChangeFilter}>
+                                            <select className="form-control" name="status"
+                                                    onChange={this.handleChangeFilter}>
                                                 <option value="">Оберіть статус</option>
                                                 <option value="Queued">В черзі</option>
                                                 <option value="Accepted">Прийнято</option>
@@ -95,7 +115,9 @@ class MessagesList extends React.Component {
                                             </select>
                                         </div>
                                         <div className="col-md-3">
-                                            <button type="submit" className="btn btn-primary" onClick={this.handleChangeGetWithFilter}>Search</button>
+                                            <button type="submit" className="btn btn-primary"
+                                                    onClick={this.handleChangeGetWithFilter}>Search
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

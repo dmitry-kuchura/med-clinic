@@ -46,3 +46,22 @@ export function getMessagesList(page, phone, status) {
         })
     );
 }
+
+export function getMessagesBalance() {
+    return dispatch => (
+        new Promise((resolve, reject) => {
+            Http.get('/api/v1/messages/balance')
+                .then(response => {
+                    return resolve(response.data.result);
+                })
+                .catch(err => {
+                    const statusCode = err.response.status;
+                    const data = {
+                        error: null,
+                        statusCode,
+                    };
+                    return reject(data);
+                })
+        })
+    );
+}
